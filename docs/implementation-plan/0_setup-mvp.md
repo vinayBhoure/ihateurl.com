@@ -42,7 +42,7 @@ Status: **Waiting for approval.** No task starts until the owner writes "Approve
 
 | Priority | Question | Why |
 |---|---|---|
-| High | Commit or discard the current 35-file diff and the `docs/map.md` deletion? Add `.gitattributes` (`* text=auto eol=lf`) to stop line-ending churn? | Staging must start from a clean `main`. |
+| ~~High~~ | ~~Commit or discard the current 35-file diff and the `docs/map.md` deletion? Add `.gitattributes`?~~ Resolved 2026-09-23: the 22:09 IST commit already settled the tree; `git status` is clean, no `.gitattributes` needed. | Staging must start from a clean `main`. |
 | Low | Delete `docs/implementation-plan/.claude/settings.local.json` and git-ignore `**/.claude/settings.local.json`? | Local settings should not be committed. |
 
 ---
@@ -51,10 +51,10 @@ Status: **Waiting for approval.** No task starts until the owner writes "Approve
 
 | Epic | Feature | Task | Dependencies | Status |
 |---|---|---|---|---|
-| S1 Git | Clean base | S1.1 Settle working tree | Owner answer | Blocked |
+| S1 Git | Clean base | S1.1 Settle working tree | Owner answer | Completed (resolved by the 22:09 IST commit; working tree was clean, no `.gitattributes` needed) |
 | S1 Git | Branch model | S1.2 Create `staging` from `main` | S1.1 | Pending |
 | S2 Claude | Project memory | S2.1 Write `CLAUDE.md` | S1.2 | Completed (repo root; `.claude/` is not writable by remote tools) |
-| S2 Claude | Rules | S2.2 Write `.claude/rules/*` | S2.1 | Pending |
+| S2 Claude | Rules | S2.2 Write `.claude/rules/*` | S2.1 | Completed |
 | S2 Claude | Reference | S2.3 Architecture reference | S2.1 | Completed (`docs/architecture/`) |
 | S2 Claude | Skills | S2.4 Write `.claude/skills/*` | S2.2 | Pending |
 | S2 Claude | Agents | S2.5 Write `.claude/agents/*` | S2.2 | Pending |
@@ -91,6 +91,8 @@ Short file (under 120 lines). Content:
 5. Pointers to `rules/`, `reference/`, `skills/`, `agents/`, `commands/`.
 
 ### S2.2 `.claude/rules/`
+Done: all 7 files written as specified below.
+
 | File | Content (short, imperative) |
 |---|---|
 | `architecture.md` | Pointer only: follow `docs/architecture/overview.md` (layers, flows) and `data-model.md` (invariants). |
@@ -124,11 +126,11 @@ Each skill = `SKILL.md` with name, one-line description, steps, a checklist.
 | Command | Does |
 |---|---|
 | `generate-plan.md` | Existing. Keep as is. |
-| `implement-task.md` | `/implement-task <plan-file> <task-id>`: read task → confirm approval → implement → validate → commit → update tracking logs. |
+| `execute-plan.md` | Done. `/execute-plan <plan-file> [task-id]`: approval check → one task → validate → commit → update status and tracking logs. |
 | `review.md` | `/review`: run `code-reviewer` + `security-reviewer` on current branch diff vs `staging`. |
 | `log-session.md` | `/log-session`: write today's entries in both tracking folders. |
 
-**Validation for S2.x:** files exist, each under ~150 lines, no contradictions with PRD or decisions; open a fresh Claude Code session and confirm `/implement-task`, `/review`, `/log-session` are listed.
+**Validation for S2.x:** files exist, each under ~150 lines, no contradictions with PRD or decisions; open a fresh Claude Code session and confirm `/execute-plan`, `/review`, `/log-session` are listed.
 **Rollback:** revert the `chore(claude)` commits.
 
 ---
@@ -156,4 +158,4 @@ Merge: branch → `staging` → `main`.
 Manual only:
 - `git status` clean after each commit; `staging` exists on origin.
 - New Claude Code session loads `CLAUDE.md`, lists new commands and agents.
-- Dry run: `/implement-task 1_backend-mvp.md B1.1` stops at the approval gate.
+- Dry run: `/execute-plan 1_backend-mvp.md B1.1` stops at the approval gate.
