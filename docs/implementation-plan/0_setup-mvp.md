@@ -52,7 +52,7 @@ Status: **Waiting for approval.** No task starts until the owner writes "Approve
 | Epic | Feature | Task | Dependencies | Status |
 |---|---|---|---|---|
 | S1 Git | Clean base | S1.1 Settle working tree | Owner answer | Completed (resolved by the 22:09 IST commit; working tree was clean, no `.gitattributes` needed) |
-| S1 Git | Branch model | S1.2 Create `staging` from `main` | S1.1 | Pending |
+| S1 Git | Branch model | S1.2 Create `staging` from `main` | S1.1 | Completed |
 | S2 Claude | Project memory | S2.1 Write `CLAUDE.md` | S1.2 | Completed (repo root; `.claude/` is not writable by remote tools) |
 | S2 Claude | Rules | S2.2 Write `.claude/rules/*` | S2.1 | Completed |
 | S2 Claude | Reference | S2.3 Architecture reference | S2.1 | Completed (`docs/architecture/`) |
@@ -71,6 +71,7 @@ Status: **Waiting for approval.** No task starts until the owner writes "Approve
 - **Rollback:** `git reset --hard origin/main` (only before push).
 
 ### S1.2 Create `staging`
+Done: `origin/staging` exists, tracking `origin/main` at `c0ce6e2`.
 - **Steps:** `git fetch origin && git checkout -b staging origin/main && git push -u origin staging`.
 - **Rule from here on:** feature branches come from `origin/staging`; flow is `branch → staging → validation → main`.
 - **Validation:** `git branch -a` shows `origin/staging`.
