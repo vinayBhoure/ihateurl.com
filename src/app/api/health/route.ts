@@ -1,5 +1,7 @@
 import { handleHealthCheck } from "@/server/routers/health.router";
 
-export async function POST(request: Request) {
-  return handleHealthCheck(request);
+export const dynamic = "force-dynamic";
+
+export async function GET() {
+  return handleHealthCheck();
 }

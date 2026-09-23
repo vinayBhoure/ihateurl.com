@@ -55,9 +55,7 @@ won't.
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). You'll land on the page above, with a
-**Check DB Connection** button that toasts success or failure once `DATABASE_URL` is set (next
-section) — until then, a failed check is expected.
+Open [http://localhost:3000](http://localhost:3000). You'll land on the page above.
 
 ## Database setup
 
@@ -73,8 +71,8 @@ The app uses PostgreSQL through Prisma. The schema lives in `prisma/schema.prism
    npm run db:push
    ```
    `npm install` runs `prisma generate` automatically.
-4. Click **Check DB Connection** — it writes and reads back an example `Ping` record and reports
-   round-trip latency in a toast.
+4. Check the connection: `curl localhost:3000/api/health` returns `{"ok":true}` (200), or
+   `{"ok":false}` (500) if the database is unreachable.
 
 ## Authentication
 
@@ -86,7 +84,7 @@ already there, nothing to build.
 | `/`            | Public             | Landing page                                       |
 | `/login`       | Public             | `<SignIn />`                                        |
 | `/signup`      | Public             | `<SignUp />`                                        |
-| `/app`         | Signed-in only     | Welcome page + the DB connection check              |
+| `/app`         | Signed-in only     | Welcome page                                       |
 | `/app/admin`   | `role: "admin"` only | Example role-gated page (see below)               |
 
 **Setup:**
@@ -200,12 +198,11 @@ src/
     page.tsx                       # landing page
     login/[[...login]]/page.tsx    # <SignIn />
     signup/[[...signup]]/page.tsx  # <SignUp />
-    app/page.tsx                   # protected via auth.protect() + DB connection check
+    app/page.tsx                   # protected via auth.protect()
     app/admin/page.tsx             # protected via auth.protect() + role check
-    api/health/route.ts            # DB connection check endpoint
+    api/health/route.ts            # GET health check (SELECT 1)
   components/
     ui/                       # shared UI primitives (Button, Card, Badge, Input)
-    db-check.tsx              # "Check DB Connection" button + toasts
   config/
     db.ts                     # Prisma client singleton
     resend.ts                 # Resend client singleton

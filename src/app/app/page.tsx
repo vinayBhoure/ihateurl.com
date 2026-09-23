@@ -3,14 +3,6 @@ import { ShieldCheck } from "lucide-react";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { DbCheck } from "@/components/db-check";
 
 export default async function AppHome() {
   // Resource-based auth check — this IS the route protection now (Clerk
@@ -45,18 +37,6 @@ export default async function AppHome() {
             This is <code className="rounded bg-neutral-100 px-1.5 py-0.5">/app</code> — a
             protected route. Only signed-in users reach this page.
           </p>
-
-          <Card className="w-full max-w-md border-neutral-200 bg-white/80 shadow-lg shadow-black/[0.03] backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle>Database Connection</CardTitle>
-              <CardDescription>
-                Writes and reads back an example record using your DATABASE_URL.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <DbCheck />
-            </CardContent>
-          </Card>
 
           {isAdmin && (
             <Link
