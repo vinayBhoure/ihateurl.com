@@ -4,7 +4,7 @@ Data model, server logic and server actions for the MVP boundary in PRD §18:
 Auth → Profile → Collections → Links → Metadata → Private/Public → Public profile → Public collection → Sharing data → Basic public search (+ categories and copy collection).
 
 Depends on: `0_setup-mvp.md` done.
-Status: **Waiting for approval.**
+Status: **Approved** (2026-09-24; P1–P8 accepted as proposed).
 Architecture reference: `docs/architecture/`.
 
 ## Table of Contents
