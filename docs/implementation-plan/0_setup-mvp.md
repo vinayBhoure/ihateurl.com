@@ -56,7 +56,7 @@ Status: **Waiting for approval.** No task starts until the owner writes "Approve
 | S2 Claude | Project memory | S2.1 Write `CLAUDE.md` | S1.2 | Completed (repo root; `.claude/` is not writable by remote tools) |
 | S2 Claude | Rules | S2.2 Write `.claude/rules/*` | S2.1 | Completed |
 | S2 Claude | Reference | S2.3 Architecture reference | S2.1 | Completed (`docs/architecture/`) |
-| S2 Claude | Skills | S2.4 Write `.claude/skills/*` | S2.2 | Pending |
+| S2 Claude | Skills | S2.4 Write `.claude/skills/*` | S2.2 | Completed |
 | S2 Claude | Agents | S2.5 Write `.claude/agents/*` | S2.2 | Pending |
 | S2 Claude | Commands | S2.6 Write `.claude/commands/*` | S2.2 | Pending |
 
@@ -108,6 +108,8 @@ Done: all 7 files written as specified below.
 Done: replaced by `docs/architecture/` (`overview`, `data-model`, `access-and-security`, `server-actions`, `glossary`). Nothing is written to `.claude/reference/`.
 
 ### S2.4 `.claude/skills/`
+Done: all 4 skills written as specified below.
+
 Each skill = `SKILL.md` with name, one-line description, steps, a checklist.
 | Skill | Use when |
 |---|---|
