@@ -25,9 +25,12 @@ Every session that reads or changes this repo MUST write two log entries before 
 
 **File name:** `YYYYMMDD.md`. Use the date in IST (Asia/Kolkata), e.g. `20260923.md`.
 
+**Getting the time right:** get it from the system clock (`date`). Do not set `TZ=Asia/Kolkata` (or similar) to convert — some environments have no timezone database installed and silently fall back to UTC while still labeling the output "IST", producing a wrong timestamp. Check `date +%z`: if it already reads `+0530`, the system clock is IST and plain `date` is correct. If it reads `+0000` (or anything else), convert manually (UTC+5:30) instead of trusting a `TZ=` override.
+
 **Format:**
 - A Table of Contents sits at the top and lists every session in the file.
 - Each session is one `## Session HH:MM IST` heading. If the file for today already exists, append a new heading and update the TOC. Never overwrite earlier entries.
+- The first bullet under every heading is `- Session: <name>` — the Claude Code session name (set via `/rename`, or shown in a system reminder if renamed this session; write `unnamed` if it was never renamed). Multiple sessions can touch this repo on the same day; the name is what disambiguates who wrote what.
 - If a session changed no files, the `logs/` entry says `No codebase changes.`
 
 **Template (ai-logs):**
@@ -39,6 +42,7 @@ Every session that reads or changes this repo MUST write two log entries before 
 - [Session 16:40 IST](#session-1640-ist)
 
 ## Session 16:40 IST
+- Session: <session name, or "unnamed">
 - Task: <what the owner asked>
 - Done: <what you did, key decisions>
 - Next / blocked: <open items, questions waiting on owner>
@@ -47,6 +51,7 @@ Every session that reads or changes this repo MUST write two log entries before 
 **Template (logs):**
 ```markdown
 ## Session 16:40 IST
+- Session: <session name, or "unnamed">
 - `path/to/file.ts` — added | changed | removed: <one-line reason>
 ```
 
