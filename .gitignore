@@ -42,3 +42,6 @@ next-env.d.ts
 
 # allow the example env file to be committed
 !.env.example
+
+# local Claude Code settings (per-machine, never shared)
+**/.claude/settings.local.json
