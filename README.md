@@ -66,9 +66,9 @@ The app uses PostgreSQL through Prisma. The schema lives in `prisma/schema.prism
    cp .env.example .env
    ```
 2. Set `DATABASE_URL` (Neon: dashboard → your project → **Connect** → **Prisma** tab).
-3. Apply the schema:
+3. Apply migrations:
    ```bash
-   npm run db:push
+   npm run db:migrate
    ```
    `npm install` runs `prisma generate` automatically.
 4. Check the connection: `curl localhost:3000/api/health` returns `{"ok":true}` (200), or
@@ -222,7 +222,7 @@ src/
 
 ## Adding your own features
 
-1. Add a model to `prisma/schema.prisma`, then `npm run db:push`.
+1. Add a model to `prisma/schema.prisma`, then `npm run db:migrate -- --name <change>`.
 2. Add a Zod schema in `src/lib/validations/`.
 3. Add a controller in `src/server/controllers/`, a router in `src/server/routers/`, and a route
    file under `src/app/api/.../route.ts` — following the `health.*` pattern.

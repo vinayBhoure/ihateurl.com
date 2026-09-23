@@ -122,9 +122,11 @@ npm run dev          # dev server
 npm run build        # production build
 npm run lint         # eslint
 npx tsc --noEmit     # type check
+npm run db:migrate   # prisma migrate dev
+npm run db:deploy    # prisma migrate deploy
+npm run db:seed      # prisma db seed (tsx prisma/seed.ts)
 npm run db:studio    # Prisma Studio
 ```
-Planned scripts (B1.3): `db:migrate`, `db:deploy`, `db:seed`. `db:switch` is removed; `db:push` is removed in B1.3.
 
 Env vars: see `.env.example`. Never read or print real values from `.env`.
 
@@ -187,3 +189,13 @@ Planned additions (built vs planned): `docs/architecture/overview.md` §5.
 - [ ] `docs/tracking/ai-logs/YYYYMMDD.md` updated.
 - [ ] `docs/tracking/logs/YYYYMMDD.md` updated.
 - [ ] Final reply lists open questions for the owner.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

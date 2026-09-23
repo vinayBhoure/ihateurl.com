@@ -5,4 +5,5 @@
 export const env = {
   databaseUrl: process.env.DATABASE_URL ?? "",
   nodeEnv: process.env.NODE_ENV ?? "development",
+  appUrl: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
 };
