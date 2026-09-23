@@ -6,3 +6,130 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Visibility {
+  PRIVATE
+  PUBLIC
+}
+
+model User {
+  id          String  @id @default(cuid())
+  clerkId     String  @unique
+  username    String  @unique
+  displayName String?
+  bio         String?
+  avatarUrl   String?
+
+  collections Collection[]
+  links       Link[]
+  categories  Category[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Collection {
+  id            String     @id @default(cuid())
+  userId        String
+  title         String
+  slug          String
+  description   String?
+  visibility    Visibility @default(PRIVATE)
+  coverImageUrl String?
+
+  sourceCollectionId String?
+  source             Collection?  @relation("Copies", fields: [sourceCollectionId], references: [id], onDelete: SetNull)
+  copies             Collection[] @relation("Copies")
+  copiedAt           DateTime?
+
+  user       User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items      CollectionItem[]
+  categories CollectionCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, slug])
+  @@index([userId])
+  @@index([visibility])
+}
+
+model Link {
+  id            String  @id @default(cuid())
+  userId        String
+  url           String
+  normalizedUrl String
+  title         String?
+  description   String?
+  domain        String?
+  faviconUrl    String?
+  imageUrl      String?
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collections CollectionItem[]
+  categories  LinkCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, normalizedUrl])
+  @@index([userId])
+  @@index([normalizedUrl])
+  @@index([domain])
+}
+
+model CollectionItem {
+  id           String  @id @default(cuid())
+  collectionId String
+  linkId       String
+  position     Int
+  note         String?
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  link       Link       @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([collectionId, linkId])
+  @@index([collectionId, position])
+}
+
+model Category {
+  id     String  @id @default(cuid())
+  /// null = system category
+  userId String?
+  name   String
+  slug   String
+
+  user        User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collections CollectionCategory[]
+  links       LinkCategory[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, slug])
+  @@index([slug])
+}
+
+model CollectionCategory {
+  collectionId String
+  categoryId   String
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  category   Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([collectionId, categoryId])
+  @@index([categoryId])
+}
+
+model LinkCategory {
+  linkId     String
+  categoryId String
+
+  link     Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([linkId, categoryId])
+  @@index([categoryId])
+}

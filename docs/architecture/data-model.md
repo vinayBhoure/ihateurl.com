@@ -7,7 +7,7 @@
 4. [Delete behaviour](#4-delete-behaviour)
 5. [Queries and indexes](#5-queries-and-indexes)
 
-Status: **Planned.** Field-level schema: `docs/implementation-plan/1_backend-mvp.md` §4. Update this file with every migration.
+Status: **Built** (migration `20260923191101_init`). Field-level schema: `prisma/schema.prisma`; plan: `docs/implementation-plan/1_backend-mvp.md` §4. Update this file with every migration.
 
 ---
 

@@ -138,7 +138,7 @@ Integrity rules, delete behaviour and indexes: `docs/architecture/data-model.md`
 | B1 Base | B1.1 Postgres-only cleanup | — | Completed |
 | B1 Base | B1.2 Remove Ping/DbCheck, rewrite health check | B1.1 | Completed |
 | B1 Base | B1.3 Env + scripts | B1.1 | Completed |
-| B2 Data | B2.1 Schema + first migration | B1.3 | Pending |
+| B2 Data | B2.1 Schema + first migration | B1.3 | Completed |
 | B2 Data | B2.2 Category seed | B2.1 | Pending |
 | B3 Core | B3.1 Auth helpers | B2.1 | Pending |
 | B3 Core | B3.2 Result type, errors, rate limiter | — | Pending |
