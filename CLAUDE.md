@@ -104,7 +104,7 @@ If this file, an architecture doc and a plan disagree, the plan wins. Flag the c
 
 ### Key decisions (full lists: D/P in `1_backend-mvp.md` §1, FD/FP in `2_frontend-mvp.md` §1)
 - Auth: Clerk (Google + GitHub). DB `User.clerkId` links the DB user to the Clerk account.
-- DB: PostgreSQL only via Prisma. The MongoDB switch is being removed.
+- DB: PostgreSQL only via Prisma (single `prisma/schema.prisma`).
 - Routes: signed-in area is `/app/*`; auth pages are `/login` and `/signup`.
 - A user can't save the same URL twice (`normalizedUrl`). One link can be in many collections. Removing a link from its last collection deletes the link.
 - Categories: seeded system list plus user custom categories, many-to-many with collections and links.
@@ -124,7 +124,7 @@ npm run lint         # eslint
 npx tsc --noEmit     # type check
 npm run db:studio    # Prisma Studio
 ```
-Planned scripts (B1.3): `db:migrate`, `db:deploy`, `db:seed`. `db:switch` and `db:push` are being removed.
+Planned scripts (B1.3): `db:migrate`, `db:deploy`, `db:seed`. `db:switch` is removed; `db:push` is removed in B1.3.
 
 Env vars: see `.env.example`. Never read or print real values from `.env`.
 

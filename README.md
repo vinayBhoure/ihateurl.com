@@ -2,7 +2,7 @@
 
 # Full-Stack Starter Kit
 
-**Next.js · Tailwind · shadcn/ui · Zod · Clerk · Prisma — wired for PostgreSQL *or* MongoDB**
+**Next.js · Tailwind · shadcn/ui · Zod · Clerk · Prisma — wired for PostgreSQL**
 
 Clone it, drop in a connection string, and start building. No boilerplate to rewrite.
 
@@ -11,7 +11,6 @@ Clone it, drop in a connection string, and start building. No boilerplate to rew
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=flat&logo=prisma&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ![Landing page preview](docs/screenshot.png)
@@ -32,8 +31,8 @@ setup step.
 | Styling        | [Tailwind CSS v4](https://tailwindcss.com)                          |
 | UI components  | shadcn-style primitives in `src/components/ui` (Button, Card, Badge, Input), ready for `npx shadcn add` |
 | Validation     | [Zod](https://zod.dev)                                              |
-| ORM            | [Prisma](https://www.prisma.io) — one schema per provider, switched by an env var |
-| Database       | PostgreSQL ([Neon](https://neon.tech)) **or** MongoDB ([Atlas](https://www.mongodb.com/atlas)) — pick one |
+| ORM            | [Prisma](https://www.prisma.io) |
+| Database       | PostgreSQL ([Neon](https://neon.tech)) |
 | Notifications  | [sonner](https://sonner.emilkowal.ski) toasts + [lucide-react](https://lucide.dev) icons |
 | Auth           | [Clerk](https://clerk.com) — sign-in/sign-up, session handling, and route protection built in |
 | Email          | [Resend](https://resend.com) + [React Email](https://react.email) — ready-to-call templates, not wired to auto-fire |
@@ -62,34 +61,20 @@ section) — until then, a failed check is expected.
 
 ## Database setup
 
-This kit connects to **one database at a time**, chosen with `DATABASE_PROVIDER` in `.env`.
+The app uses PostgreSQL through Prisma. The schema lives in `prisma/schema.prisma`.
 
 1. Copy the example env file:
    ```bash
    cp .env.example .env
    ```
-2. Set your provider and connection string:
+2. Set `DATABASE_URL` (Neon: dashboard → your project → **Connect** → **Prisma** tab).
+3. Apply the schema:
    ```bash
-   DATABASE_PROVIDER=postgresql   # or: mongodb
-   DATABASE_URL=...
-   ```
-3. Apply the schema and re-generate the client:
-   ```bash
-   npm run db:switch   # runs automatically on dev/build too
    npm run db:push
    ```
+   `npm install` runs `prisma generate` automatically.
 4. Click **Check DB Connection** — it writes and reads back an example `Ping` record and reports
    round-trip latency in a toast.
-
-**Where to get `DATABASE_URL`:**
-
-- **PostgreSQL (Neon):** dashboard → your project → **Connect** → **Prisma** tab
-- **MongoDB (Atlas):** dashboard → your cluster → **Connect** → **Drivers**
-
-Switching providers later is the same three steps — change the two `.env` values, re-run
-`npm run db:switch && npm run db:push`. Two schema files exist (`schema.postgresql.prisma`,
-`schema.mongodb.prisma`) so each can use the field types its provider needs, kept in sync as one
-model.
 
 ## Authentication
 
@@ -206,11 +191,7 @@ inside a Server Action after your own signup logic runs.
 
 ```
 prisma/
-  schema.postgresql.prisma   # source schema — Postgres
-  schema.mongodb.prisma      # source schema — MongoDB
-  schema.prisma              # generated, do not edit directly
-scripts/
-  switch-db-provider.mjs     # copies the active schema + runs `prisma generate`
+  schema.prisma              # Postgres schema
 types/
   globals.d.ts               # CustomJwtSessionClaims — the `Roles` union for RBAC
 src/
@@ -244,8 +225,7 @@ src/
 
 ## Adding your own features
 
-1. Add a model to `prisma/schema.postgresql.prisma` and/or `prisma/schema.mongodb.prisma`, then
-   `npm run db:switch && npm run db:push`.
+1. Add a model to `prisma/schema.prisma`, then `npm run db:push`.
 2. Add a Zod schema in `src/lib/validations/`.
 3. Add a controller in `src/server/controllers/`, a router in `src/server/routers/`, and a route
    file under `src/app/api/.../route.ts` — following the `health.*` pattern.

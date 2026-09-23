@@ -1,5 +1,4 @@
 import { prisma } from "@/config/db";
-import { env } from "@/config/env";
 import type { PingInput } from "@/lib/validations/ping";
 
 export type HealthResult =
@@ -13,7 +12,7 @@ export type HealthResult =
 
 /**
  * Writes then reads back an example `Ping` row/document to confirm DATABASE_URL
- * is reachable, regardless of whether it points at Postgres or MongoDB.
+ * is reachable.
  */
 export async function checkDatabaseConnection(
   input: PingInput
@@ -23,14 +22,14 @@ export async function checkDatabaseConnection(
     const record = await prisma.ping.create({ data: { message: input.message } });
     return {
       ok: true,
-      provider: env.databaseProvider,
+      provider: "postgresql",
       latencyMs: Date.now() - start,
       record,
     };
   } catch (error) {
     return {
       ok: false,
-      provider: env.databaseProvider,
+      provider: "postgresql",
       error: error instanceof Error ? error.message : "Unknown database error",
     };
   }
