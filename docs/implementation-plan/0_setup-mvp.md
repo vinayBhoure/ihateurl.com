@@ -58,7 +58,7 @@ Status: **Waiting for approval.** No task starts until the owner writes "Approve
 | S2 Claude | Reference | S2.3 Architecture reference | S2.1 | Completed (`docs/architecture/`) |
 | S2 Claude | Skills | S2.4 Write `.claude/skills/*` | S2.2 | Completed |
 | S2 Claude | Agents | S2.5 Write `.claude/agents/*` | S2.2 | Completed |
-| S2 Claude | Commands | S2.6 Write `.claude/commands/*` | S2.2 | Pending |
+| S2 Claude | Commands | S2.6 Write `.claude/commands/*` | S2.2 | Completed |
 
 ---
 
@@ -128,6 +128,8 @@ Done: all 3 agents written as specified below.
 | `qa-checker` | Walks the manual QA checklist in `3_polish-mvp.md` for a given area and reports pass/fail. | Read, Bash |
 
 ### S2.6 `.claude/commands/`
+Done: `review.md` and `log-session.md` added; `generate-plan.md` and `execute-plan.md` were already in place.
+
 | Command | Does |
 |---|---|
 | `generate-plan.md` | Existing. Keep as is. |
