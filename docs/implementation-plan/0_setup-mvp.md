@@ -57,7 +57,7 @@ Status: **Waiting for approval.** No task starts until the owner writes "Approve
 | S2 Claude | Rules | S2.2 Write `.claude/rules/*` | S2.1 | Completed |
 | S2 Claude | Reference | S2.3 Architecture reference | S2.1 | Completed (`docs/architecture/`) |
 | S2 Claude | Skills | S2.4 Write `.claude/skills/*` | S2.2 | Completed |
-| S2 Claude | Agents | S2.5 Write `.claude/agents/*` | S2.2 | Pending |
+| S2 Claude | Agents | S2.5 Write `.claude/agents/*` | S2.2 | Completed |
 | S2 Claude | Commands | S2.6 Write `.claude/commands/*` | S2.2 | Pending |
 
 ---
@@ -119,6 +119,8 @@ Each skill = `SKILL.md` with name, one-line description, steps, a checklist.
 | `ui-component` | Filled after frontend plan approval. |
 
 ### S2.5 `.claude/agents/`
+Done: all 3 agents written as specified below.
+
 | Agent | Role | Tools |
 |---|---|---|
 | `code-reviewer` | Reviews a diff against `rules/`. Reports issues only; no edits. | Read, Grep, Glob, Bash (git diff) |
