@@ -81,4 +81,4 @@ Enforced in controllers unless marked DB.
 | Public profile / collection by URL | `User.username` unique, `Collection @@unique([userId, slug])` |
 | Duplicate URL check | `Link @@unique([userId, normalizedUrl])` |
 | Explore category filter | `CollectionCategory @@index([categoryId])`, `Collection @@index([visibility])` |
-| Search (`contains`, case-insensitive) | None: `ILIKE '%q%'` scans. Accepted for MVP; check with `EXPLAIN` in `3_polish-mvp.md` Q8 |
+| Search (`contains`, case-insensitive) | None: `ILIKE '%q%'` scans. Accepted for MVP; check with `EXPLAIN` in `3_polish-mvp.md` Q8. `%`, `_` and `\` in `q` are escaped (`escapeLike`) so they match literally |

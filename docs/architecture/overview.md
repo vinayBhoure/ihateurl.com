@@ -108,7 +108,7 @@ src/
   server/
     auth/current-user.ts        Built (B3.1)
     actions/                    Built: profile.ts (B4), category.ts (B5), collection.ts (B6), link.ts (B8) → Planned: copy action
-    queries/                    Built: categories.ts (B5), collections.ts (B6) → Planned: other queries
+    queries/                    Built: categories.ts (B5), collections.ts (B6), search.ts (B9) → Planned: public.ts (B10)
     metadata/                   Built: fetch.ts, parse.ts (B7)
     controllers/, routers/, middleware/    Built (health, profile, category, collection, link, validate)
     result.ts                   Built: AppError, ActionResult, toActionResult (B3.1–B3.2)
