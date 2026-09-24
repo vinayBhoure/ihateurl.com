@@ -1,3 +1,5 @@
+import { unstable_rethrow } from "next/navigation";
+
 export type ErrorCode =
   | "UNAUTHORIZED"
   | "NOT_ONBOARDED"
@@ -39,7 +41,21 @@ export function ok<T>(data: T): ActionResult<T> {
   return { ok: true, data };
 }
 
+/** Clerk's `auth.protect()` signals "signed out" in a server action with Next's 401 interrupt. */
+function isUnauthorizedInterrupt(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "digest" in err &&
+    err.digest === "NEXT_HTTP_ERROR_FALLBACK;401"
+  );
+}
+
 export function toActionResult(err: unknown): ActionResult<never> {
+  if (isUnauthorizedInterrupt(err)) {
+    return { ok: false, error: DEFAULT_MESSAGES.UNAUTHORIZED };
+  }
+  unstable_rethrow(err);
   if (err instanceof AppError) {
     return err.fieldErrors
       ? { ok: false, error: err.message, fieldErrors: err.fieldErrors }
