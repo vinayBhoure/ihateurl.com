@@ -8,7 +8,7 @@
 5. [Visibility](#5-visibility)
 6. [Threats and controls](#6-threats-and-controls)
 
-Status: Clerk auth, the admin role, the identity helpers (§3.4) and the SSRF-safe fetcher (§6, `src/server/metadata/fetch.ts`) are **Built**; everything else is **Planned**.
+Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped actions (§4), public queries (§5, `src/server/queries/public.ts`) and the SSRF-safe fetcher (§6) are **Built**; public pages, robots and sitemap routes are **Planned** (frontend plan).
 
 ---
 
