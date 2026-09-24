@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { cache } from "react";
 import { notFound } from "next/navigation";
+import { AddLinkForm } from "@/components/add-link-form";
 import { EditCollectionDialog } from "@/components/collection-form-dialog";
+import { CollectionLinks } from "@/components/collection-links";
 import { CollectionMenu } from "@/components/collection-menu";
 import { PageHeader } from "@/components/page-header";
 import { PublicLinkBar } from "@/components/public-link-bar";
@@ -10,7 +12,7 @@ import { VisibilityBadge } from "@/components/visibility-badge";
 import { env } from "@/config/env";
 import { requirePageUser } from "@/server/auth/current-user";
 import { listCategories } from "@/server/queries/categories";
-import { getMyCollection } from "@/server/queries/collections";
+import { getMyCollection, listMyCollections } from "@/server/queries/collections";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -29,7 +31,7 @@ export default async function CollectionPage({ params }: Props) {
   const { user, collection } = await loadCollection((await params).id);
   if (!collection) notFound();
 
-  const categories = await listCategories(user.id);
+  const [categories, collections] = await Promise.all([listCategories(user.id), listMyCollections(user.id)]);
   const publicUrl = `${env.appUrl}/${user.username}/${collection.slug}`;
   const collectionCategories = collection.categories.map(({ category }) => category);
 
@@ -67,6 +69,27 @@ export default async function CollectionPage({ params }: Props) {
         </div>
         {collection.visibility === "PUBLIC" && <PublicLinkBar url={publicUrl} title={collection.title} />}
       </header>
+
+      <section aria-label="Links" className="space-y-4">
+        <AddLinkForm collectionId={collection.id} />
+        <CollectionLinks
+          collectionId={collection.id}
+          categories={categories}
+          moveTargets={collections.filter((c) => c.id !== collection.id).map((c) => ({ id: c.id, title: c.title }))}
+          items={collection.items.map((item) => ({
+            itemId: item.id,
+            link: {
+              id: item.link.id,
+              url: item.link.url,
+              title: item.link.title,
+              description: item.link.description,
+              domain: item.link.domain,
+              faviconUrl: item.link.faviconUrl,
+              categories: item.link.categories.map(({ category }) => ({ id: category.id, name: category.name })),
+            },
+          }))}
+        />
+      </section>
     </div>
   );
 }
