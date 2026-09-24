@@ -17,7 +17,7 @@ Execute **one** task from `docs/implementation-plan/$ARGUMENTS`.
 
 ## 1. Before starting
 
-1. Read `CLAUDE.md`, the plan file, and the latest `docs/tracking/` entries.
+1. Read `CLAUDE.md`, the plan file, the latest `docs/tracking/` entries, and any `docs/tracking/mistakes/` entries related to the task.
 2. Confirm the owner approved this plan in this chat ("Approve", "Proceed", "Start implementation", "Execute the plan"). No approval → stop and ask.
 3. Pick the task:
    - task ID given → that task;
@@ -38,7 +38,7 @@ Execute **one** task from `docs/implementation-plan/$ARGUMENTS`.
 2. Set the task's status to `Completed` in the plan's Scope Breakdown.
 3. Update `docs/architecture/` if the change affects it.
 4. Commit with Conventional Commits (one logical change per commit). Do not push or merge unless the owner asks.
-5. Write both tracking logs (`CLAUDE.md` §1).
+5. Write both tracking logs (`CLAUDE.md` §1). If a failure in step 1 or during execution came from your own mistake, also log it in `docs/tracking/mistakes/`.
 6. Report: what changed, validation results, next task, open questions. Then stop.
 
 ## 4. Stop when

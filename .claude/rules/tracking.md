@@ -6,6 +6,7 @@ Every session that reads or changes this repo must write two log entries before 
 |---|---|
 | `docs/tracking/ai-logs/` | What you did this session (actions, decisions, blockers), 2–3 short lines |
 | `docs/tracking/logs/` | What changed in the codebase (files added/changed/removed + why); `No codebase changes.` if none |
+| `docs/tracking/mistakes/` | **Only when it happens:** an agent mistake that caused an error while running the app (dev, build, migration, seed, runtime), the fix, and how to avoid it. Write it right after the fix. |
 
 - File name: `YYYYMMDD.md` (IST). Get the time from `date`; only trust a `TZ=` override if `date +%z` actually shows `+0530` — some environments lack timezone data and silently return UTC mislabeled as IST.
 - Table of Contents at top, listing every session in the file.
@@ -21,9 +22,23 @@ Example (ai-logs):
 - Next / blocked: <open items, questions waiting on owner>
 ```
 
+Read `docs/tracking/mistakes/` at session start for entries related to your task.
+
 Example (logs):
 ```markdown
 ## Session 16:40 IST
 - Session: <session name, or "unnamed">
 - `path/to/file.ts` — added | changed | removed: <one-line reason>
+```
+
+Example (mistakes):
+```markdown
+## Session 16:40 IST
+- Session: <session name, or "unnamed">
+
+### <short title>
+- Error: <exact message or symptom, and where>
+- Cause: <what the agent did wrong>
+- Fix: <what fixed it> (<commit>)
+- Avoid: <one rule for next time>
 ```

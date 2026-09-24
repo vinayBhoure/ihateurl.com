@@ -1,5 +1,5 @@
 ---
-description: Write today's tracking log entries in both docs/tracking folders
+description: Write today's tracking log entries in docs/tracking (ai-logs, logs, and mistakes when one happened)
 ---
 
 # /log-session
@@ -21,6 +21,7 @@ Write today's entries in `docs/tracking/ai-logs/` and `docs/tracking/logs/`, per
 5. Summarize this session:
    - `ai-logs`: what you did (actions, decisions, blockers), 2–3 short lines.
    - `logs`: what changed in the codebase (files added/changed/removed + why). If nothing changed, write `No codebase changes.`
+6. If a mistake of yours caused an error while running the app this session and it is not logged yet, add it to `docs/tracking/mistakes/YYYYMMDD.md` (same heading and TOC rules; one `###` block per mistake: Error, Cause, Fix, Avoid).
 
 ## 2. Format
 

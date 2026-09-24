@@ -22,6 +22,7 @@ Every session that reads or changes this repo MUST write two log entries before 
 |---|---|---|
 | `docs/tracking/ai-logs/` | What you **did** this session (actions, decisions, blockers), in 2–3 short lines | `docs/tracking/ai-logs/FILE.md` |
 | `docs/tracking/logs/` | What **changed in the codebase** (files added/changed/removed + why), short change log | `docs/tracking/logs/FILE.md` |
+| `docs/tracking/mistakes/` | **Only when it happens:** an agent mistake that caused an error while running the app (dev server, build, migration, seed, runtime), with the fix and how to avoid it | `docs/tracking/mistakes/FILE.md` |
 
 **File name:** `YYYYMMDD.md`. Use the date in IST (Asia/Kolkata), e.g. `20260923.md`.
 
@@ -55,10 +56,23 @@ Every session that reads or changes this repo MUST write two log entries before 
 - `path/to/file.ts` — added | changed | removed: <one-line reason>
 ```
 
+**Template (mistakes):**
+```markdown
+## Session 16:40 IST
+- Session: <session name, or "unnamed">
+
+### <short title>
+- Error: <exact message or symptom, and where: dev / build / migration / seed / runtime>
+- Cause: <what the agent did wrong>
+- Fix: <what fixed it> (<commit>)
+- Avoid: <one rule for next time>
+```
+
 **When:**
-1. **Session start:** read today's files, and the latest earlier file if today has none, to pick up context from the last agent.
+1. **Session start:** read today's files, and the latest earlier file if today has none, to pick up context from the last agent. Scan `docs/tracking/mistakes/` for entries related to your task so you don't repeat them.
 2. **Session end:** before your final reply, write both entries.
 3. **Long sessions:** also write after each finished task, so nothing is lost if the session ends early.
+4. **After fixing an error you caused:** write the `mistakes/` entry right away (one `###` block per mistake).
 
 ---
 
@@ -180,6 +194,7 @@ Planned additions (built vs planned): `docs/architecture/overview.md` §5.
 **Start**
 - [ ] Read this file.
 - [ ] Read the latest `docs/tracking/ai-logs/` and `docs/tracking/logs/` entries.
+- [ ] Scan `docs/tracking/mistakes/` for mistakes related to your task.
 - [ ] Read the plan task you are working on.
 - [ ] Read the architecture doc(s) for the area you touch.
 
@@ -188,6 +203,7 @@ Planned additions (built vs planned): `docs/architecture/overview.md` §5.
 - [ ] Architecture docs updated if the change affects them.
 - [ ] `docs/tracking/ai-logs/YYYYMMDD.md` updated.
 - [ ] `docs/tracking/logs/YYYYMMDD.md` updated.
+- [ ] `docs/tracking/mistakes/YYYYMMDD.md` updated, if a mistake of yours caused an app error.
 - [ ] Final reply lists open questions for the owner.
 
 <!-- BEGIN:nextjs-agent-rules -->

@@ -25,7 +25,7 @@ Status: **Waiting for approval.** No task starts until the owner writes "Approve
 | Repo | `github.com/vinayBhoure/ihateurl.com`, branches: `main` (tracked), local `master` |
 | Base | Starter kit: Next.js 16.3.5 (App Router, `src/proxy.ts`), Clerk v7, Prisma 6, Zod 3, Tailwind 4, shadcn (new-york, neutral), sonner, lucide, Resend |
 | AI tooling | `.claude/` has empty `agents/ reference/ rules/ skills/`, empty `CLAUDE.md`, and `commands/generate-plan.md` |
-| Tracking | `docs/tracking/ai-logs/` (session actions) and `docs/tracking/logs/` (code change log); file name `YYYYMMDD.md`, TOC at top, same-day sessions appended under a time subheading |
+| Tracking | `docs/tracking/ai-logs/` (session actions) and `docs/tracking/logs/` (code change log), `docs/tracking/mistakes/` (agent mistakes that broke the running app, only when they happen); file name `YYYYMMDD.md`, TOC at top, same-day sessions appended under a time subheading |
 | Scope | `.claude` only. `.gemini` stays untouched |
 | Testing | Manual QA only (no test framework) |
 
@@ -102,7 +102,7 @@ Done: all 7 files written as specified below.
 | `validation.md` | One Zod schema per input in `src/lib/validations/`, shared by forms and actions. Actions return `ActionResult<T>`. |
 | `ui.md` | Filled after `2_frontend-mvp.md` is approved (design tokens, spacing, component usage). Until then: shadcn primitives in `src/components/ui`, lucide icons, sonner toasts. |
 | `git.md` | Branch format `<type>/<module>/<short-description>` from `origin/staging`. Conventional Commits, one logical change per commit. Before commit: `npm run lint`, `npx tsc --noEmit`, `npm run build`. |
-| `tracking.md` | Copy of the two tracking rules in `docs/tracking/*/FILE.md`, with an example entry. |
+| `tracking.md` | Copy of the three tracking rules in `docs/tracking/*/FILE.md`, with an example entry. |
 
 ### S2.3 Architecture reference
 Done: replaced by `docs/architecture/` (`overview`, `data-model`, `access-and-security`, `server-actions`, `glossary`). Nothing is written to `.claude/reference/`.

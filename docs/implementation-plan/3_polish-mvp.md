@@ -121,6 +121,7 @@ Widths 360, 768, 1280. No horizontal scroll; tap targets ≥ 44 px. Browsers per
 - Log in `docs/qa/bugs.md`: id, area, steps, expected, actual, severity (P0 blocker / P1 major / P2 minor), status, fix commit.
 - Fix P0 and P1 before release; P2 fixed or listed as known issues.
 - Each fix: own `fix/<module>/<desc>` branch, re-run the related checklist rows.
+- If the bug came from an AI agent's own mistake, also log it in `docs/tracking/mistakes/` (`CLAUDE.md` §1).
 
 ### R1 Release checklist
 - Clerk production instance, Google + GitHub OAuth production credentials, allowed redirect URLs.
