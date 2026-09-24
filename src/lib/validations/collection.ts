@@ -40,3 +40,7 @@ export const collectionIdSchema = z.object({
 });
 
 export type UpdateCollectionInput = z.infer<typeof updateCollectionSchema>;
+
+export const copyCollectionSchema = z.object({
+  sourceCollectionId: z.string().min(1),
+});

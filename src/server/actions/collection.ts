@@ -3,11 +3,14 @@
 import { revalidatePath } from "next/cache";
 import {
   collectionIdSchema,
+  copyCollectionSchema,
   createCollectionSchema,
   updateCollectionSchema,
 } from "@/lib/validations/collection";
 import { requireOnboardedUser } from "@/server/auth/current-user";
 import * as collections from "@/server/controllers/collection.controller";
+import * as copies from "@/server/controllers/copy.controller";
+import { RATE_LIMITS, rateLimit } from "@/server/rate-limit";
 import { AppError, ok, toActionResult, type ActionResult } from "@/server/result";
 import { revalidateCollectionPaths } from "@/server/revalidate";
 
@@ -61,6 +64,25 @@ export async function deleteCollection(input: unknown): Promise<ActionResult<nul
 
     revalidateCollectionPaths(user.username, deleted.id, [deleted.slug]);
     return ok(null);
+  } catch (err) {
+    return toActionResult(err);
+  }
+}
+
+/** P4. Returns the new collection id; the UI navigates to it. */
+export async function copyCollection(input: unknown): Promise<ActionResult<{ id: string }>> {
+  try {
+    const user = await requireOnboardedUser();
+    const { limit, windowMs } = RATE_LIMITS.copyCollection;
+    rateLimit(`copyCollection:${user.id}`, limit, windowMs);
+
+    const parsed = copyCollectionSchema.safeParse(input);
+    if (!parsed.success) throw new AppError("NOT_FOUND");
+
+    const copy = await copies.copyCollection(user.id, parsed.data.sourceCollectionId);
+
+    revalidatePath("/app");
+    return ok({ id: copy.id });
   } catch (err) {
     return toActionResult(err);
   }

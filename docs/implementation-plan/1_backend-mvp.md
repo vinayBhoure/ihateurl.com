@@ -154,7 +154,7 @@ Integrity rules, delete behaviour and indexes: `docs/architecture/data-model.md`
 | B8 Links | B8.2 Update / delete / remove / move / reorder | B8.1 | Completed |
 | B9 Search | B9.1 Private search | B8.1 | Completed |
 | B10 Public | B10.1 Public queries (profile, collection, explore, sitemap) | B6.1, B8.1 | Completed |
-| B11 Copy | B11.1 Copy collection | B10.1 | Pending |
+| B11 Copy | B11.1 Copy collection | B10.1 | Completed |
 
 Critical path: B1 → B2 → B3.1 → B4.1 → B6.1 → B8.1 → B10.1 → B11.1
 Parallel: B3.2, B3.3, B7.1–B7.2 can run alongside B2–B6.

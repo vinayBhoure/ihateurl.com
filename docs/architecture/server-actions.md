@@ -5,7 +5,7 @@
 2. [Error codes](#2-error-codes)
 3. [Actions](#3-actions)
 
-Status: contract, error codes and rate limiter **Built** (`src/server/result.ts`, `src/server/rate-limit.ts`); `checkUsername`, `completeOnboarding`, `updateProfile`, `createCategory`, `deleteCategory`, `createCollection`, `updateCollection`, `deleteCollection` and all link actions **Built** (`src/server/actions/`); `copyCollection` **Planned**. Implementation steps: `1_backend-mvp.md`; UI usage: `2_frontend-mvp.md` §5.3.
+Status: contract, error codes and rate limiter **Built** (`src/server/result.ts`, `src/server/rate-limit.ts`); `checkUsername`, `completeOnboarding`, `updateProfile`, `createCategory`, `deleteCategory`, all actions in §3 **Built** (`src/server/actions/`). Implementation steps: `1_backend-mvp.md`; UI usage: `2_frontend-mvp.md` §5.3.
 
 ---
 
@@ -26,6 +26,7 @@ Every action: resolve user from session → Zod parse (schema in `src/lib/valida
 - Collections: title 1–100 (no limit in PRD; default chosen), description ≤ 500 (empty clears). Renaming keeps the slug; only an explicit `slug` changes the public URL. `categoryIds` replaces the whole set.
 - `createLink`: rate limit → schema → `normalizeUrl` (its message becomes the `url` field error). `Link.url` stores the parsed input (fragment and params kept); `normalizedUrl` is the dedupe key. Metadata is fetched before, not inside, the transaction; a race on the same URL attaches the link created first.
 - Link edits: title 1–300, description ≤ 1000 (empty clears), `categoryIds` replaces the set. `moveLink` into the same collection is a no-op. Invalid ids in link actions return `NOT_FOUND`; a reorder whose `itemIds` isn't exactly the current set returns `VALIDATION`.
+- `copyCollection`: source must be another user's `PUBLIC` collection, else `NOT_FOUND` (own included). One batched transaction: copy (`PRIVATE`, `uniqueSlug` from the source slug, `sourceCollectionId`, `copiedAt`) + system categories, new links with copied metadata and system categories, items in source order. Existing links are reused unchanged.
 
 ---
 
