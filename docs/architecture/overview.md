@@ -96,10 +96,10 @@ src/
     app/
       onboarding/               Built (F3.1): OnboardingForm, live username check
       admin/                    Built (kept)
-      (shell)/                  Built: layout (auth + onboarding redirect, AppHeader, noindex), loading, error, /app (collections list, F3.2) → Planned: collections/[id], search, settings
+      (shell)/                  Built: layout (auth + onboarding redirect, AppHeader, noindex), loading, error, not-found, /app (collections list, F3.2), collections/[id] header (F3.3) → Planned: links on collections/[id], search, settings
     api/health/                 Built
   components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
-  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create), local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, category-picker, form dialogs (F3.2–F3.4)
+  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create + edit), category-picker, collection-menu, public-link-bar, local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, link dialogs (F3.4)
   hooks/                        Built: use-action-form (F1.3)
   lib/
     utils.ts                    Built
