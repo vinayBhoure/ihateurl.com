@@ -8,7 +8,7 @@
 5. [Visibility](#5-visibility)
 6. [Threats and controls](#6-threats-and-controls)
 
-Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped actions (§4), public queries (§5, `src/server/queries/public.ts`) and the SSRF-safe fetcher (§6) are **Built**; public pages, robots and sitemap routes are **Planned** (frontend plan).
+Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped actions (§4), public queries (§5, `src/server/queries/public.ts`), the SSRF-safe fetcher (§6), public pages, robots and sitemap routes (plan 2 F4) are **Built**.
 
 ---
 
@@ -65,6 +65,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 3. Public queries never select `clerkId`.
 4. `/app/*` is `noindex`; `robots.txt` disallows `/app`, `/login`, `/signup`, `/api`.
 5. Sitemap lists only profiles with public collections and public collections.
+6. The landing page (`/`) shows the newest public collections through `searchPublic`, rendered per request (`force-dynamic`), so a collection made private leaves it on the next request.
 
 ---
 

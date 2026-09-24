@@ -77,7 +77,7 @@ Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted).
 |---|---|---|---|
 | L1 Landing | L1.1 Hero + product frame | — | Completed |
 | L1 Landing | L1.2 How it works rows | L1.1 | Completed |
-| L1 Landing | L1.3 Explore strip | L1.1 | Pending |
+| L1 Landing | L1.3 Explore strip | L1.1 | Completed |
 | L1 Landing | L1.4 Privacy, FAQ, final CTA | L1.1 | Pending |
 
 Critical path: L1.1 → L1.2. L1.3 and L1.4 follow L1.1 in any order.
@@ -162,6 +162,7 @@ Every section: `px-4 md:px-6`, `py-16 md:py-24`; `border-t` between two sections
 ### 4.5 Data
 - `const [categories, { results }] = await Promise.all([listSystemCategories(), searchPublic({ page: 1 })])`.
 - Render the strip when `results.length >= 3`; show the first 6.
+- A failed query hides the strip (logged as `[landing] explore strip failed`); the rest of the page still renders, as it did before the landing read the DB.
 - No new query, schema change or server action. `public-page` skill checklist applies (PUBLIC-only queries, no client-side fetching).
 
 ### 4.6 Accessibility and responsive

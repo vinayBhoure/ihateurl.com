@@ -2,12 +2,20 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Show } from "@clerk/nextjs";
+import { LandingExplore } from "@/components/landing-explore";
 import { OrganizeCrop, ProductFrame, SaveCrop, ShareCrop } from "@/components/landing-product-frame";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { listSystemCategories, searchPublic } from "@/server/queries/public";
 
 // Title and description come from the root layout.
 export const metadata: Metadata = { alternates: { canonical: "/" } };
+
+// Rendered per request (as sitemap.ts), so a collection made private leaves the strip at once (LP4).
+export const dynamic = "force-dynamic";
+
+const EXPLORE_MIN = 3; // strip hidden below this many public collections (LD4)
+const EXPLORE_SHOW = 6;
 
 const STEPS: { title: string; text: string; crop: ReactNode }[] = [
   { title: "Save", text: "Paste a URL. The title, description and icon are filled in for you.", crop: <SaveCrop /> },
@@ -23,7 +31,9 @@ const STEPS: { title: string; text: string; crop: ReactNode }[] = [
   },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const explore = await loadExplore();
+
   return (
     <>
       <section className="mx-auto w-full max-w-5xl px-4 pt-16 md:px-6 md:pt-24">
@@ -83,6 +93,22 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
+
+      {explore && <LandingExplore categories={explore.categories} collections={explore.collections} />}
     </>
   );
+}
+
+/**
+ * System categories and the newest public collections, or `null` when there are fewer than
+ * EXPLORE_MIN. A failed query also returns `null`: the landing page must render without the DB.
+ */
+async function loadExplore() {
+  try {
+    const [categories, { results }] = await Promise.all([listSystemCategories(), searchPublic({ page: 1 })]);
+    return results.length >= EXPLORE_MIN ? { categories, collections: results.slice(0, EXPLORE_SHOW) } : null;
+  } catch (error) {
+    console.error("[landing] explore strip failed", error);
+    return null;
+  }
 }
