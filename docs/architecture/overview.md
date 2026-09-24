@@ -84,7 +84,7 @@ Dependency direction: `app → actions → controllers → config/db` and `app �
 prisma/
   schema.prisma                 Built (MVP models, B2.1)
   migrations/                   Built (init)
-  seed.ts                       Planned (B2.2)
+  seed.ts                       Built (system categories, B2.2)
 src/
   proxy.ts                      Built
   app/
