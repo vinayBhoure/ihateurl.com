@@ -3,7 +3,7 @@
 Design system, layouts, screens, forms, sharing and SEO for the MVP boundary in PRD §18.
 
 Depends on: `0_setup-mvp.md` done. Screens are gated by the backend epics in `1_backend-mvp.md` (see §3).
-Status: **Waiting for approval.**
+Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 
 ## Table of Contents
 1. [Current Understanding](#1-current-understanding)
@@ -69,18 +69,19 @@ Status: **Waiting for approval.**
 | R4 | `generateMetadata` + page double-query | Wrap public query calls in React `cache()` inside the page module |
 | R5 | `/[username]` catching static routes | Static folders win in App Router; reserved usernames (B3.3) cover the rest |
 | R6 | Hotlinked images break / slow | Fixed dimensions, lazy load, fallback icon on `onError` |
+| R7 | shadcn CLI (v4, `new-york-v4` registry) imports `cn` from the npm package `cn` and adds it as a dependency | After each `shadcn add`: rewrite `from "cn"` → `from "@/lib/utils"`, `npm uninstall cn`. Found in F1.1 |
 
 ---
 
 ## 2. Clarification Questions
 
-| Priority | # | Question | Why |
-|---|---|---|---|
-| Medium | Q1 | Who provides the static OG image (`public/og.png`, 1200×630)? Proposal: monochrome wordmark "ihateurl" on white, made in F4.5 | FD5 needs an asset |
-| Low | Q2 | Landing copy: headline "Save links. Share collections." and sub-line "Save URLs into collections, keep them private, publish the ones you choose at ihateurl.com/you/collection." OK? | FD6 content |
-| Low | Q3 | Add `nofollow ugc` to `rel` on public outbound links? | SEO for user-submitted links; Q3.3 only requires `noopener noreferrer` |
-| Low | Q4 | `/app/admin`: keep as is, or restyle to new tokens (no logic change)? | D13 keeps it; plan currently leaves it untouched |
-| Low | Q5 | FP1–FP8: confirm | Review defaults |
+| Priority | # | Question | Why | Answer (2026-09-24) |
+|---|---|---|---|---|
+| Medium | Q1 | Who provides the static OG image (`public/og.png`, 1200×630)? Proposal: monochrome wordmark "ihateurl" on white, made in F4.5 | FD5 needs an asset | Proposal accepted: made in F4.5 |
+| Low | Q2 | Landing copy: headline "Save links. Share collections." and sub-line "Save URLs into collections, keep them private, publish the ones you choose at ihateurl.com/you/collection." OK? | FD6 content | Yes, as written |
+| Low | Q3 | Add `nofollow ugc` to `rel` on public outbound links? | SEO for user-submitted links; Q3.3 only requires `noopener noreferrer` | Yes: `rel="noopener noreferrer nofollow ugc"` |
+| Low | Q4 | `/app/admin`: keep as is, or restyle to new tokens (no logic change)? | D13 keeps it; plan currently leaves it untouched | Keep as is |
+| Low | Q5 | FP1–FP8: confirm | Review defaults | All accepted |
 
 ---
 
@@ -88,7 +89,7 @@ Status: **Waiting for approval.**
 
 | Epic | Task | Frontend deps | Backend deps | Status |
 |---|---|---|---|---|
-| F1 Design system | F1.1 Tokens, fonts, theme provider | — | — | Pending |
+| F1 Design system | F1.1 Tokens, fonts, theme provider | — | — | Completed |
 | F1 Design system | F1.2 shadcn components + size variants | F1.1 | — | Pending |
 | F1 Design system | F1.3 Shared UI kit + form hook | F1.2 | B3.2 (`ActionResult`) | Pending |
 | F1 Design system | F1.4 `.claude/rules/ui.md` + `.claude/skills/ui-component` | F1.3 | — | Pending |
@@ -118,7 +119,7 @@ Status: **Waiting for approval.**
 | B7–B9 | F3.4, F3.5 |
 | B10–B11 | F4.2–F4.5 |
 
-**Blocked:** F4.5 OG image on Q1.
+**Blocked:** none (Q1 answered).
 
 ---
 
@@ -137,15 +138,17 @@ Direction A · Quiet Index. Monochrome, no hue accent, borders over shadows, den
 | `--primary-foreground` | `oklch(0.985 0 0)` | `oklch(0.21 0.006 285.885)` |
 | `--secondary`, `--muted` | `oklch(0.967 0.001 286.375)` (zinc-100) | `oklch(0.274 0.006 286.033)` (zinc-800) |
 | `--secondary-foreground` | zinc-900 | `oklch(0.985 0 0)` |
-| `--muted-foreground` | `oklch(0.552 0.016 285.938)` (zinc-500, 4.8:1 on white) | `oklch(0.705 0.015 286.067)` (zinc-400) |
+| `--muted-foreground` | `oklch(0.53 0.016 285.938)` (5.3:1 on white, 4.8:1 on muted/hover) | `oklch(0.705 0.015 286.067)` (zinc-400) |
 | `--accent` (hover fill) | `color-mix(in oklab, #000 4%, transparent)` | `color-mix(in oklab, #fff 6%, transparent)` |
 | `--accent-foreground` | zinc-900 | `oklch(0.985 0 0)` |
 | `--border`, `--input` | `color-mix(in oklab, #000 10%, transparent)` | `color-mix(in oklab, #fff 10%, transparent)` / 15% |
-| `--ring` | `oklch(0.705 0.015 286.067)` | `oklch(0.552 0.016 285.938)` |
+| `--ring` | `oklch(0.552 0.016 285.938)` (zinc-500, 4.8:1) | `oklch(0.552 0.016 285.938)` |
 | `--destructive` | `oklch(0.577 0.245 27.325)` | `oklch(0.704 0.191 22.216)` |
 | `--success` (new) | `oklch(0.508 0.118 165.612)` (emerald-700) | `oklch(0.765 0.177 163.223)` (emerald-400) |
 
 Rule: no raw Tailwind color classes (`neutral-*`, `violet-*`) in app code; tokens only. `success` only for "username available" and the Public badge dot.
+
+Contrast (F1.1, measured): owner changed light `--muted-foreground` (was zinc-500, 4.4:1 on muted fills) and light `--ring` (was zinc-400, 2.6:1). Border/input hairlines (1.25:1 light, 1.47:1 dark) kept on purpose: dividers are decorative and every input has a visible label.
 
 ### 4.2 Typography
 | Role | Size / line-height | Weight | Tracking | Use |
@@ -194,7 +197,7 @@ lucide-react only, `size-4` default, `size-3.5` in badges, `strokeWidth` default
 | Status | Components |
 |---|---|
 | Keep (retune to tokens) | `button`, `input`, `card`, `badge` |
-| Add | `label`, `textarea`, `dialog`, `alert-dialog`, `dropdown-menu`, `popover`, `checkbox`, `switch`, `select`, `separator`, `skeleton`, `avatar`, `tooltip`, `sheet`, `sonner` |
+| Add | `label`, `textarea`, `dialog`, `alert-dialog`, `dropdown-menu` (added in F1.1 for `ThemeToggle`), `popover`, `checkbox`, `switch`, `select`, `separator`, `skeleton`, `avatar`, `tooltip`, `sheet`, `sonner` |
 | Not added | `form` (FP1), `command` (FP6), `table`, `tabs` |
 
 ### 4.6 Shared app components (`src/components/`)

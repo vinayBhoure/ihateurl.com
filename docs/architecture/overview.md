@@ -88,7 +88,7 @@ prisma/
 src/
   proxy.ts                      Built
   app/
-    layout.tsx, globals.css     Built (starter) → Planned: tokens, fonts, theme
+    layout.tsx, globals.css     Built: Quiet Index tokens, Geist fonts, ThemeProvider (F1.1) → Planned: root metadata (F2.1)
     sitemap.ts, robots.ts       Planned
     not-found.tsx, error.tsx    Planned
     (public)/                   Planned: /, /explore, /[username], /[username]/[slug]
@@ -98,8 +98,8 @@ src/
       admin/                    Built (kept)
       (shell)/                  Planned: /app, collections/[id], search, settings
     api/health/                 Built
-  components/ui/                Built: button, input, card, badge → Planned: more shadcn
-  components/                   Planned: shared app components
+  components/ui/                Built: button, input, card, badge, dropdown-menu → Planned: more shadcn (F1.2)
+  components/                   Built: theme-provider, theme-toggle (F1.1) → Planned: shared app components (F1.3)
   hooks/                        Planned: use-action-form
   lib/
     utils.ts                    Built
