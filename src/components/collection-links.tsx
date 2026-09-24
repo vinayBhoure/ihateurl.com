@@ -12,22 +12,12 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
-import type { ZodTypeAny } from "zod";
 import type { CategoryOption } from "@/components/category-picker";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { EmptyState } from "@/components/empty-state";
 import { LinkEditDialog } from "@/components/link-edit-dialog";
 import { LinkRow, type LinkRowData } from "@/components/link-row";
 import { MoveLinkDialog, type MoveTarget } from "@/components/move-link-dialog";
-import { SubmitButton } from "@/components/submit-button";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -37,10 +27,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useActionForm } from "@/hooks/use-action-form";
 import { itemIdSchema, linkIdSchema } from "@/lib/validations/link";
 import { deleteLink, removeLinkFromCollection, reorderCollectionItems } from "@/server/actions/link";
-import type { ActionResult } from "@/server/result";
 
 export type CollectionLinkItem = {
   itemId: string;
@@ -238,54 +226,5 @@ function IconButton({
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>
-  );
-}
-
-/** Destructive confirmation (§4.7 rule 6); stays open while the action runs. */
-function ConfirmDialog<T>({
-  open,
-  onOpenChange,
-  title,
-  description,
-  confirmLabel,
-  schema,
-  action,
-  input,
-  onSuccess,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  title: string;
-  description: string;
-  confirmLabel: string;
-  schema: ZodTypeAny;
-  action: (input: unknown) => Promise<ActionResult<T>>;
-  input: Record<string, unknown>;
-  onSuccess: (data: T) => void;
-}) {
-  const { pending, submit } = useActionForm({
-    schema,
-    action,
-    onSuccess: (data) => {
-      onOpenChange(false);
-      onSuccess(data);
-    },
-  });
-
-  return (
-    <AlertDialog open={open} onOpenChange={(next) => !pending && onOpenChange(next)}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
-          <SubmitButton type="button" variant="destructive" pending={pending} onClick={() => submit(input)}>
-            {confirmLabel}
-          </SubmitButton>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
   );
 }
