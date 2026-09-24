@@ -74,7 +74,7 @@ Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted).
 
 | Epic | Task | Deps | Status |
 |---|---|---|---|
-| L1 Landing | L1.1 Hero + product frame | — | Pending |
+| L1 Landing | L1.1 Hero + product frame | — | Completed |
 | L1 Landing | L1.2 How it works rows | L1.1 | Pending |
 | L1 Landing | L1.3 Explore strip | L1.1 | Pending |
 | L1 Landing | L1.4 Privacy, FAQ, final CTA | L1.1 | Pending |
@@ -91,7 +91,7 @@ Out of scope: Privacy/Terms pages and footer links (`4_polish-mvp.md` R2), team 
 |---|---|---|
 | Real product UI right under the headline | Mintlify, Hex, minimal.so | Product frame (§4.2 #3) |
 | UI shows a workflow, not one screen | Granola, Hex, Synthesia | Private panel → public panel |
-| Small labels on UI panels | Hex, Mintlify, Factory | Mono URL-path captions |
+| Small labels on UI panels | Hex, Mintlify, Factory | Mono URL bar on top of each panel |
 | Primary + secondary CTA, sign-in method named | Hex, Mintlify, Calendly | `Sign up` + `Explore collections` + microcopy |
 | Live inventory on marketplace homepages | Bandcamp, Kagi | Explore strip |
 | Trust section, FAQ, final CTA | Mintlify, Kagi, Hex | Privacy block, FAQ, CTA band |
@@ -114,8 +114,8 @@ Every section: `px-4 md:px-6`, `py-16 md:py-24`; `border-t` between two sections
 **Panels** (static sample data, `LetterTile` icons):
 | Panel | Content |
 |---|---|
-| A (frame) | Title "Reading list" + Private badge; add-link row (`Input` showing `https://refactoringui.com` + `Add`); 3 `LinkRow`s with categories |
-| B (frame) | Mono URL `ihateurl.com/you/reading-list` + Public badge; title; owner avatar "Y" + "you"; "4 links · Updated today"; `Save to my collections`, `Copy link`, `Share` (static buttons); 4 `LinkRow`s |
+| A (frame) | Top bar: mono `ihateurl.com/app/collections/…` + Private badge. Title "Reading list" + `Edit` + menu; category badges; add-link row (`Input` showing `https://refactoringui.com` + `Add`); 3 `LinkRow`s with row actions (up/down ≥ 1024 px, menu) |
+| B (frame) | Top bar: mono `ihateurl.com/you/reading-list` + Public badge. Title; owner avatar "Y" + "you"; "4 links · Updated today"; category badges; `Save to my collections`, copy, share (static look-alike buttons; share hidden < 768 px); 4 `LinkRow`s |
 | Save crop | Add-link row + the resulting filled `LinkRow` |
 | Organize crop | Collection header with 2 category badges; 2 `LinkRow`s with up/down buttons; one row's footer "In: Reading list, Design references" |
 | Share crop | Mono public URL + `Copy link` + `Share`; preview card: `og.png` thumbnail, "Reading list by @you", "4 links curated by @you", `ihateurl.com` (matches real `generateMetadata`) |
@@ -128,7 +128,7 @@ Every section: `px-4 md:px-6`, `py-16 md:py-24`; `border-t` between two sections
 | CTAs, signed out | `Sign up` (primary) · `Explore collections` (outline → `/explore`) |
 | CTAs, signed in | `Go to app` (primary) · `Explore collections` |
 | Microcopy | Free · Sign in with Google or GitHub · Collections start private |
-| Panel captions | `Private · /app/collections` · `Public · ihateurl.com/you/reading-list` |
+| Panel top bars | `ihateurl.com/app/collections/…` + Private badge · `ihateurl.com/you/reading-list` + Public badge |
 | How it works h2 | How it works |
 | Save | Paste a URL. The title, description and icon are filled in for you. |
 | Organize | Group links into collections, tag them and put them in order. One link can live in several collections. |

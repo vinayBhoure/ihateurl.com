@@ -12,23 +12,25 @@ export type LinkRowData = {
 
 /**
  * Favicon, title (opens the URL in a new tab), domain and categories. Read-only unless `actions`
- * is passed; `footer` adds a line under the meta. Public pages pass
- * `rel="noopener noreferrer nofollow ugc"` (Q3).
+ * is passed; `footer` adds a line under the meta; `icon` replaces the favicon (landing previews).
+ * Public pages pass `rel="noopener noreferrer nofollow ugc"` (Q3).
  */
 export function LinkRow({
   link,
   actions,
   footer,
+  icon,
   rel = "noopener noreferrer",
 }: {
   link: LinkRowData;
   actions?: ReactNode;
   footer?: ReactNode;
+  icon?: ReactNode;
   rel?: string;
 }) {
   return (
     <div className="flex min-h-11 items-start gap-3 px-4 py-3">
-      <Favicon src={link.faviconUrl} className="mt-0.5" />
+      {icon ?? <Favicon src={link.faviconUrl} className="mt-0.5" />}
       <div className="min-w-0 flex-1 space-y-1">
         <a
           href={link.url}

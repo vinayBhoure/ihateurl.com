@@ -39,7 +39,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | FD3 | Reorder | Up/down buttons only. No drag library |
 | FD4 | URL without scheme | Form prepends `https://` before validation |
 | FD5 | OG image | One static default image for all public pages |
-| FD6 | Landing `/` | Hero + static list preview + 3 steps (Save → Organize → Share) + footer |
+| FD6 | Landing `/` | Hero + static list preview + 3 steps (Save → Organize → Share) + footer. **Replaced by `3_landing-v2.md`** (2026-09-25) |
 
 ### Proposed defaults (confirm or change during review)
 | # | Topic | Proposal |
@@ -291,7 +291,7 @@ public/og.png
 ### 5.3 Screens
 | Route | Sections / components | Data | Loading | Empty | Error |
 |---|---|---|---|---|---|
-| `/` | Hero (display h1, sub-line, CTA: `Sign up` or `Go to app`), static list preview (`LinkRow` read-only, 4 sample rows, `Globe` icons, no hotlinks), 3 steps Save / Organize / Share (icon + h2 + one line), footer | none | — | — | root `error.tsx` |
+| `/` (replaced by `3_landing-v2.md` §4) | Hero (display h1, sub-line, CTA: `Sign up` or `Go to app`), static list preview (`LinkRow` read-only, 4 sample rows, `Globe` icons, no hotlinks), 3 steps Save / Organize / Share (icon + h2 + one line), footer | none | — | — | root `error.tsx` |
 | `/login`, `/signup` | Clerk `<SignIn>` / `<SignUp>` centered on `background`, wordmark above | Clerk | Clerk | — | Clerk |
 | `/app/onboarding` | Username input (prefix `ihateurl.com/`, mono), live status (debounced 400 ms `checkUsername`: available ✓ success / reason), display name (prefilled from Clerk), avatar preview (Clerk image, read-only) | `checkUsername`, `completeOnboarding` → `/app` | `SubmitButton` pending; status `Loader2` while checking | — | inline + toast (`CONFLICT`, validation) |
 | `/app` | `PageHeader` "Collections" + `New collection` (dialog: title, description; created PRIVATE) → push `/app/collections/[id]`; list rows: title, `VisibilityBadge`, item count, updated date | `listMyCollections`, `createCollection` | `loading.tsx` 5 skeleton rows | "No collections yet" + `New collection` | shell `error.tsx` |
