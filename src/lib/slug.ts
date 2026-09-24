@@ -1,0 +1,16 @@
+export const SLUG_MAX_LENGTH = 60;
+export const SLUG_PATTERN = /^[a-z0-9-]{1,60}$/;
+const FALLBACK_SLUG = "collection";
+
+/** P2: lowercase ASCII, words joined by `-`, max 60 chars. */
+export function slugify(title: string): string {
+  const slug = title
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, SLUG_MAX_LENGTH)
+    .replace(/-+$/, "");
+  return slug || FALLBACK_SLUG;
+}

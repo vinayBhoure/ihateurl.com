@@ -103,14 +103,15 @@ src/
   hooks/                        Planned: use-action-form
   lib/
     utils.ts                    Built
-    validations/                Built (ping) → Planned: all MVP schemas
-    url/, slug.ts, reserved-usernames.ts   Planned
+    validations/                Built (username) → Planned: other MVP schemas
+    url/normalize.ts, slug.ts, reserved-usernames.ts   Built (B3.3)
   server/
     auth/current-user.ts        Built (B3.1)
     actions/, queries/, metadata/          Planned
     controllers/, routers/, middleware/    Built (health, validate)
     result.ts                   Built: AppError, ActionResult, toActionResult (B3.1–B3.2)
     rate-limit.ts               Built (B3.2)
+    unique-slug.ts              Built (B3.3; queries DB, so not in lib/)
   config/                       Built: db, env, resend
   emails/templates/             Built (kept)
 ```

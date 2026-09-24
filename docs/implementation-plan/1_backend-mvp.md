@@ -142,7 +142,7 @@ Integrity rules, delete behaviour and indexes: `docs/architecture/data-model.md`
 | B2 Data | B2.2 Category seed | B2.1 | Completed |
 | B3 Core | B3.1 Auth helpers | B2.1 | Completed |
 | B3 Core | B3.2 Result type, errors, rate limiter | — | Completed |
-| B3 Core | B3.3 URL normalizer, slug, reserved usernames | — | Pending |
+| B3 Core | B3.3 URL normalizer, slug, reserved usernames | — | Completed |
 | B3 Core | B3.4 CodeGraph setup (dev tooling) | B3.1–B3.3 merged | Deferred: do not start earlier |
 | B4 Profile | B4.1 Onboarding + username | B3.* | Pending |
 | B4 Profile | B4.2 Update profile | B4.1 | Pending |
