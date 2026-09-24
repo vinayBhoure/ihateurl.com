@@ -91,7 +91,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 |---|---|---|---|---|
 | F1 Design system | F1.1 Tokens, fonts, theme provider | — | — | Completed |
 | F1 Design system | F1.2 shadcn components + size variants | F1.1 | — | Completed |
-| F1 Design system | F1.3 Shared UI kit + form hook | F1.2 | B3.2 (`ActionResult`) | Pending |
+| F1 Design system | F1.3 Shared UI kit + form hook | F1.2 | B3.2 (`ActionResult`) | Completed |
 | F1 Design system | F1.4 `.claude/rules/ui.md` + `.claude/skills/ui-component` | F1.3 | — | Pending |
 | F2 Layouts | F2.1 Public layout, root metadata, not-found, error | F1.3 | B1.3 (`NEXT_PUBLIC_APP_URL`) | Pending |
 | F2 Layouts | F2.2 App shell + onboarding redirect | F1.3 | B3.1 | Pending |
@@ -219,6 +219,8 @@ Retune applied to every primitive (F1.2): focus ring per §5.5; radius/shadow pe
 | `collection-form-dialog.tsx`, `link-edit-dialog.tsx`, `move-link-dialog.tsx` | client | Forms (§5) |
 | `use-action-form.ts` (`src/hooks/`) | client hook | FP1 flow; returns `{ pending, fieldErrors, submit }` |
 | `ensure-scheme.ts` (`src/lib/url/`) | pure | FD4: prepend `https://` when input has no `scheme://` |
+
+Built in F1.3: generic kit (theme, `page-header`, `empty-state`, `error-state`, `submit-button`, `copy-button`, `share-button`, `favicon`, `visibility-badge`), `use-action-form`, `ensure-scheme`. Data-bound components ship with their screen: `collection-form-dialog` F3.2/F3.3, `category-picker` F3.3, `link-row` + `link-edit-dialog` + `move-link-dialog` F3.4 (F4.3 already depends on F3.4 for `LinkRow`). Next 16.3 passes `retry` (not `reset`) to `error.tsx`; `ErrorState` takes it as `onRetry`. `useActionForm` sends the raw values to the action (schemas transform, e.g. empty description → `null`) and ignores a submit while one is in flight.
 
 ### 4.7 Form rules
 1. Schema: import from `src/lib/validations/*` (backend-owned). Never redefine in UI.

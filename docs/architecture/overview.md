@@ -99,12 +99,13 @@ src/
       (shell)/                  Planned: /app, collections/[id], search, settings
     api/health/                 Built
   components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
-  components/                   Built: theme-provider, theme-toggle (F1.1) → Planned: shared app components (F1.3)
-  hooks/                        Planned: use-action-form
+  components/                   Built: theme, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, category-picker, form dialogs (F3.2–F3.4)
+  hooks/                        Built: use-action-form (F1.3)
   lib/
     utils.ts                    Built
     validations/                Built (username) → Planned: other MVP schemas
     url/normalize.ts, slug.ts, reserved-usernames.ts   Built (B3.3)
+    url/ensure-scheme.ts        Built (F1.3, FD4)
   server/
     auth/current-user.ts        Built (B3.1)
     actions/                    Built: profile.ts (B4), category.ts (B5), collection.ts (B6), link.ts (B8), copyCollection (B11)
