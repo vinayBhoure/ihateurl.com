@@ -94,12 +94,12 @@ src/
     (public)/                   Built: layout (header, footer, skip link), / (starter hero until F4.1) → Planned: /explore, /[username], /[username]/[slug]
     login/, signup/             Built
     app/
-      onboarding/               Planned
+      onboarding/               Built (F3.1): OnboardingForm, live username check
       admin/                    Built (kept)
       (shell)/                  Built: layout (auth + onboarding redirect, AppHeader, noindex), loading, error, /app (starter until F3.2) → Planned: collections/[id], search, settings
     api/health/                 Built
   components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
-  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, category-picker, form dialogs (F3.2–F3.4)
+  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, category-picker, form dialogs (F3.2–F3.4)
   hooks/                        Built: use-action-form (F1.3)
   lib/
     utils.ts                    Built

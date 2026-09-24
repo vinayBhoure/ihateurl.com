@@ -96,7 +96,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | F2 Layouts | F2.1 Public layout, root metadata, not-found, error | F1.3 | B1.3 (`NEXT_PUBLIC_APP_URL`) | Completed |
 | F2 Layouts | F2.2 App shell + onboarding redirect | F1.3 | B3.1 | Completed |
 | F2 Layouts | F2.3 `/login`, `/signup` styling | F1.1 | — | Built — awaiting owner sign-in check |
-| F3 Phase 1 | F3.1 Onboarding | F2.2 | B4.1 | Pending |
+| F3 Phase 1 | F3.1 Onboarding | F2.2 | B4.1 | Completed |
 | F3 Phase 1 | F3.2 My collections + create dialog | F2.2 | B6.1 | Pending |
 | F3 Phase 1 | F3.3 Collection detail: header, edit, visibility, categories, delete | F3.2 | B5.1, B6.1 | Pending |
 | F3 Phase 1 | F3.4 Links: add, edit, move, remove, delete, reorder | F3.3 | B8.1, B8.2 | Pending |
