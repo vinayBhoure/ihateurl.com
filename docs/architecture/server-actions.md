@@ -5,7 +5,7 @@
 2. [Error codes](#2-error-codes)
 3. [Actions](#3-actions)
 
-Status: **Planned.** Location: `src/server/actions/`. Implementation steps: `1_backend-mvp.md`; UI usage: `2_frontend-mvp.md` §5.3.
+Status: contract, error codes and rate limiter **Built** (`src/server/result.ts`, `src/server/rate-limit.ts`); actions **Planned** in `src/server/actions/`. Implementation steps: `1_backend-mvp.md`; UI usage: `2_frontend-mvp.md` §5.3.
 
 ---
 

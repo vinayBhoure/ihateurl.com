@@ -109,8 +109,8 @@ src/
     auth/current-user.ts        Built (B3.1)
     actions/, queries/, metadata/          Planned
     controllers/, routers/, middleware/    Built (health, validate)
-    result.ts                   Built: AppError (B3.1) → Planned: ActionResult, toActionResult (B3.2)
-    rate-limit.ts               Planned
+    result.ts                   Built: AppError, ActionResult, toActionResult (B3.1–B3.2)
+    rate-limit.ts               Built (B3.2)
   config/                       Built: db, env, resend
   emails/templates/             Built (kept)
 ```
