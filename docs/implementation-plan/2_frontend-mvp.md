@@ -100,7 +100,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | F3 Phase 1 | F3.2 My collections + create dialog | F2.2 | B6.1 | Completed |
 | F3 Phase 1 | F3.3 Collection detail: header, edit, visibility, categories, delete | F3.2 | B5.1, B6.1 | Completed |
 | F3 Phase 1 | F3.4 Links: add, edit, move, remove, delete, reorder | F3.3 | B8.1, B8.2 | Completed |
-| F3 Phase 1 | F3.5 Private search | F2.2 | B9.1 | Pending |
+| F3 Phase 1 | F3.5 Private search | F2.2 | B9.1 | Completed |
 | F3 Phase 1 | F3.6 Settings: profile, categories, theme | F2.2 | B4.2, B5.1 | Pending |
 | F4 Phase 2 | F4.1 Landing | F2.1 | — | Pending |
 | F4 Phase 2 | F4.2 Public profile | F2.1 | B10.1 | Pending |

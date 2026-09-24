@@ -12,15 +12,18 @@ export type LinkRowData = {
 
 /**
  * Favicon, title (opens the URL in a new tab), domain and categories. Read-only unless `actions`
- * is passed. Public pages pass `rel="noopener noreferrer nofollow ugc"` (Q3).
+ * is passed; `footer` adds a line under the meta. Public pages pass
+ * `rel="noopener noreferrer nofollow ugc"` (Q3).
  */
 export function LinkRow({
   link,
   actions,
+  footer,
   rel = "noopener noreferrer",
 }: {
   link: LinkRowData;
   actions?: ReactNode;
+  footer?: ReactNode;
   rel?: string;
 }) {
   return (
@@ -43,6 +46,7 @@ export function LinkRow({
             </Badge>
           ))}
         </div>
+        {footer}
       </div>
       {actions && <div className="-my-1 flex shrink-0 items-center gap-1">{actions}</div>}
     </div>

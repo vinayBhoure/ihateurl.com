@@ -6,7 +6,17 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 /** GET `/app/search?q=` (P5) with client-side navigation. */
-export function AppSearchForm({ className, onSubmit }: { className?: string; onSubmit?: () => void }) {
+export function AppSearchForm({
+  className,
+  onSubmit,
+  defaultValue,
+  autoFocus,
+}: {
+  className?: string;
+  onSubmit?: () => void;
+  defaultValue?: string;
+  autoFocus?: boolean;
+}) {
   return (
     <Form action="/app/search" role="search" className={cn("relative", className)} onSubmit={onSubmit}>
       <Search
@@ -16,6 +26,8 @@ export function AppSearchForm({ className, onSubmit }: { className?: string; onS
       <Input
         type="search"
         name="q"
+        defaultValue={defaultValue}
+        autoFocus={autoFocus}
         maxLength={100}
         placeholder="Search"
         aria-label="Search your collections and links"

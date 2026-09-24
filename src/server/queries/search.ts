@@ -40,6 +40,7 @@ export async function searchMine(userId: string, q: string) {
         domain: true,
         faviconUrl: true,
         updatedAt: true,
+        categories: { select: { category: { select: { id: true, name: true } } } },
         collections: { select: { collection: { select: { id: true, title: true, slug: true } } } },
       },
       orderBy: { updatedAt: "desc" },
@@ -49,8 +50,9 @@ export async function searchMine(userId: string, q: string) {
 
   return {
     collections,
-    links: links.map(({ collections: items, ...link }) => ({
+    links: links.map(({ collections: items, categories, ...link }) => ({
       ...link,
+      categories: categories.map((c) => c.category),
       collections: items.map((i) => i.collection),
     })),
   };
