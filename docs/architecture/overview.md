@@ -88,10 +88,10 @@ prisma/
 src/
   proxy.ts                      Built
   app/
-    layout.tsx, globals.css     Built: Quiet Index tokens, Geist fonts, ThemeProvider (F1.1) → Planned: root metadata (F2.1)
+    layout.tsx, globals.css     Built: Quiet Index tokens, Geist fonts, ThemeProvider, root metadata (F1.1, F2.1)
     sitemap.ts, robots.ts       Planned
-    not-found.tsx, error.tsx    Planned
-    (public)/                   Planned: /, /explore, /[username], /[username]/[slug]
+    not-found.tsx, error.tsx    Built (F2.1)
+    (public)/                   Built: layout (header, footer, skip link), / (starter hero until F4.1) → Planned: /explore, /[username], /[username]/[slug]
     login/, signup/             Built
     app/
       onboarding/               Planned
@@ -99,7 +99,7 @@ src/
       (shell)/                  Planned: /app, collections/[id], search, settings
     api/health/                 Built
   components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
-  components/                   Built: theme, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, category-picker, form dialogs (F3.2–F3.4)
+  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, category-picker, form dialogs (F3.2–F3.4)
   hooks/                        Built: use-action-form (F1.3)
   lib/
     utils.ts                    Built

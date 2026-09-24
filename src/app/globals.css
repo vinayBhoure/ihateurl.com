@@ -84,4 +84,9 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* §5.5 focus ring for plain links; button-styled links set their own. */
+  a:focus-visible {
+    @apply rounded-sm outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
 }

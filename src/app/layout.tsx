@@ -5,16 +5,21 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { env } from "@/config/env";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
-// Placeholder; F2.1 adds metadataBase, title template, Open Graph and Twitter defaults.
+// Plan 2 §5.2. `/og.png` is the single default image (FD5, added in F4.5).
 export const metadata: Metadata = {
-  title: "ihateurl",
-  description: "Save URLs into collections, keep them private, and publish the ones you choose.",
+  metadataBase: new URL(env.appUrl),
+  title: { default: "ihateurl", template: "%s · ihateurl" },
+  description:
+    "Save URLs into collections, keep them private, publish the ones you choose at ihateurl.com/you/collection.",
+  openGraph: { type: "website", siteName: "ihateurl", images: ["/og.png"] },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

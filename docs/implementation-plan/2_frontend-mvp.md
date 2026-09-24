@@ -93,7 +93,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | F1 Design system | F1.2 shadcn components + size variants | F1.1 | — | Completed |
 | F1 Design system | F1.3 Shared UI kit + form hook | F1.2 | B3.2 (`ActionResult`) | Completed |
 | F1 Design system | F1.4 `.claude/rules/ui.md` + `.claude/skills/ui-component` | F1.3 | — | Completed |
-| F2 Layouts | F2.1 Public layout, root metadata, not-found, error | F1.3 | B1.3 (`NEXT_PUBLIC_APP_URL`) | Pending |
+| F2 Layouts | F2.1 Public layout, root metadata, not-found, error | F1.3 | B1.3 (`NEXT_PUBLIC_APP_URL`) | Completed |
 | F2 Layouts | F2.2 App shell + onboarding redirect | F1.3 | B3.1 | Pending |
 | F2 Layouts | F2.3 `/login`, `/signup` styling | F1.1 | — | Pending |
 | F3 Phase 1 | F3.1 Onboarding | F2.2 | B4.1 | Pending |
