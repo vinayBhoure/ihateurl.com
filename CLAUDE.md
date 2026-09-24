@@ -80,7 +80,7 @@ Every session that reads or changes this repo MUST write two log entries before 
 **ihateurl** lets people save URLs into collections, keep them private, and publish selected collections at `ihateurl.com/{username}/{collection-slug}`.
 Core loop: Save → Organize → Share → Maintain.
 
-**Current state:** backend MVP built (plan 1, all tasks done); frontend (plan 2) approved, in progress.
+**Current state:** backend MVP built (plan 1, all tasks done); frontend (plan 2) built and on `staging` (F2.3 awaits the owner's sign-in check); next: manual validation, then `main`, then plan 3.
 
 ### Source of truth (read before any task)
 | Doc | Purpose |
