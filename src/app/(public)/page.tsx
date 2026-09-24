@@ -1,9 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { FolderOpen, Link2, Share2, type LucideIcon } from "lucide-react";
 import { Show } from "@clerk/nextjs";
 import { LinkRow, type LinkRowData } from "@/components/link-row";
 import { Button } from "@/components/ui/button";
 import { VisibilityBadge } from "@/components/visibility-badge";
+
+// Title and description come from the root layout.
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 // Static sample for the preview: no favicons are fetched (globe icons only).
 const SAMPLE_LINKS: LinkRowData[] = [

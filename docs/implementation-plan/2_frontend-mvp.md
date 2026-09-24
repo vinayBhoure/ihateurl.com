@@ -107,7 +107,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | F4 Phase 2 | F4.2 Public profile | F2.1 | B10.1 | Completed |
 | F4 Phase 2 | F4.3 Public collection + share + copy | F4.2, F3.4 (LinkRow) | B10.1, B11.1 | Completed |
 | F4 Phase 2 | F4.4 Explore | F2.1 | B10.1 | Completed |
-| F4 Phase 2 | F4.5 SEO: sitemap, robots, OG image, metadata pass | F4.2–F4.4 | B10.1 | Pending |
+| F4 Phase 2 | F4.5 SEO: sitemap, robots, OG image, metadata pass | F4.2–F4.4 | B10.1 | Completed |
 
 **Critical path:** F1.1 → F1.2 → F1.3 → F2.2 → F3.2 → F3.3 → F3.4 → F4.3 → F4.5 (gated by B6.1 → B8.2 → B10.1 → B11.1).
 
@@ -316,6 +316,7 @@ public/og.png
 | Private | `/app/*` layout `robots: { index: false }`; private collections → `notFound()` so no metadata leaks |
 | `app/sitemap.ts` | `/`, `/explore`, then `getSitemapEntries()` → profiles + public collections with `lastModified = updatedAt` |
 | `app/robots.ts` | allow `/`; disallow `/app`, `/login`, `/signup`, `/api`; `sitemap: ${appUrl}/sitemap.xml` |
+| Built (F4.5) | `sitemap.ts` is `force-dynamic` (a collection made private drops out at once). `robots.ts` uses `/app$`, `/app/`, `/login$`, `/login/`, `/signup$`, `/signup/`, `/api/` so profiles like `/apple` aren't blocked. `public/og.png` rendered once with `next/og` (Geist wordmark + headline, 1200×630); landing has canonical `/` |
 
 ### 5.5 Accessibility and responsive
 | Area | Rule |

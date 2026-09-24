@@ -89,7 +89,7 @@ src/
   proxy.ts                      Built
   app/
     layout.tsx, globals.css     Built: Quiet Index tokens, Geist fonts, ThemeProvider, root metadata (F1.1, F2.1)
-    sitemap.ts, robots.ts       Planned
+    sitemap.ts, robots.ts       Built (F4.5; sitemap force-dynamic)
     not-found.tsx, error.tsx    Built (F2.1)
     (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1) , error, /[username] (F4.2), /[username]/[slug] (F4.3), /explore (F4.4)
     login/, signup/             Built
