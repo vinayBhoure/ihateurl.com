@@ -148,7 +148,7 @@ Integrity rules, delete behaviour and indexes: `docs/architecture/data-model.md`
 | B4 Profile | B4.2 Update profile | B4.1 | Completed |
 | B5 Categories | B5.1 List / create / delete custom | B4.1 | Completed |
 | B6 Collections | B6.1 CRUD, slug, visibility, categories | B5.1 | Completed |
-| B7 Metadata | B7.1 SSRF-safe fetcher | B3.3 | Pending |
+| B7 Metadata | B7.1 SSRF-safe fetcher | B3.3 | Completed |
 | B7 Metadata | B7.2 HTML metadata parser | B7.1 | Pending |
 | B8 Links | B8.1 Create link | B6.1, B7.2 | Pending |
 | B8 Links | B8.2 Update / delete / remove / move / reorder | B8.1 | Pending |

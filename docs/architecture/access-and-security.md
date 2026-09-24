@@ -8,7 +8,7 @@
 5. [Visibility](#5-visibility)
 6. [Threats and controls](#6-threats-and-controls)
 
-Status: Clerk auth, the admin role and the identity helpers (§3.4) are **Built**; everything else is **Planned**.
+Status: Clerk auth, the admin role, the identity helpers (§3.4) and the SSRF-safe fetcher (§6, `src/server/metadata/fetch.ts`) are **Built**; everything else is **Planned**.
 
 ---
 
@@ -74,7 +74,7 @@ Status: Clerk auth, the admin role and the identity helpers (§3.4) are **Built*
 |---|---|---|
 | Accessing another user's data (IDOR) | All actions | §4 |
 | Private data leak | Public pages, explore, sitemap, metadata tags | §5 |
-| SSRF | Metadata fetch in `createLink` | Fetcher only: http(s), ports 80/443, IP checked at connect time (blocks DNS rebinding), manual redirects ≤ 3 re-checked, 5 s timeout, 1 MB cap, `text/html` only. Details: plan 1 B7.1 |
+| SSRF | Metadata fetch in `createLink` | Fetcher only: http(s), ports 80/443, IP checked at connect time (blocks DNS rebinding; IP-literal hosts checked before connect; any blocked address in a DNS answer rejects the host), manual redirects ≤ 3 re-checked, 5 s timeout, 1 MB cap, `text/html` only. Details: plan 1 B7.1 |
 | `javascript:` / `data:` links | Saved URLs, favicon/image URLs | `normalizeUrl` and parser keep only `http(s)` |
 | XSS | Titles, descriptions, bio, fetched metadata | Render as text; no `dangerouslySetInnerHTML` |
 | Tab-napping | Outbound links | `target="_blank" rel="noopener noreferrer"` |

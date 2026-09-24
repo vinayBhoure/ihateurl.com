@@ -44,7 +44,7 @@ One Next.js app. No separate backend, no Redis, no queues, no object storage.
 | Server actions | `src/server/actions/` | Resolve user → Zod → controller → `revalidatePath` → `ActionResult` | Hold business rules or call Prisma | Planned |
 | Controllers | `src/server/controllers/` | Business rules, owner-scoped writes, `$transaction` | Read the user ID from input | Built (health only) |
 | Queries | `src/server/queries/` | Reads for pages; public queries filter `PUBLIC` | Write | Planned |
-| Metadata | `src/server/metadata/` | SSRF-safe fetch + HTML parse | Be called outside `createLink` | Planned |
+| Metadata | `src/server/metadata/` | SSRF-safe fetch + HTML parse | Be called outside `createLink` | Built (fetch) → Planned (parse) |
 | Route handlers | `src/app/api/*` → `src/server/routers/` → controllers | HTTP endpoints (only `/api/health` in MVP) | Replace server actions for app mutations | Built |
 | Shared | `src/lib/` | Zod schemas, URL/slug/username helpers, utils | Import server-only code | Built (utils) |
 | Config | `src/config/` | Prisma client, env, Resend client | — | Built |
@@ -109,7 +109,7 @@ src/
     auth/current-user.ts        Built (B3.1)
     actions/                    Built: profile.ts (B4), category.ts (B5), collection.ts (B6) → Planned: other actions
     queries/                    Built: categories.ts (B5), collections.ts (B6) → Planned: other queries
-    metadata/                   Planned
+    metadata/                   Built: fetch.ts (B7.1) → Planned: parse.ts (B7.2)
     controllers/, routers/, middleware/    Built (health, profile, category, collection, validate)
     result.ts                   Built: AppError, ActionResult, toActionResult (B3.1–B3.2)
     rate-limit.ts               Built (B3.2)
