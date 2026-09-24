@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Show } from "@clerk/nextjs";
 import { LandingExplore } from "@/components/landing-explore";
+import { LandingFaq } from "@/components/landing-faq";
 import { OrganizeCrop, ProductFrame, SaveCrop, ShareCrop } from "@/components/landing-product-frame";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -31,6 +32,20 @@ const STEPS: { title: string; text: string; crop: ReactNode }[] = [
   },
 ];
 
+// Each claim maps to a verified fact (plan 3 §1).
+const PRIVACY: { title: string; text: string }[] = [
+  { title: "Private by default.", text: "Every new collection starts private." },
+  {
+    title: "Never listed.",
+    text: "Private collections don't appear on your profile, in Explore, in the sitemap or in search engines.",
+  },
+  {
+    title: "Reversible.",
+    text: "Make a public collection private again and it leaves Explore and the sitemap right away.",
+  },
+  { title: "No new password.", text: "Sign in with Google or GitHub." },
+];
+
 export default async function LandingPage() {
   const explore = await loadExplore();
 
@@ -46,21 +61,7 @@ export default async function LandingPage() {
             <span className="font-mono text-base text-foreground">ihateurl.com/you/collection</span>.
           </p>
           <div className="space-y-4">
-            <div className="flex flex-wrap justify-center gap-3">
-              <Show when="signed-out">
-                <Button asChild size="lg">
-                  <Link href="/signup">Sign up</Link>
-                </Button>
-              </Show>
-              <Show when="signed-in">
-                <Button asChild size="lg">
-                  <Link href="/app">Go to app</Link>
-                </Button>
-              </Show>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/explore">Explore collections</Link>
-              </Button>
-            </div>
+            <CtaButtons />
             <p className="text-sm text-balance text-muted-foreground">
               Free · Sign in with Google or GitHub · Collections start private
             </p>
@@ -95,7 +96,62 @@ export default async function LandingPage() {
       </section>
 
       {explore && <LandingExplore categories={explore.categories} collections={explore.collections} />}
+
+      <section aria-labelledby="privacy-heading" className="border-t">
+        <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-16 md:px-6 md:py-24">
+          <h2 id="privacy-heading" className="text-xl font-semibold">
+            Private means private
+          </h2>
+          <dl className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+            {PRIVACY.map(({ title, text }) => (
+              <div key={title} className="space-y-1">
+                <dt className="font-semibold">{title}</dt>
+                <dd className="text-muted-foreground">{text}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <section aria-labelledby="faq-heading" className="border-t">
+        <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-16 md:px-6 md:py-24">
+          <h2 id="faq-heading" className="text-xl font-semibold">
+            Questions
+          </h2>
+          <LandingFaq />
+        </div>
+      </section>
+
+      <section aria-labelledby="cta-heading" className="border-t bg-muted/60">
+        <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-16 text-center md:px-6 md:py-24">
+          <h2 id="cta-heading" className="text-xl font-semibold">
+            Start your first collection.
+          </h2>
+          <CtaButtons />
+        </div>
+      </section>
     </>
+  );
+}
+
+/** Primary action by auth state (Clerk `<Show>`) plus Explore; used in the hero and the closing band. */
+function CtaButtons() {
+  return (
+    <div className="flex flex-wrap justify-center gap-3">
+      <Show when="signed-out">
+        <Button asChild size="lg">
+          <Link href="/signup">Sign up</Link>
+        </Button>
+      </Show>
+      <Show when="signed-in">
+        <Button asChild size="lg">
+          <Link href="/app">Go to app</Link>
+        </Button>
+      </Show>
+      <Button asChild size="lg" variant="outline">
+        <Link href="/explore">Explore collections</Link>
+      </Button>
+    </div>
   );
 }
 

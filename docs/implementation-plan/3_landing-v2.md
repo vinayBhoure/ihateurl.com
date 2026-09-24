@@ -4,7 +4,7 @@ Rebuild the landing page `/` so it shows the real product, real public collectio
 
 Depends on: `2_frontend-mvp.md` on `staging` (F4.1 landing, F4.3 public collection, F4.4 explore). Runs before `4_polish-mvp.md`, whose QA then covers the new page.
 Replaces: `2_frontend-mvp.md` FD6 and the `/` row of §5.3.
-Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted).
+Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted). L1.1–L1.4 Completed on `feature/public/landing-v2`; Q2 open.
 
 ## Table of Contents
 1. [Current Understanding](#1-current-understanding)
@@ -78,7 +78,7 @@ Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted).
 | L1 Landing | L1.1 Hero + product frame | — | Completed |
 | L1 Landing | L1.2 How it works rows | L1.1 | Completed |
 | L1 Landing | L1.3 Explore strip | L1.1 | Completed |
-| L1 Landing | L1.4 Privacy, FAQ, final CTA | L1.1 | Pending |
+| L1 Landing | L1.4 Privacy, FAQ, final CTA | L1.1 | Completed |
 
 Critical path: L1.1 → L1.2. L1.3 and L1.4 follow L1.1 in any order.
 Out of scope: Privacy/Terms pages and footer links (`4_polish-mvp.md` R2), team features, a working URL input in the hero, screenshots or images of other products, animation.
@@ -170,7 +170,7 @@ Every section: `px-4 md:px-6`, `py-16 md:py-24`; `border-t` between two sections
 |---|---|
 | Frame and crops | `inert`: not focusable, not announced. The copy next to each crop says what it shows |
 | Headings | One h1; h2 per section; h3 per How it works row |
-| FAQ | `<summary>` has the standard focus ring; opens with Enter/Space (native) |
+| FAQ | `<summary>` has the standard focus ring; opens with Enter/Space (native); `ChevronDown` flips when open, without a transition |
 | Targets | Chips and rows ≥ 44 px below 768 px (existing `Button size="sm"`, `PublicCollectionRow` `min-h-11`) |
 | 360 px | Single column; frame shows panel B only; no horizontal scroll |
 | Themes | Light and Dark; token colors only |

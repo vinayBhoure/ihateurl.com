@@ -92,7 +92,7 @@ src/
     layout.tsx, globals.css     Built: Quiet Index tokens, Geist fonts, ThemeProvider, root metadata (F1.1, F2.1)
     sitemap.ts, robots.ts       Built (F4.5; sitemap force-dynamic)
     not-found.tsx, error.tsx    Built (F2.1)
-    (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1; v2 hero, product frame, how it works, Explore strip: plan 3 L1.1–L1.3), error, /[username] (F4.2), /[username]/[slug] (F4.3), /explore (F4.4)
+    (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1; v2 hero, product frame, how it works, Explore strip, privacy, FAQ, closing CTA: plan 3 L1.1–L1.4), error, /[username] (F4.2), /[username]/[slug] (F4.3), /explore (F4.4)
     login/, signup/             Built
     app/
       onboarding/               Built (F3.1): OnboardingForm, live username check
@@ -100,7 +100,7 @@ src/
       (shell)/                  Built: layout (auth + onboarding redirect, AppHeader, noindex), loading, error, not-found, /app (collections list, F3.2), collections/[id] header + links (F3.3–F3.4), search (F3.5), settings (F3.6)
     api/health/                 Built
   components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
-  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create + edit), category-picker, collection-menu, public-link-bar, local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → link-row, collection-row, public-collection-row, save-collection-button, add-link-form, confirm-dialog, profile-form, category-settings, appearance-select, collection-links, link-edit-dialog, move-link-dialog, form-field (F3.4) → letter-tile, landing-product-frame (frame + how-it-works crops), landing-explore (plan 3 L1.1–L1.3)
+  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create + edit), category-picker, collection-menu, public-link-bar, local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → link-row, collection-row, public-collection-row, save-collection-button, add-link-form, confirm-dialog, profile-form, category-settings, appearance-select, collection-links, link-edit-dialog, move-link-dialog, form-field (F3.4) → letter-tile, landing-product-frame (frame + how-it-works crops), landing-explore, landing-faq (plan 3 L1.1–L1.4)
   hooks/                        Built: use-action-form (F1.3)
   lib/
     utils.ts                    Built
