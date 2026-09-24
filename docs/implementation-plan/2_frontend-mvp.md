@@ -64,7 +64,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | # | Risk | Mitigation |
 |---|---|---|
 | R1 | Backend schemas/actions not ready when a screen starts | Each screen task lists its backend dependency; UI shell work runs first (§3) |
-| R2 | Clerk `<SignIn>`/`<UserButton>` do not follow dark theme | F2.3 checks Clerk `appearance.variables` with CSS vars; fallback `@clerk/themes` `dark` switched by `useTheme()` |
+| R2 | Clerk `<SignIn>`/`<UserButton>` do not follow dark theme | Resolved in F2.3: `appearance.variables` take our CSS vars (`src/lib/clerk-appearance.ts`); UserButton checked in both themes. No `@clerk/themes` (moved to `@clerk/ui` in Clerk v7) |
 | R3 | Hydration mismatch from theme class | `suppressHydrationWarning` on `<html>`; `next-themes` `attribute="class"` |
 | R4 | `generateMetadata` + page double-query | Wrap public query calls in React `cache()` inside the page module |
 | R5 | `/[username]` catching static routes | Static folders win in App Router; reserved usernames (B3.3) cover the rest |
@@ -95,7 +95,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | F1 Design system | F1.4 `.claude/rules/ui.md` + `.claude/skills/ui-component` | F1.3 | — | Completed |
 | F2 Layouts | F2.1 Public layout, root metadata, not-found, error | F1.3 | B1.3 (`NEXT_PUBLIC_APP_URL`) | Completed |
 | F2 Layouts | F2.2 App shell + onboarding redirect | F1.3 | B3.1 | Completed |
-| F2 Layouts | F2.3 `/login`, `/signup` styling | F1.1 | — | Pending |
+| F2 Layouts | F2.3 `/login`, `/signup` styling | F1.1 | — | Built — awaiting owner sign-in check |
 | F3 Phase 1 | F3.1 Onboarding | F2.2 | B4.1 | Pending |
 | F3 Phase 1 | F3.2 My collections + create dialog | F2.2 | B6.1 | Pending |
 | F3 Phase 1 | F3.3 Collection detail: header, edit, visibility, categories, delete | F3.2 | B5.1, B6.1 | Pending |

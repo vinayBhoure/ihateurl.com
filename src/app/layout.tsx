@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { env } from "@/config/env";
+import { clerkAppearance } from "@/lib/clerk-appearance";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <ClerkProvider afterSignOutUrl="/">
+    <ClerkProvider afterSignOutUrl="/" appearance={clerkAppearance}>
       <html
         lang="en"
         suppressHydrationWarning
