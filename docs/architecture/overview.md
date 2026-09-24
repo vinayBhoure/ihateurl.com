@@ -106,10 +106,11 @@ src/
     validations/                Built (ping) → Planned: all MVP schemas
     url/, slug.ts, reserved-usernames.ts   Planned
   server/
-    auth/current-user.ts        Planned
+    auth/current-user.ts        Built (B3.1)
     actions/, queries/, metadata/          Planned
     controllers/, routers/, middleware/    Built (health, validate)
-    rate-limit.ts, result.ts    Planned
+    result.ts                   Built: AppError (B3.1) → Planned: ActionResult, toActionResult (B3.2)
+    rate-limit.ts               Planned
   config/                       Built: db, env, resend
   emails/templates/             Built (kept)
 ```

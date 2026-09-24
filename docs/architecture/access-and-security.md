@@ -8,7 +8,7 @@
 5. [Visibility](#5-visibility)
 6. [Threats and controls](#6-threats-and-controls)
 
-Status: Clerk auth and the admin role are **Built**; everything else is **Planned**.
+Status: Clerk auth, the admin role and the identity helpers (§3.4) are **Built**; everything else is **Planned**.
 
 ---
 
