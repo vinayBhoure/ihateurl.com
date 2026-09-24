@@ -125,7 +125,7 @@ Done: all 3 agents written as specified below.
 |---|---|---|
 | `code-reviewer` | Reviews a diff against `rules/`. Reports issues only; no edits. | Read, Grep, Glob, Bash (git diff) |
 | `security-reviewer` | Checks ownership checks, private-data leaks, SSRF guard, input validation on a diff. | Read, Grep, Glob |
-| `qa-checker` | Walks the manual QA checklist in `3_polish-mvp.md` for a given area and reports pass/fail. | Read, Bash |
+| `qa-checker` | Walks the manual QA checklist in `4_polish-mvp.md` for a given area and reports pass/fail. | Read, Bash |
 
 ### S2.6 `.claude/commands/`
 Done: `review.md` and `log-session.md` added; `generate-plan.md` and `execute-plan.md` were already in place.

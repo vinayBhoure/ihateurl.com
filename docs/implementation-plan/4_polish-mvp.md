@@ -1,8 +1,8 @@
-# 3 — Polish and Bug-Free (MVP)
+# 4 — Polish and Bug-Free (MVP)
 
 Find and fix defects across the finished MVP, then prepare it for the first production release. Testing is manual (no test framework).
 
-Depends on: `1_backend-mvp.md` and `2_frontend-mvp.md` merged to `staging`.
+Depends on: `1_backend-mvp.md`, `2_frontend-mvp.md` and `3_landing-v2.md` merged to `staging`.
 Status: **Waiting for approval.**
 
 ## Table of Contents
@@ -37,6 +37,7 @@ Status: **Waiting for approval.**
 |---|---|---|
 | Medium | Hosting target for production (Vercel, VPS, other)? | Needed for R1 env setup and to confirm the in-memory rate limit is acceptable. |
 | Low | Browsers/devices to support (default proposal: latest Chrome, Safari, Firefox; iOS Safari; Android Chrome)? | Scope of Q7. |
+| Medium | Who writes the Privacy and Terms text (owner, a template, a lawyer)? | Content for R2. Answer (2026-09-25): the owner writes it. |
 
 ---
 
@@ -53,9 +54,10 @@ Status: **Waiting for approval.**
 | Q QA | Q7 Responsive + browsers | Q6 | Pending |
 | Q QA | Q8 SEO + performance | Q3 | Pending |
 | F Fix | F1 Bug log and fixes | Q2–Q8 | Pending |
-| R Release | R1 Release checklist | F1 | Pending |
+| R Release | R1 Release checklist | F1, R2 | Pending |
+| R Release | R2 Privacy and Terms pages | Owner text | Pending |
 
-Q2–Q4 can run in parallel. F1 runs continuously as bugs are found.
+Q2–Q4 can run in parallel. F1 runs continuously as bugs are found. R2 can start any time; R1 needs its URLs.
 
 ---
 
@@ -124,11 +126,18 @@ Widths 360, 768, 1280. No horizontal scroll; tap targets ≥ 44 px. Browsers per
 - If the bug came from an AI agent's own mistake, also log it in `docs/tracking/mistakes/` (`CLAUDE.md` §1).
 
 ### R1 Release checklist
-- Clerk production instance, Google + GitHub OAuth production credentials, allowed redirect URLs.
+- Clerk production instance, Google + GitHub OAuth production credentials, allowed redirect URLs; Privacy and Terms URLs (R2) on the OAuth consent screens.
 - Production env vars: `DATABASE_URL`, Clerk keys and URLs, `NEXT_PUBLIC_APP_URL`, `RESEND_API_KEY`, `EMAIL_FROM`.
 - `npm run db:deploy` then `npm run db:seed` on production DB.
 - Smoke test on production: sign up, onboard, create, add link, publish, open public page signed out, share preview.
 - Tag `v0.1.0` on `main`.
+
+### R2 Privacy and Terms pages
+Moved here from `3_landing-v2.md` (LD5).
+- Routes `/privacy` and `/terms`: static server pages in `src/app/(public)/` (both already reserved usernames, B3.3); `max-w-3xl`; h1 + owner text; title, description, canonical.
+- Footer links `Privacy` and `Terms` in `SiteFooter`; both URLs in `sitemap.ts`.
+- Text must match the product: collections start private; what public means (profile, explore, search engines); sign-in data from Google/GitHub via Clerk; no analytics today. Price wording per `3_landing-v2.md` LD2 (no "free forever", no "no ads").
+- Validation: both pages 200 signed out; footer links on every public page; listed in `/sitemap.xml`; 360/768/1280; Light/Dark.
 
 ---
 
@@ -138,6 +147,7 @@ Widths 360, 768, 1280. No horizontal scroll; tap targets ≥ 44 px. Browsers per
 chore/qa/static-checks
 fix/<module>/<short-description>     # one per bug
 docs/qa/bug-log
+feature/public/legal-pages           # R2
 chore/release/v0.1.0
 ```
 

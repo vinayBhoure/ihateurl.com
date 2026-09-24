@@ -398,7 +398,7 @@ Merge: branch → `staging` → manual validation → `main`. Commit or push onl
 | Type | Check |
 |---|---|
 | Per task | §6 validation column + lint, types, build |
-| Flows | `3_polish-mvp.md` Q2 (Phase 1) and Q3 (Phase 2) rows mapped in §6 |
+| Flows | `4_polish-mvp.md` Q2 (Phase 1) and Q3 (Phase 2) rows mapped in §6 |
 | Edge cases | Q5: empty states, long titles/URLs truncate, non-Latin text, URL without scheme (FD4), rapid double submit, network error keeps input |
 | A1 Keyboard | Full keyboard walk: onboarding, create collection, add/edit/move/remove/reorder link, publish, copy, share, settings |
 | A2 Focus + labels | Visible focus everywhere; all inputs labelled; icon buttons named (screen reader spot check) |

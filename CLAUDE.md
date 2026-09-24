@@ -94,7 +94,7 @@ Every session that reads or changes this repo MUST write two log entries before 
 **ihateurl** lets people save URLs into collections, keep them private, and publish selected collections at `ihateurl.com/{username}/{collection-slug}`.
 Core loop: Save → Organize → Share → Maintain.
 
-**Current state:** backend MVP built (plan 1, all tasks done); frontend (plan 2) built and on `staging` (F2.3 awaits the owner's sign-in check); next: manual validation, then `main`, then plan 3.
+**Current state:** backend MVP built (plan 1, all tasks done); frontend (plan 2) built, on `staging` and `main` (F2.3 awaits the owner's sign-in check); plan 3 (landing v2) approved 2026-09-25, in progress; then plan 4 (QA, Privacy/Terms, release).
 
 ### Source of truth (read before any task)
 | Doc | Purpose |
@@ -103,7 +103,8 @@ Core loop: Save → Organize → Share → Maintain.
 | `docs/implementation-plan/0_setup-mvp.md` | Git + Claude workspace setup |
 | `docs/implementation-plan/1_backend-mvp.md` | **Locked decisions D1–D15**, proposed defaults P1–P8, schema, server actions |
 | `docs/implementation-plan/2_frontend-mvp.md` | Frontend decisions FD1–FD6, FP1–FP8, design system, screens |
-| `docs/implementation-plan/3_polish-mvp.md` | Manual QA + release checklist |
+| `docs/implementation-plan/3_landing-v2.md` | Landing page v2: decisions LD1–LD6, LP1–LP7, page spec and copy |
+| `docs/implementation-plan/4_polish-mvp.md` | Manual QA, Privacy/Terms pages, release checklist |
 
 ### Architecture reference
 | Doc | Read when |
