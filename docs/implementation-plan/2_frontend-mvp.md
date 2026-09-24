@@ -69,6 +69,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | R4 | `generateMetadata` + page double-query | Wrap public query calls in React `cache()` inside the page module |
 | R5 | `/[username]` catching static routes | Static folders win in App Router; reserved usernames (B3.3) cover the rest |
 | R6 | Hotlinked images break / slow | Fixed dimensions, lazy load, fallback icon on `onError` |
+| R8 | A route `loading.tsx` starts streaming, so `notFound()` returns 200 + `noindex` instead of 404 (Next 16 streaming contract) | Found in F4.2: `/{username}` and `/{username}/{slug}` have no `loading.tsx`, so missing and private pages return a real 404. Their only slow step is the existence query itself |
 | R7 | shadcn CLI (v4, `new-york-v4` registry) imports `cn` from the npm package `cn` and adds it as a dependency | After each `shadcn add`: rewrite `from "cn"` → `from "@/lib/utils"`, `npm uninstall cn`. Found in F1.1 |
 
 ---
@@ -103,7 +104,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | F3 Phase 1 | F3.5 Private search | F2.2 | B9.1 | Completed |
 | F3 Phase 1 | F3.6 Settings: profile, categories, theme | F2.2 | B4.2, B5.1 | Completed |
 | F4 Phase 2 | F4.1 Landing | F2.1 | — | Completed |
-| F4 Phase 2 | F4.2 Public profile | F2.1 | B10.1 | Pending |
+| F4 Phase 2 | F4.2 Public profile | F2.1 | B10.1 | Completed |
 | F4 Phase 2 | F4.3 Public collection + share + copy | F4.2, F3.4 (LinkRow) | B10.1, B11.1 | Pending |
 | F4 Phase 2 | F4.4 Explore | F2.1 | B10.1 | Pending |
 | F4 Phase 2 | F4.5 SEO: sitemap, robots, OG image, metadata pass | F4.2–F4.4 | B10.1 | Pending |
