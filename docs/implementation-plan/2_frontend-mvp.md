@@ -105,7 +105,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | F3 Phase 1 | F3.6 Settings: profile, categories, theme | F2.2 | B4.2, B5.1 | Completed |
 | F4 Phase 2 | F4.1 Landing | F2.1 | — | Completed |
 | F4 Phase 2 | F4.2 Public profile | F2.1 | B10.1 | Completed |
-| F4 Phase 2 | F4.3 Public collection + share + copy | F4.2, F3.4 (LinkRow) | B10.1, B11.1 | Pending |
+| F4 Phase 2 | F4.3 Public collection + share + copy | F4.2, F3.4 (LinkRow) | B10.1, B11.1 | Completed |
 | F4 Phase 2 | F4.4 Explore | F2.1 | B10.1 | Pending |
 | F4 Phase 2 | F4.5 SEO: sitemap, robots, OG image, metadata pass | F4.2–F4.4 | B10.1 | Pending |
 
