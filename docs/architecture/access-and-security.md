@@ -45,7 +45,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 1. Clerk owns sign-in, OAuth (Google, GitHub) and sessions. The app stores no passwords or tokens.
 2. `proxy.ts` only runs `clerkMiddleware()`. Each page, layout and action checks auth itself (`auth.protect()`, `requireOnboardedUser()`).
 3. `User.clerkId` links the DB row to Clerk. The row is created in `completeOnboarding`; the avatar URL is copied from Clerk once.
-4. Helpers: `getCurrentUser()` → `User | null`; `requireUser()` → Clerk `userId`; `requireOnboardedUser()` → `User` or `NOT_ONBOARDED`.
+4. Helpers: `getCurrentUser()` → `User | null` (memoized per request); `requireUser()` → Clerk `userId`; `requireOnboardedUser()` → `User` or `NOT_ONBOARDED` (actions); `requirePageUser()` → `User`, else redirect to `/login` or `/app/onboarding` (shell layout and pages).
 
 ---
 

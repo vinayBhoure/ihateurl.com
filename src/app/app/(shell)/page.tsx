@@ -1,53 +1,52 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { UserButton } from "@clerk/nextjs";
-import { Badge } from "@/components/ui/badge";
+import { FolderOpen } from "lucide-react";
+import { NewCollectionDialog } from "@/components/collection-form-dialog";
+import { EmptyState } from "@/components/empty-state";
+import { LocalDate } from "@/components/local-date";
+import { PageHeader } from "@/components/page-header";
+import { VisibilityBadge } from "@/components/visibility-badge";
+import { requirePageUser } from "@/server/auth/current-user";
+import { listMyCollections } from "@/server/queries/collections";
 
-export default async function AppHome() {
-  // Resource-based auth check — this IS the route protection now (Clerk
-  // deprecated gating routes centrally in proxy.ts). Redirects to /login
-  // if there's no signed-in user.
-  await auth.protect();
+export const metadata: Metadata = { title: "Collections" };
 
-  const user = await currentUser();
-  const { sessionClaims } = await auth();
-  const isAdmin = sessionClaims?.metadata?.role === "admin";
+export default async function CollectionsPage() {
+  const user = await requirePageUser();
+  const collections = await listMyCollections(user.id);
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-neutral-950 p-4 sm:p-8">
-      <div className="relative w-full max-w-xl rounded-[2rem] border border-black/5 bg-gradient-to-b from-white to-neutral-50 px-6 py-16 sm:px-12">
-        <div className="absolute right-6 top-6">
-          <UserButton />
-        </div>
+    <div className="space-y-6">
+      <PageHeader title="Collections" actions={collections.length > 0 && <NewCollectionDialog />} />
 
-        <div className="relative flex flex-col items-center gap-6 text-center">
-          <Badge
-            variant="outline"
-            className="gap-1.5 rounded-full border-neutral-200 bg-white px-3 py-1 text-neutral-600 shadow-sm"
-          >
-            <ShieldCheck className="size-3.5 text-emerald-500" />
-            Signed in
-          </Badge>
-
-          <h1 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-            Welcome, {user?.firstName ?? "there"} 👋
-          </h1>
-          <p className="max-w-sm text-neutral-500">
-            This is <code className="rounded bg-neutral-100 px-1.5 py-0.5">/app</code> — a
-            protected route. Only signed-in users reach this page.
-          </p>
-
-          {isAdmin && (
-            <Link
-              href="/app/admin"
-              className="text-sm font-medium text-violet-600 underline underline-offset-2 hover:text-violet-700"
-            >
-              Go to Admin area →
-            </Link>
-          )}
-        </div>
-      </div>
+      {collections.length === 0 ? (
+        <EmptyState
+          icon={FolderOpen}
+          title="No collections yet"
+          description="Create one to start saving links."
+          action={<NewCollectionDialog />}
+        />
+      ) : (
+        <ul className="divide-y rounded-lg border">
+          {collections.map((c) => (
+            <li key={c.id}>
+              <Link
+                href={`/app/collections/${c.id}`}
+                className="flex min-h-11 flex-col gap-1 px-4 py-3 transition-colors hover:bg-accent md:flex-row md:items-center md:gap-4"
+              >
+                <span className="min-w-0 truncate text-sm font-medium md:flex-1">{c.title}</span>
+                <span className="flex shrink-0 items-center gap-3 text-xs text-muted-foreground">
+                  <VisibilityBadge visibility={c.visibility} />
+                  <span>
+                    {c._count.items} {c._count.items === 1 ? "link" : "links"}
+                  </span>
+                  <LocalDate date={c.updatedAt} />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

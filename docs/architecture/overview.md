@@ -96,10 +96,10 @@ src/
     app/
       onboarding/               Built (F3.1): OnboardingForm, live username check
       admin/                    Built (kept)
-      (shell)/                  Built: layout (auth + onboarding redirect, AppHeader, noindex), loading, error, /app (starter until F3.2) → Planned: collections/[id], search, settings
+      (shell)/                  Built: layout (auth + onboarding redirect, AppHeader, noindex), loading, error, /app (collections list, F3.2) → Planned: collections/[id], search, settings
     api/health/                 Built
   components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
-  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, category-picker, form dialogs (F3.2–F3.4)
+  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create), local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → Planned: link-row, category-picker, form dialogs (F3.2–F3.4)
   hooks/                        Built: use-action-form (F1.3)
   lib/
     utils.ts                    Built
@@ -107,7 +107,7 @@ src/
     url/normalize.ts, slug.ts, reserved-usernames.ts   Built (B3.3)
     url/ensure-scheme.ts        Built (F1.3, FD4)
   server/
-    auth/current-user.ts        Built (B3.1)
+    auth/current-user.ts        Built (B3.1; requirePageUser + cached getCurrentUser, F3.2)
     actions/                    Built: profile.ts (B4), category.ts (B5), collection.ts (B6), link.ts (B8), copyCollection (B11)
     queries/                    Built: categories.ts (B5), collections.ts (B6), search.ts (B9), public.ts (B10)
     metadata/                   Built: fetch.ts, parse.ts (B7)

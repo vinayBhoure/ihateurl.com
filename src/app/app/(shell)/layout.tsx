@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { redirect } from "next/navigation";
-import { auth } from "@clerk/nextjs/server";
 import { AppHeader } from "@/components/app-header";
 import { SkipLink } from "@/components/skip-link";
-import { getCurrentUser } from "@/server/auth/current-user";
+import { requirePageUser } from "@/server/auth/current-user";
 
 export const metadata: Metadata = { robots: { index: false } };
 
@@ -13,9 +11,7 @@ export const metadata: Metadata = { robots: { index: false } };
  * which sits outside this group so it can't loop. Pages still check auth themselves.
  */
 export default async function ShellLayout({ children }: { children: ReactNode }) {
-  await auth.protect();
-  const user = await getCurrentUser();
-  if (!user) redirect("/app/onboarding");
+  await requirePageUser();
 
   return (
     <>
