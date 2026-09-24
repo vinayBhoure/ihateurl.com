@@ -25,13 +25,104 @@ const SAMPLE_LINKS: LinkRowData[] = [
  */
 export function ProductFrame() {
   return (
-    <div inert className="grid gap-6 md:grid-cols-2 md:items-start">
+    <div inert className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-start">
       <Panel url="ihateurl.com/app/collections/…" visibility="PRIVATE" className="hidden md:block">
         <PrivateCollection />
       </Panel>
       <Panel url="ihateurl.com/you/reading-list" visibility="PUBLIC" className="md:mt-12">
         <PublicCollection />
       </Panel>
+    </div>
+  );
+}
+
+/** How it works crops (§4.2 #4). Same decorative rules as the frame. */
+export function SaveCrop() {
+  const link = SAMPLE_LINKS[1];
+  return (
+    <CropTray>
+      <div className="flex gap-2">
+        <Input readOnly defaultValue="refactoringui.com" className="bg-background" />
+        <StaticButton className="shrink-0">Add</StaticButton>
+      </div>
+      <div className="rounded-lg border bg-background">
+        <LinkRow
+          link={link}
+          icon={<LetterTile text={link.title ?? link.url} className="mt-0.5" />}
+          footer={<p className="text-sm text-muted-foreground">A book on designing interfaces, for developers.</p>}
+        />
+      </div>
+    </CropTray>
+  );
+}
+
+export function OrganizeCrop() {
+  return (
+    <CropTray>
+      <div className="rounded-lg border bg-background">
+        <div className="flex flex-wrap items-center gap-2 border-b px-4 py-3">
+          <span className="mr-1 text-sm font-medium">Reading list</span>
+          <CategoryBadges />
+        </div>
+        <ul className="divide-y">
+          {[SAMPLE_LINKS[0], SAMPLE_LINKS[2]].map((link, index) => (
+            <li key={link.url}>
+              <LinkRow
+                link={link}
+                icon={<LetterTile text={link.title ?? link.url} className="mt-0.5" />}
+                actions={
+                  <>
+                    <StaticButton variant="ghost" size="icon">
+                      <ArrowUp />
+                    </StaticButton>
+                    <StaticButton variant="ghost" size="icon">
+                      <ArrowDown />
+                    </StaticButton>
+                  </>
+                }
+                footer={
+                  index === 0 && (
+                    <p className="text-xs text-muted-foreground">In: Reading list, Design references</p>
+                  )
+                }
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </CropTray>
+  );
+}
+
+export function ShareCrop() {
+  return (
+    <CropTray>
+      <div className="flex items-center gap-1 rounded-lg border bg-background py-1 pr-1 pl-3">
+        <span className="min-w-0 flex-1 truncate font-mono text-sm">ihateurl.com/you/reading-list</span>
+        <StaticButton variant="ghost" size="icon">
+          <Copy />
+        </StaticButton>
+        <StaticButton variant="ghost" size="icon">
+          <Share2 />
+        </StaticButton>
+      </div>
+      {/* The pasted link in a chat, with the title and description generateMetadata sets. */}
+      <div className="space-y-3 rounded-lg border bg-background p-4">
+        <p className="font-mono text-sm break-all">ihateurl.com/you/reading-list</p>
+        <div className="space-y-1 border-l-2 pl-3">
+          <p className="font-mono text-xs text-muted-foreground">ihateurl.com</p>
+          <p className="text-sm font-medium">Reading list by @you</p>
+          <p className="text-sm text-muted-foreground">4 links curated by @you</p>
+        </div>
+      </div>
+    </CropTray>
+  );
+}
+
+function CropTray({ children }: { children: ReactNode }) {
+  return (
+    <div inert className="space-y-3 rounded-lg bg-muted/60 p-4 md:p-6">
+      {children}
     </div>
   );
 }

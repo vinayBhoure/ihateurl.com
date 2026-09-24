@@ -1,17 +1,26 @@
+import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FolderOpen, Link2, Share2, type LucideIcon } from "lucide-react";
 import { Show } from "@clerk/nextjs";
-import { ProductFrame } from "@/components/landing-product-frame";
+import { OrganizeCrop, ProductFrame, SaveCrop, ShareCrop } from "@/components/landing-product-frame";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 // Title and description come from the root layout.
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-const STEPS: { icon: LucideIcon; title: string; text: string }[] = [
-  { icon: Link2, title: "Save", text: "Paste a URL. The title, description and icon are filled in for you." },
-  { icon: FolderOpen, title: "Organize", text: "Group links into collections and tag them with categories. Everything starts private." },
-  { icon: Share2, title: "Share", text: "Publish a collection at ihateurl.com/you/collection and send the link." },
+const STEPS: { title: string; text: string; crop: ReactNode }[] = [
+  { title: "Save", text: "Paste a URL. The title, description and icon are filled in for you.", crop: <SaveCrop /> },
+  {
+    title: "Organize",
+    text: "Group links into collections, tag them and put them in order. One link can live in several collections.",
+    crop: <OrganizeCrop />,
+  },
+  {
+    title: "Share",
+    text: "Make a collection public and send one link. Anyone can open it without an account.",
+    crop: <ShareCrop />,
+  },
 ];
 
 export default function LandingPage() {
@@ -57,15 +66,19 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <section aria-label="How it works" className="border-t">
-        <div className="mx-auto grid w-full max-w-5xl gap-10 px-4 py-16 md:grid-cols-3 md:gap-8 md:px-6 md:py-24">
-          {STEPS.map(({ icon: Icon, title, text }) => (
-            <div key={title} className="space-y-3">
-              <div className="flex size-10 items-center justify-center rounded-lg border">
-                <Icon aria-hidden className="size-4" />
+      <section aria-labelledby="how-heading" className="border-t">
+        <div className="mx-auto w-full max-w-5xl space-y-12 px-4 py-16 md:space-y-16 md:px-6 md:py-24">
+          <h2 id="how-heading" className="text-xl font-semibold">
+            How it works
+          </h2>
+          {/* Text and crop alternate sides from 768 px; stacked, text first, below. */}
+          {STEPS.map(({ title, text, crop }, index) => (
+            <div key={title} className="grid grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-12">
+              <div className={cn("space-y-2", index % 2 === 1 && "md:order-last")}>
+                <h3 className="font-semibold">{title}</h3>
+                <p className="text-muted-foreground">{text}</p>
               </div>
-              <h2 className="text-xl font-semibold">{title}</h2>
-              <p className="text-muted-foreground">{text}</p>
+              {crop}
             </div>
           ))}
         </div>

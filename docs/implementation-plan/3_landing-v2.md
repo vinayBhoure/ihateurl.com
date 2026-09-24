@@ -67,6 +67,7 @@ Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted).
 | Priority | # | Question | Why | Answer |
 |---|---|---|---|---|
 | High | Q1 | Audience: **A** individuals (PRD, recommended); **B** individuals now, "for teams" section later after an Unlisted visibility (PRD change); **C** teams now (new team features first, outside PRD §18) | Hero and FAQ copy; B and C change the PRD | A: individuals (2026-09-25) |
+| Medium | Q2 | `public/og.png` (FD5, every public page) still reads "Save links. Share collections." Regenerate it with the LD1 headline? | Share previews contradict the new landing | Pending (found in L1.2) |
 
 ---
 
@@ -75,7 +76,7 @@ Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted).
 | Epic | Task | Deps | Status |
 |---|---|---|---|
 | L1 Landing | L1.1 Hero + product frame | — | Completed |
-| L1 Landing | L1.2 How it works rows | L1.1 | Pending |
+| L1 Landing | L1.2 How it works rows | L1.1 | Completed |
 | L1 Landing | L1.3 Explore strip | L1.1 | Pending |
 | L1 Landing | L1.4 Privacy, FAQ, final CTA | L1.1 | Pending |
 
@@ -118,7 +119,7 @@ Every section: `px-4 md:px-6`, `py-16 md:py-24`; `border-t` between two sections
 | B (frame) | Top bar: mono `ihateurl.com/you/reading-list` + Public badge. Title; owner avatar "Y" + "you"; "4 links · Updated today"; category badges; `Save to my collections`, copy, share (static look-alike buttons; share hidden < 768 px); 4 `LinkRow`s |
 | Save crop | Add-link row + the resulting filled `LinkRow` |
 | Organize crop | Collection header with 2 category badges; 2 `LinkRow`s with up/down buttons; one row's footer "In: Reading list, Design references" |
-| Share crop | Mono public URL + `Copy link` + `Share`; preview card: `og.png` thumbnail, "Reading list by @you", "4 links curated by @you", `ihateurl.com` (matches real `generateMetadata`) |
+| Share crop | Mono public URL + copy + share; the pasted link in a chat with its preview: `ihateurl.com`, "Reading list by @you", "4 links curated by @you" (matches real `generateMetadata`). No `og.png` thumbnail: it still shows the old headline (Q2) |
 
 ### 4.3 Copy
 | Place | Text |
