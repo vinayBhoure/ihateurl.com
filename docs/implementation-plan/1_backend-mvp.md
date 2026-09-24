@@ -143,7 +143,7 @@ Integrity rules, delete behaviour and indexes: `docs/architecture/data-model.md`
 | B3 Core | B3.1 Auth helpers | B2.1 | Completed |
 | B3 Core | B3.2 Result type, errors, rate limiter | — | Completed |
 | B3 Core | B3.3 URL normalizer, slug, reserved usernames | — | Completed |
-| B3 Core | B3.4 CodeGraph setup (dev tooling) | B3.1–B3.3 merged | Deferred: do not start earlier |
+| B3 Core | B3.4 CodeGraph setup (dev tooling) | B3.1–B3.3 merged | Completed |
 | B4 Profile | B4.1 Onboarding + username | B3.* | Completed |
 | B4 Profile | B4.2 Update profile | B4.1 | Completed |
 | B5 Categories | B5.1 List / create / delete custom | B4.1 | Completed |
@@ -211,7 +211,7 @@ Parallel: B3.2, B3.3, B7.1–B7.2 can run alongside B2–B6.
 - Username schema: trim → lowercase → `^[a-z0-9_-]{3,30}$` → not reserved.
 - **Validation:** manual table of inputs/outputs in PR description (e.g. `HTTPS://Ex.com:443/a/?utm_source=x#h` → `https://ex.com/a`).
 
-### B3.4 CodeGraph setup (deferred)
+### B3.4 CodeGraph setup (done 2026-09-24: telemetry off, global CLAUDE.md section via installer + repo rule 7)
 - **Rule:** do not install or configure CodeGraph before B3.1–B3.3 are merged to `staging`. Too little code before then to benefit.
 - **Purpose:** local code index (https://github.com/colbymchenry/codegraph) so Claude Code finds symbols, callers and impact without reading files one by one. Read-only; no source changes.
 - **Owner questions before start:** telemetry off? CodeGraph section in global `~/.claude/CLAUDE.md` (recommended) or repo `CLAUDE.md`?

@@ -1,0 +1,4 @@
+{
+  "exclude": ["prisma/migrations/"],
+  "deprioritize": ["src/components/ui/"]
+}

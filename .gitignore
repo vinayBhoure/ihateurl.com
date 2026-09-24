@@ -45,3 +45,6 @@ next-env.d.ts
 
 # local Claude Code settings (per-machine, never shared)
 **/.claude/settings.local.json
+
+# CodeGraph local index
+.codegraph/

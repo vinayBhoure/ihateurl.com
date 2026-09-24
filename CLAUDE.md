@@ -70,7 +70,7 @@ Every session that reads or changes this repo MUST write two log entries before 
 4. **Stay in scope.** Build only what is inside the MVP boundary (PRD §18). Do not touch unrelated code.
 5. **Writing style.** Docs and plans are short and exact. Prefer tables. No filler or marketing words.
 6. **markdown file rule.** For every Markdown file you generate, please maintain a table of contents at the top. 
-7. **CodeGraph is deferred.** Do not install or configure CodeGraph until backend B3 is merged; setup is task B3.4 in `1_backend-mvp.md`.
+7. **CodeGraph.** Use `codegraph_explore` (MCP) or `codegraph explore "<query>"` (shell) to find code before reading files. Index is local (`.codegraph/`, gitignored); config in `codegraph.json`. It has no Next.js route awareness: use `docs/architecture/overview.md` for routes.
 8. **Architecture docs.** When a change affects layers, flows, schema, access rules, actions or terms, update the matching file in `docs/architecture/` in the same commit.
 
 ---
@@ -80,7 +80,7 @@ Every session that reads or changes this repo MUST write two log entries before 
 **ihateurl** lets people save URLs into collections, keep them private, and publish selected collections at `ihateurl.com/{username}/{collection-slug}`.
 Core loop: Save → Organize → Share → Maintain.
 
-**Current state:** starter kit only. The MVP is planned, not built.
+**Current state:** backend MVP built (plan 1, all tasks done); frontend (plan 2) awaiting approval.
 
 ### Source of truth (read before any task)
 | Doc | Purpose |
