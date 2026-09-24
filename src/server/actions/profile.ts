@@ -3,9 +3,14 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { onboardingSchema } from "@/lib/validations/onboarding";
+import { updateProfileSchema } from "@/lib/validations/profile";
 import { usernameSchema } from "@/lib/validations/username";
-import { requireUser } from "@/server/auth/current-user";
-import { createUserProfile, isUsernameTaken } from "@/server/controllers/profile.controller";
+import { requireOnboardedUser, requireUser } from "@/server/auth/current-user";
+import {
+  createUserProfile,
+  isUsernameTaken,
+  updateUserProfile,
+} from "@/server/controllers/profile.controller";
 import { AppError, ok, toActionResult, type ActionResult } from "@/server/result";
 
 export async function checkUsername(
@@ -52,6 +57,26 @@ export async function completeOnboarding(
 
     revalidatePath("/app");
     return ok({ username: user.username });
+  } catch (err) {
+    return toActionResult(err);
+  }
+}
+
+export async function updateProfile(input: unknown): Promise<ActionResult<{ username: string }>> {
+  try {
+    const user = await requireOnboardedUser();
+
+    const parsed = updateProfileSchema.safeParse(input);
+    if (!parsed.success) {
+      throw new AppError("VALIDATION", undefined, parsed.error.flatten().fieldErrors);
+    }
+
+    const updated = await updateUserProfile(user.id, parsed.data);
+
+    revalidatePath("/app/settings");
+    revalidatePath(`/${user.username}`);
+    if (updated.username !== user.username) revalidatePath(`/${updated.username}`);
+    return ok({ username: updated.username });
   } catch (err) {
     return toActionResult(err);
   }

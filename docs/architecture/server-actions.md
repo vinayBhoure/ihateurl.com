@@ -5,7 +5,7 @@
 2. [Error codes](#2-error-codes)
 3. [Actions](#3-actions)
 
-Status: contract, error codes and rate limiter **Built** (`src/server/result.ts`, `src/server/rate-limit.ts`); `checkUsername`, `completeOnboarding` **Built** (`src/server/actions/profile.ts`); other actions **Planned**. Implementation steps: `1_backend-mvp.md`; UI usage: `2_frontend-mvp.md` §5.3.
+Status: contract, error codes and rate limiter **Built** (`src/server/result.ts`, `src/server/rate-limit.ts`); `checkUsername`, `completeOnboarding`, `updateProfile` **Built** (`src/server/actions/profile.ts`); other actions **Planned**. Implementation steps: `1_backend-mvp.md`; UI usage: `2_frontend-mvp.md` §5.3.
 
 ---
 
@@ -21,6 +21,7 @@ Every action: resolve user from session → Zod parse (schema in `src/lib/valida
 
 - Signed out: `requireUser()` (Clerk `auth.protect()`) throws Next's 401 interrupt; `toActionResult` maps it to `UNAUTHORIZED`. Other Next interrupts (`redirect`, `notFound`) are rethrown, not swallowed.
 - `checkUsername` reports bad format, reserved and taken names as `{ available: false, reason }`; `VALIDATION` only for non-string input.
+- `updateProfile`: an omitted field is unchanged; an empty `displayName` or `bio` clears it.
 
 ---
 

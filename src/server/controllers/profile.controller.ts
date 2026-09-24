@@ -25,14 +25,29 @@ export async function createUserProfile(data: {
   try {
     return await prisma.user.create({ data });
   } catch (err) {
-    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
-      const target = err.meta?.target;
-      const fields = Array.isArray(target) ? target : [String(target)];
-      if (fields.includes("username")) {
-        throw new AppError("CONFLICT", USERNAME_TAKEN, { username: [USERNAME_TAKEN] });
-      }
-      throw new AppError("CONFLICT", ALREADY_ONBOARDED);
-    }
+    throwIfUniqueViolation(err, ALREADY_ONBOARDED);
     throw err;
   }
+}
+
+export async function updateUserProfile(
+  userId: string,
+  data: { username?: string; displayName?: string | null; bio?: string | null }
+): Promise<User> {
+  try {
+    return await prisma.user.update({ where: { id: userId }, data });
+  } catch (err) {
+    throwIfUniqueViolation(err, USERNAME_TAKEN);
+    throw err;
+  }
+}
+
+function throwIfUniqueViolation(err: unknown, otherFieldMessage: string): void {
+  if (!(err instanceof Prisma.PrismaClientKnownRequestError) || err.code !== "P2002") return;
+  const target = err.meta?.target;
+  const fields = Array.isArray(target) ? target : [String(target)];
+  if (fields.includes("username")) {
+    throw new AppError("CONFLICT", USERNAME_TAKEN, { username: [USERNAME_TAKEN] });
+  }
+  throw new AppError("CONFLICT", otherFieldMessage);
 }
