@@ -91,7 +91,7 @@ src/
     layout.tsx, globals.css     Built: Quiet Index tokens, Geist fonts, ThemeProvider, root metadata (F1.1, F2.1)
     sitemap.ts, robots.ts       Planned
     not-found.tsx, error.tsx    Built (F2.1)
-    (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1) , error, /[username] (F4.2), /[username]/[slug] (F4.3) → Planned: /explore
+    (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1) , error, /[username] (F4.2), /[username]/[slug] (F4.3), /explore (F4.4)
     login/, signup/             Built
     app/
       onboarding/               Built (F3.1): OnboardingForm, live username check
