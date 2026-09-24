@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -26,8 +27,8 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       >
         <body className="min-h-full flex flex-col font-sans">
           <ThemeProvider>
-            {children}
-            <Toaster position="top-center" richColors closeButton />
+            <TooltipProvider>{children}</TooltipProvider>
+            <Toaster position="top-center" closeButton />
           </ThemeProvider>
         </body>
       </html>

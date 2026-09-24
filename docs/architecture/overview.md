@@ -98,7 +98,7 @@ src/
       admin/                    Built (kept)
       (shell)/                  Planned: /app, collections/[id], search, settings
     api/health/                 Built
-  components/ui/                Built: button, input, card, badge, dropdown-menu → Planned: more shadcn (F1.2)
+  components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
   components/                   Built: theme-provider, theme-toggle (F1.1) → Planned: shared app components (F1.3)
   hooks/                        Planned: use-action-form
   lib/

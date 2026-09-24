@@ -90,7 +90,7 @@ Status: **Approved** (2026-09-24; FP1–FP8 accepted, Q1–Q5 answered in §2).
 | Epic | Task | Frontend deps | Backend deps | Status |
 |---|---|---|---|---|
 | F1 Design system | F1.1 Tokens, fonts, theme provider | — | — | Completed |
-| F1 Design system | F1.2 shadcn components + size variants | F1.1 | — | Pending |
+| F1 Design system | F1.2 shadcn components + size variants | F1.1 | — | Completed |
 | F1 Design system | F1.3 Shared UI kit + form hook | F1.2 | B3.2 (`ActionResult`) | Pending |
 | F1 Design system | F1.4 `.claude/rules/ui.md` + `.claude/skills/ui-component` | F1.3 | — | Pending |
 | F2 Layouts | F2.1 Public layout, root metadata, not-found, error | F1.3 | B1.3 (`NEXT_PUBLIC_APP_URL`) | Pending |
@@ -199,6 +199,8 @@ lucide-react only, `size-4` default, `size-3.5` in badges, `strokeWidth` default
 | Keep (retune to tokens) | `button`, `input`, `card`, `badge` |
 | Add | `label`, `textarea`, `dialog`, `alert-dialog`, `dropdown-menu` (added in F1.1 for `ThemeToggle`), `popover`, `checkbox`, `switch`, `select`, `separator`, `skeleton`, `avatar`, `tooltip`, `sheet`, `sonner` |
 | Not added | `form` (FP1), `command` (FP6), `table`, `tabs` |
+
+Retune applied to every primitive (F1.2): focus ring per §5.5; radius/shadow per §4.3 (no shadow on controls, `shadow-sm` + `rounded-lg` popovers/menus/select, `rounded-xl` dialogs/sheets); 44 px below 768 px for buttons (all sizes), inputs (16 px text, no iOS zoom), select trigger and menu/select items (FP7); destructive text uses `text-background` (dark: 6.9:1 vs 2.9:1 with white); badge `success` variant removed (unused, §4.1 limits success); `Skeleton` static on `bg-muted` (§5.5 motion); no `tw-animate-css`, so Radix enter/exit animation classes are inert. `Toaster` without `richColors` (monochrome, type icons). `TooltipProvider` at the root.
 
 ### 4.6 Shared app components (`src/components/`)
 | Component | Type | Purpose |

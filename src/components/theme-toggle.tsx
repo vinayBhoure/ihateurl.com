@@ -10,6 +10,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const THEMES = [
   { value: "light", label: "Light", icon: Sun },
@@ -23,12 +24,17 @@ export function ThemeToggle() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Theme">
-          <Sun className="dark:hidden" />
-          <Moon className="hidden dark:block" />
-        </Button>
-      </DropdownMenuTrigger>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" aria-label="Theme">
+              <Sun className="dark:hidden" />
+              <Moon className="hidden dark:block" />
+            </Button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent>Theme</TooltipContent>
+      </Tooltip>
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
           {THEMES.map(({ value, label, icon: Icon }) => (
