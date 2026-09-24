@@ -1,5 +1,5 @@
 import { Prisma, type Collection } from "@prisma/client";
-import { prisma } from "@/config/db";
+import { prisma, TX_OPTIONS } from "@/config/db";
 import { slugify } from "@/lib/slug";
 import type { UpdateCollectionInput } from "@/lib/validations/collection";
 import { assertAttachableCategories } from "@/server/controllers/category.controller";
@@ -7,8 +7,6 @@ import { AppError } from "@/server/result";
 import { uniqueSlug } from "@/server/unique-slug";
 
 const SLUG_TAKEN = "You already have a collection at that URL.";
-/** Interactive transactions make several round trips; Prisma's 5 s default is tight on a remote DB. */
-const TX_OPTIONS = { timeout: 15_000 };
 
 function isUniqueViolation(err: unknown): boolean {
   return err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002";

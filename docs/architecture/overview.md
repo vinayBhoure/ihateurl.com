@@ -107,13 +107,14 @@ src/
     url/normalize.ts, slug.ts, reserved-usernames.ts   Built (B3.3)
   server/
     auth/current-user.ts        Built (B3.1)
-    actions/                    Built: profile.ts (B4), category.ts (B5), collection.ts (B6) → Planned: other actions
+    actions/                    Built: profile.ts (B4), category.ts (B5), collection.ts (B6), link.ts (B8: createLink) → Planned: other actions
     queries/                    Built: categories.ts (B5), collections.ts (B6) → Planned: other queries
     metadata/                   Built: fetch.ts, parse.ts (B7)
-    controllers/, routers/, middleware/    Built (health, profile, category, collection, validate)
+    controllers/, routers/, middleware/    Built (health, profile, category, collection, link, validate)
     result.ts                   Built: AppError, ActionResult, toActionResult (B3.1–B3.2)
     rate-limit.ts               Built (B3.2)
     unique-slug.ts              Built (B3.3; queries DB, so not in lib/)
+    revalidate.ts               Built: revalidateCollectionPaths (B8)
   config/                       Built: db, env, resend
   emails/templates/             Built (kept)
 ```

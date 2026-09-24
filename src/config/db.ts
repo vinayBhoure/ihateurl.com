@@ -17,3 +17,6 @@ export const prisma =
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
+
+/** Interactive transactions make several round trips; Prisma's 5 s default is tight on a remote DB. */
+export const TX_OPTIONS = { timeout: 15_000 };

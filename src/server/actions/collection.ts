@@ -9,13 +9,7 @@ import {
 import { requireOnboardedUser } from "@/server/auth/current-user";
 import * as collections from "@/server/controllers/collection.controller";
 import { AppError, ok, toActionResult, type ActionResult } from "@/server/result";
-
-function revalidateCollectionPaths(username: string, id: string, slugs: string[]) {
-  revalidatePath("/app");
-  revalidatePath(`/app/collections/${id}`);
-  revalidatePath(`/${username}`);
-  for (const slug of new Set(slugs)) revalidatePath(`/${username}/${slug}`);
-}
+import { revalidateCollectionPaths } from "@/server/revalidate";
 
 export async function createCollection(
   input: unknown
