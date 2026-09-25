@@ -4,7 +4,7 @@ Rebuild the landing page `/` so it shows the real product, real public collectio
 
 Depends on: `2_frontend-mvp.md` on `staging` (F4.1 landing, F4.3 public collection, F4.4 explore). Runs before `4_polish-mvp.md`, whose QA then covers the new page.
 Replaces: `2_frontend-mvp.md` FD6 and the `/` row of §5.3.
-Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted). L1.1–L1.4 Completed on `feature/public/landing-v2`; Q2 open.
+Status: **Completed** (2026-09-25; Q1 = A, LP1–LP7 accepted, Q2 = keep `og.png` as is). L1.1–L1.4 merged to `staging` and `main`.
 
 ## Table of Contents
 1. [Current Understanding](#1-current-understanding)
@@ -27,8 +27,8 @@ Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted). L1.1–L1.4 Compl
 | Reusable UI | `LinkRow`, `VisibilityBadge`, `PublicCollectionRow`, `Avatar`, `Badge`, `Button`, `Input`; `public/og.png` (20 KB) |
 | Public data | `searchPublic({ page: 1 })`: public collections, newest update first, 20 + `hasNext`, owner and link count. `listSystemCategories()`: 10 system categories. Both filter `visibility: PUBLIC` with explicit selects |
 | Facts used in copy | New collections are PRIVATE (PRD §4). Private → 404 and absent from profile, explore, sitemap (F4.3–F4.5). Copy is PRIVATE, no sync (B11.1, PRD §5). Link edits show in every collection (F3.4). Username change breaks old URLs (D6) |
-| Sign-in | Google + GitHub via Clerk (PRD §4); F2.3 owner check still open |
-| Dev DB | 0 users, so the Explore strip stays hidden until content exists |
+| Sign-in | Google + GitHub via Clerk (PRD §4); F2.3 owner check done (2026-09-25) |
+| Dev DB | 0 users at plan start; owner has since published ≥ 3 public collections (LD4), confirmed 2026-09-25 |
 
 ### Owner decisions (2026-09-25)
 | # | Topic | Decision |
@@ -67,7 +67,7 @@ Status: **Approved** (2026-09-25; Q1 = A, LP1–LP7 accepted). L1.1–L1.4 Compl
 | Priority | # | Question | Why | Answer |
 |---|---|---|---|---|
 | High | Q1 | Audience: **A** individuals (PRD, recommended); **B** individuals now, "for teams" section later after an Unlisted visibility (PRD change); **C** teams now (new team features first, outside PRD §18) | Hero and FAQ copy; B and C change the PRD | A: individuals (2026-09-25) |
-| Medium | Q2 | `public/og.png` (FD5, every public page) still reads "Save links. Share collections." Regenerate it with the LD1 headline? | Share previews contradict the new landing | Pending (found in L1.2) |
+| Medium | Q2 | `public/og.png` (FD5, every public page) still reads "Save links. Share collections." Regenerate it with the LD1 headline? | Share previews contradict the new landing | Keep as is (2026-09-25) |
 
 ---
 
