@@ -3,7 +3,7 @@
 Upgrade Prisma ORM from 6.19.3 with no change in app behaviour. Staged: 6 → 7 (stable) first; 7 → 8 once Prisma 8 is stable.
 
 Depends on: `4_polish-mvp.md` R1 (`v0.1.0` released). Runs after the first production release.
-Status: **Draft — waiting for approval.** Research: 2026-09-25 (session `implementation-4`).
+Status: **Approved** (owner, 2026-09-25: "Yes", recommended answers to all §2 questions). Starts after plan 4 R1. Research: 2026-09-25 (session `implementation-4`).
 
 ## Table of Contents
 1. [Current Understanding](#1-current-understanding)
@@ -62,12 +62,14 @@ Source: prisma.io "Upgrade to v7" guide.
 
 ## 2. Clarification Questions
 
-| Priority | Question | Recommendation |
+Answered 2026-09-25: owner accepted every recommendation.
+
+| Priority | Question | Answer |
 |---|---|---|
 | High | Target Prisma 7.10 now (after R1), with Prisma 8 as a later plan once it is stable? | Yes. |
 | Medium | Driver adapter: `@prisma/adapter-pg` (TCP, the same pooled URL the CLI uses) or `@prisma/adapter-neon` (Neon serverless driver)? | `adapter-pg`: the guide's default for PostgreSQL; one URL for app and CLI. |
 | Medium | Generated client at `src/generated/prisma`, gitignored and rebuilt by `postinstall`? | Yes. |
-| Low | Upgrade local Node to 22 LTS? | Yes (also meets Prisma 8's floor). |
+| Low | Upgrade local Node to 22 LTS? | Yes (also meets Prisma 8's floor). Owner action in U1. |
 
 ---
 

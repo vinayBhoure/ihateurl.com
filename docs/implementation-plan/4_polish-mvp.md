@@ -35,8 +35,8 @@ Status: **Approved** (owner, 2026-09-25).
 
 | Priority | Question | Why |
 |---|---|---|
-| Medium | Hosting target for production (Vercel, VPS, other)? | Needed for R1 env setup and to confirm the in-memory rate limit is acceptable. Answer (2026-09-25): Vercel, deployed manually by the owner. Open: on Vercel each function instance keeps its own in-memory counters (P3), so limits apply per instance — owner to accept or change before R1. |
-| Low | Browsers/devices to support (default proposal: latest Chrome, Safari, Firefox; iOS Safari; Android Chrome)? | Scope of Q7. |
+| Medium | Hosting target for production (Vercel, VPS, other)? | Needed for R1 env setup and to confirm the in-memory rate limit is acceptable. Answer (2026-09-25): Vercel, deployed manually by the owner. Rate limit (owner accepted recommendation, 2026-09-25): keep D9/P3 as built (in-memory, per user; counters are per Vercel function instance) and add one Vercel WAF rate-limit rule as the cross-instance backstop (R1). No code change; D9 stays. |
+| Low | Browsers/devices to support (default proposal: latest Chrome, Safari, Firefox; iOS Safari; Android Chrome)? | Scope of Q7. Answer (owner accepted recommendation, 2026-09-25): latest stable Chrome, Edge, Firefox and Safari (macOS); Safari on the latest iOS; Chrome on the latest Android. |
 | Medium | Who writes the Privacy and Terms text (owner, a template, a lawyer)? | Content for R2. Answer (2026-09-25): the owner writes it. |
 
 ---
@@ -138,6 +138,7 @@ Widths 360, 768, 1280. No horizontal scroll; tap targets ≥ 44 px. Browsers per
 ### R1 Release checklist
 - Clerk production instance, Google + GitHub OAuth production credentials, allowed redirect URLs; Privacy and Terms URLs (R2) on the OAuth consent screens.
 - Production env vars: `DATABASE_URL`, Clerk keys and URLs, `NEXT_PUBLIC_APP_URL`, `RESEND_API_KEY`, `EMAIL_FROM`.
+- Vercel WAF (Firewall → Configure → New Rule; all plans, Hobby allows 1 rate-limit rule): If `Method` equals `POST` (every server action is a POST) → Rate Limit, Fixed Window, 60 s, 120 requests, key IP, action 429. Publish, then watch the rule in the Firewall overview after launch and tune. A 429 reaches the client as a failed action (same path as the Q5 network-error check).
 - `npm run db:deploy` then `npm run db:seed` on production DB.
 - Smoke test on production: sign up, onboard, create, add link, publish, open public page signed out, share preview.
 - Tag `v0.1.0` on `main`.

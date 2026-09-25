@@ -81,6 +81,6 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 | Tab-napping, link spam | Outbound links | `target="_blank" rel="noopener noreferrer"`; saved-URL links on public pages add `nofollow ugc` (plan 2 Q3) |
 | Viewer tracking by image hosts | Hotlinked favicons/OG images | `referrerPolicy="no-referrer"` |
 | Route squatting | `/{username}` | Reserved username list |
-| Abuse / cost | `createLink`, `copyCollection` | In-memory per-user rate limit (P3); resets per server instance |
+| Abuse / cost | `createLink`, `copyCollection`; all server actions | In-memory per-user rate limit (P3); resets per server instance. Planned backstop: Vercel WAF per-IP limit on `POST` (plan 4 R1) |
 | Error detail leak | Actions | `AppError` → safe message; unknown errors logged, generic message returned |
 | Secret exposure | Env | Only `NEXT_PUBLIC_*` reach the client; never print `.env` values |
