@@ -3,7 +3,7 @@
 Find and fix defects across the finished MVP, then prepare it for the first production release. Testing is manual (no test framework).
 
 Depends on: `1_backend-mvp.md`, `2_frontend-mvp.md` and `3_landing-v2.md` merged to `staging`.
-Status: **Waiting for approval.**
+Status: **Approved** (owner, 2026-09-25).
 
 ## Table of Contents
 1. [Current Understanding](#1-current-understanding)
@@ -35,7 +35,7 @@ Status: **Waiting for approval.**
 
 | Priority | Question | Why |
 |---|---|---|
-| Medium | Hosting target for production (Vercel, VPS, other)? | Needed for R1 env setup and to confirm the in-memory rate limit is acceptable. |
+| Medium | Hosting target for production (Vercel, VPS, other)? | Needed for R1 env setup and to confirm the in-memory rate limit is acceptable. Answer (2026-09-25): Vercel, deployed manually by the owner. Open: on Vercel each function instance keeps its own in-memory counters (P3), so limits apply per instance — owner to accept or change before R1. |
 | Low | Browsers/devices to support (default proposal: latest Chrome, Safari, Firefox; iOS Safari; Android Chrome)? | Scope of Q7. |
 | Medium | Who writes the Privacy and Terms text (owner, a template, a lawyer)? | Content for R2. Answer (2026-09-25): the owner writes it. |
 
@@ -72,7 +72,7 @@ Result (2026-09-25): lint, tsc, build → 0 errors; lint/tsc 0 warnings.
 |---|---|
 | Removed | `dotenv` (no imports; Next and Prisma load `.env` themselves); `public/` `file`, `globe`, `next`, `vercel`, `window` `.svg` (starter leftovers, no references); unused types `OnboardingInput`, `UpdateProfileInput`. |
 | Build warning | Prisma: `package.json#prisma` is removed in Prisma 7. Works on Prisma 6; move to `prisma.config.ts` with a Prisma 7 upgrade (out of MVP). |
-| `npm audit` | 3 high, one chain: `deepmerge-ts` < 8 (GHSA-ggr8-5vv4-36mx) via `prisma` → `@prisma/config`. No fix within Prisma 6. CLI/build time only: not in `@prisma/client` runtime deps or the `.next/server` bundle. Known issue. |
+| `npm audit` | Was 3 high, one chain: `deepmerge-ts` < 8 (GHSA-ggr8-5vv4-36mx) via `prisma` → `@prisma/config`; no stable Prisma (6.19.3, 7.10.0; 8 is RC) ships ≥ 8. Fixed with `overrides` `deepmerge-ts ^8.0.2` (owner, 2026-09-25): only call site is `deepmerge()` as `c12`'s merger for `prisma.config.ts`; v8 breaking changes touch `deepmergeInto` and type names only. Now 0 vulnerabilities. Remove the override when Prisma ships ≥ 8 (plan 5). |
 | Kept: `console.*` | `console.error` in `result.ts`, `health.controller.ts`, landing `loadExplore` (server error logs); `console.log` in `prisma/seed.ts` (CLI output). |
 | Kept: unused by MVP flows | Resend, `sendEmail`, welcome template (D13); `validate.ts` (B-plan: kept for route handlers); unused shadcn sub-exports (primitives kept as generated); `@radix-ui/react-slot` in `button.tsx` (ours kept, `rules/ui.md` §5). |
 
