@@ -105,6 +105,7 @@ Core loop: Save → Organize → Share → Maintain.
 | `docs/implementation-plan/2_frontend-mvp.md` | Frontend decisions FD1–FD6, FP1–FP8, design system, screens |
 | `docs/implementation-plan/3_landing-v2.md` | Landing page v2: decisions LD1–LD6, LP1–LP7, page spec and copy |
 | `docs/implementation-plan/4_polish-mvp.md` | Manual QA, Privacy/Terms pages, release checklist |
+| `docs/implementation-plan/5_prisma-upgrade.md` | Prisma 6 → 7 upgrade after release (Draft); Prisma 8 deferred |
 
 ### Architecture reference
 | Doc | Read when |
