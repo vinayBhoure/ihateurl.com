@@ -45,7 +45,7 @@ Status: **Waiting for approval.**
 
 | Epic | Task | Dependencies | Status |
 |---|---|---|---|
-| Q QA | Q1 Static checks | — | Pending |
+| Q QA | Q1 Static checks | — | Completed |
 | Q QA | Q2 Phase 1 flows | Q1 | Pending |
 | Q QA | Q3 Phase 2 flows | Q1 | Pending |
 | Q QA | Q4 Security + privacy | Q1 | Pending |
@@ -65,6 +65,16 @@ Q2–Q4 can run in parallel. F1 runs continuously as bugs are found. R2 can star
 
 ### Q1 Static checks
 `npm run lint`, `npx tsc --noEmit`, `npm run build` → zero errors, zero warnings left unexplained. Remove dead code, unused deps, `console.log`.
+
+Result (2026-09-25): lint, tsc, build → 0 errors; lint/tsc 0 warnings.
+
+| Item | Outcome |
+|---|---|
+| Removed | `dotenv` (no imports; Next and Prisma load `.env` themselves); `public/` `file`, `globe`, `next`, `vercel`, `window` `.svg` (starter leftovers, no references); unused types `OnboardingInput`, `UpdateProfileInput`. |
+| Build warning | Prisma: `package.json#prisma` is removed in Prisma 7. Works on Prisma 6; move to `prisma.config.ts` with a Prisma 7 upgrade (out of MVP). |
+| `npm audit` | 3 high, one chain: `deepmerge-ts` < 8 (GHSA-ggr8-5vv4-36mx) via `prisma` → `@prisma/config`. No fix within Prisma 6. CLI/build time only: not in `@prisma/client` runtime deps or the `.next/server` bundle. Known issue. |
+| Kept: `console.*` | `console.error` in `result.ts`, `health.controller.ts`, landing `loadExplore` (server error logs); `console.log` in `prisma/seed.ts` (CLI output). |
+| Kept: unused by MVP flows | Resend, `sendEmail`, welcome template (D13); `validate.ts` (B-plan: kept for route handlers); unused shadcn sub-exports (primitives kept as generated); `@radix-ui/react-slot` in `button.tsx` (ours kept, `rules/ui.md` §5). |
 
 ### Q2 Phase 1 flows (PRD §4)
 | # | Check |
