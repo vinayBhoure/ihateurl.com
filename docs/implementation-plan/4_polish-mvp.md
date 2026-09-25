@@ -37,7 +37,7 @@ Status: **Approved** (owner, 2026-09-25).
 |---|---|---|
 | Medium | Hosting target for production (Vercel, VPS, other)? | Needed for R1 env setup and to confirm the in-memory rate limit is acceptable. Answer (2026-09-25): Vercel, deployed manually by the owner. Rate limit (owner accepted recommendation, 2026-09-25): keep D9/P3 as built (in-memory, per user; counters are per Vercel function instance) and add one Vercel WAF rate-limit rule as the cross-instance backstop (R1). No code change; D9 stays. |
 | Low | Browsers/devices to support (default proposal: latest Chrome, Safari, Firefox; iOS Safari; Android Chrome)? | Scope of Q7. Answer (owner accepted recommendation, 2026-09-25): latest stable Chrome, Edge, Firefox and Safari (macOS); Safari on the latest iOS; Chrome on the latest Android. |
-| Medium | Who writes the Privacy and Terms text (owner, a template, a lawyer)? | Content for R2. Answer (2026-09-25): the owner writes it. |
+| Medium | Who writes the Privacy and Terms text (owner, a template, a lawyer)? | Content for R2. Answer (2026-09-25, revised): Claude drafts it from owner facts — run by Vinay Bhoure, an individual in India; Indian law; contact `bhoure21@gmail.com`; minimum age 13 (under 18 with parental consent). Vercel's Privacy Notice and Terms used as a section outline only, no text copied. Owner reviews before release. |
 
 ---
 
@@ -55,7 +55,7 @@ Status: **Approved** (owner, 2026-09-25).
 | Q QA | Q8 SEO + performance | Q3 | Pending |
 | F Fix | F1 Bug log and fixes | Q2–Q8 | In progress (`docs/qa/bugs.md`: 2 P1, 4 P2 open) |
 | R Release | R1 Release checklist | F1, R2 | Pending |
-| R Release | R2 Privacy and Terms pages | Owner text | Pending |
+| R Release | R2 Privacy and Terms pages | Owner text | Completed (text: owner review) |
 
 Q2–Q4 can run in parallel. F1 runs continuously as bugs are found. R2 can start any time; R1 needs its URLs.
 
@@ -156,6 +156,7 @@ Moved here from `3_landing-v2.md` (LD5).
 - Footer links `Privacy` and `Terms` in `SiteFooter`; both URLs in `sitemap.ts`.
 - Text must match the product: collections start private; what public means (profile, explore, search engines); sign-in data from Google/GitHub via Clerk; no analytics today. Price wording per `3_landing-v2.md` LD2 (no "free forever", no "no ads").
 - Validation: both pages 200 signed out; footer links on every public page; listed in `/sitemap.xml`; 360/768/1280; Light/Dark.
+- Result (2026-09-25): `src/app/(public)/privacy`, `src/app/(public)/terms` via shared `LegalDocument` (h1, date, contents list, numbered h2 sections). Both 200 signed out with one h1, title, description and canonical; footer `Explore · Privacy · Terms` on `/`, `/explore`, profile, collection and both legal pages (44 px targets at 360); both in `/sitemap.xml`; no horizontal overflow at 360/768/1280; Light and Dark readable; no "free forever" or "no ads". Deletion is by email request, which fits BUG-001 option A. The ₹1,000 liability cap and the 30-day deletion window are proposals for the owner to confirm.
 
 ---
 

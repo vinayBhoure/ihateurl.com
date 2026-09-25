@@ -29,6 +29,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 | Route / action | Visitor | Signed-in | Member | Admin |
 |---|---|---|---|---|
 | `/`, `/explore`, `/{username}`, `/{username}/{slug}` | ✓ public data | ✓ | ✓ | ✓ |
+| `/privacy`, `/terms` | ✓ static text, no data | ✓ | ✓ | ✓ |
 | `/login`, `/signup` | ✓ | ✓ | ✓ | ✓ |
 | `/app/onboarding` | → `/login` | ✓ | → `/app` | as member |
 | `/app`, `/app/collections/[id]`, `/app/search`, `/app/settings` | → `/login` | → `/app/onboarding` | ✓ own data | as member |

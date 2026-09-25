@@ -92,7 +92,7 @@ src/
     layout.tsx, globals.css     Built: Quiet Index tokens, Geist fonts, ThemeProvider, root metadata (F1.1, F2.1)
     sitemap.ts, robots.ts       Built (F4.5; sitemap force-dynamic)
     not-found.tsx, error.tsx    Built (F2.1)
-    (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1; v2 hero, product frame, how it works, Explore strip, privacy, FAQ, closing CTA: plan 3 L1.1–L1.4), error, /[username] (F4.2), /[username]/[slug] (F4.3), /explore (F4.4)
+    (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1; v2 hero, product frame, how it works, Explore strip, privacy, FAQ, closing CTA: plan 3 L1.1–L1.4), error, /[username] (F4.2), /[username]/[slug] (F4.3), /explore (F4.4), /privacy and /terms (static, `LegalDocument`; plan 4 R2)
     login/, signup/             Built
     app/
       onboarding/               Built (F3.1): OnboardingForm, live username check
