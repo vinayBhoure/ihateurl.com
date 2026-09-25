@@ -46,14 +46,14 @@ Status: **Approved** (owner, 2026-09-25).
 | Epic | Task | Dependencies | Status |
 |---|---|---|---|
 | Q QA | Q1 Static checks | — | Completed |
-| Q QA | Q2 Phase 1 flows | Q1 | Pending |
-| Q QA | Q3 Phase 2 flows | Q1 | Pending |
-| Q QA | Q4 Security + privacy | Q1 | Pending |
+| Q QA | Q2 Phase 1 flows | Q1 | Blocked (rows 1–2: BUG-002, owner sign-out check) |
+| Q QA | Q3 Phase 2 flows | Q1 | Completed (native share → Q7) |
+| Q QA | Q4 Security + privacy | Q1 | Completed |
 | Q QA | Q5 Edge cases | Q2, Q3 | Pending |
 | Q QA | Q6 UI consistency + accessibility | Q2, Q3 | Pending |
 | Q QA | Q7 Responsive + browsers | Q6 | Pending |
 | Q QA | Q8 SEO + performance | Q3 | Pending |
-| F Fix | F1 Bug log and fixes | Q2–Q8 | Pending |
+| F Fix | F1 Bug log and fixes | Q2–Q8 | In progress (`docs/qa/bugs.md`: 2 P1, 4 P2 open) |
 | R Release | R1 Release checklist | F1, R2 | Pending |
 | R Release | R2 Privacy and Terms pages | Owner text | Pending |
 
@@ -77,43 +77,49 @@ Result (2026-09-25): lint, tsc, build → 0 errors; lint/tsc 0 warnings.
 | Kept: unused by MVP flows | Resend, `sendEmail`, welcome template (D13); `validate.ts` (B-plan: kept for route handlers); unused shadcn sub-exports (primitives kept as generated); `@radix-ui/react-slot` in `button.tsx` (ours kept, `rules/ui.md` §5). |
 
 ### Q2 Phase 1 flows (PRD §4)
-| # | Check |
-|---|---|
-| 1 | Sign in with Google and GitHub; sign out; session persists on reload. |
-| 2 | New user lands on `/app/onboarding`; valid/invalid/reserved/taken usernames give correct messages; mixed case saved lowercase. |
-| 3 | Create collection → PRIVATE by default, slug generated, duplicate titles get `-2`. |
-| 4 | Add URL → metadata filled; unreachable URL still saved with domain; same URL in same collection blocked; in another collection reuses link. |
-| 5 | Edit link metadata → change visible in every collection containing it. |
-| 6 | Reorder, move, remove (last removal deletes link), delete link, delete collection (orphans removed). |
-| 7 | Private search finds by collection title/description, link title/domain, category; case-insensitive. |
-| 8 | Toggle visibility PRIVATE ↔ PUBLIC. |
-| 9 | Edit title, slug, description, categories; delete collection. |
-| 10 | Categories: system list visible; create/delete custom; attach several to a collection and a link. |
-| 11 | Settings: edit username, display name, bio; avatar shows Clerk image. |
+Run 2026-09-25 on local dev (Chrome, account `vinaybhoure`; `bhoure05` as second account; `QA …` test data created and deleted through the UI). Bugs: `docs/qa/bugs.md`.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Sign in with Google and GitHub; sign out; session persists on reload. | Partial. Google sign-in and session across reloads pass. GitHub fails: not enabled in Clerk (BUG-002). Sign-out: owner check. |
+| 2 | New user lands on `/app/onboarding`; valid/invalid/reserved/taken usernames give correct messages; mixed case saved lowercase. | Partial. Messages pass via Settings (same `usernameSchema` + taken check): `a!` → "Use 3–30 letters…", `explore` → "reserved", `bhoure05` → "taken"; `VinayBhoure` stored `vinaybhoure`. New-user onboarding: re-run with a fresh account after BUG-002. |
+| 3 | Create collection → PRIVATE by default, slug generated, duplicate titles get `-2`. | Pass (`qa-alpha`, `qa-alpha-2`, PRIVATE). |
+| 4 | Add URL → metadata filled; unreachable URL still saved with domain; same URL in same collection blocked; in another collection reuses link. | Pass. `example.com` title fetched; `.invalid` host saved with domain title; `https://example.com/` again → "Already in this collection", input kept; `…/?utm_source=qa#frag` in another collection reused the link (1 row, 2 collections). `http`/`https` stay distinct (D15); `example.org` → `https://` (FD4). |
+| 5 | Edit link metadata → change visible in every collection containing it. | Pass. |
+| 6 | Reorder, move, remove (last removal deletes link), delete link, delete collection (orphans removed). | Pass. Dialogs state the effect. BUG-006 (P2). |
+| 7 | Private search finds by collection title/description, link title/domain, category; case-insensitive. | Pass (`GaMmA`, description word, `EDITED`, `example.com`, collection and link category); empty state shown. |
+| 8 | Toggle visibility PRIVATE ↔ PUBLIC. | Pass both ways: public URL 200 and listed; back to private → 404, gone from profile, explore, sitemap. |
+| 9 | Edit title, slug, description, categories; delete collection. | Pass. |
+| 10 | Categories: system list visible; create/delete custom; attach several to a collection and a link. | Pass. Custom category created in the picker, deleted in Settings, removed from the link. |
+| 11 | Settings: edit username, display name, bio; avatar shows Clerk image. | Pass. BUG-003, BUG-004 (P2). |
 
 ### Q3 Phase 2 flows (PRD §5)
-| # | Check |
-|---|---|
-| 1 | `/{username}` shows avatar, name, bio, public collections only. |
-| 2 | `/{username}/{slug}` shows title, description, owner, count, last updated, links; works signed out. |
-| 3 | Links open in new tab with `rel="noopener noreferrer"`. |
-| 4 | Copy profile URL, copy collection URL, native share (mobile) work. |
-| 5 | `/explore` search + system category filter + pagination. |
-| 6 | Copy collection: signed-out prompt to sign in; signed-in copy is PRIVATE, no duplicate links, own collections cannot be copied. |
-| 7 | Publishing own collection makes it appear on profile and explore. |
+Run 2026-09-25; signed-out checks by plain HTTP (no cookies).
+
+| # | Check | Result |
+|---|---|---|
+| 1 | `/{username}` shows avatar, name, bio, public collections only. | Pass. |
+| 2 | `/{username}/{slug}` shows title, description, owner, count, last updated, links; works signed out. | Pass (200 signed out). |
+| 3 | Links open in new tab with `rel="noopener noreferrer"`. | Pass: `target="_blank" rel="noopener noreferrer nofollow ugc"`. |
+| 4 | Copy profile URL, copy collection URL, native share (mobile) work. | Partial. Both copy buttons → "Copied to clipboard". Native share: check on a phone in Q7. |
+| 5 | `/explore` search + system category filter + pagination. | Pass for search and category. Pagination: < 20 public collections, so no second page exists; `?page=999` shows the empty state. Re-check with seeded data in Q8. |
+| 6 | Copy collection: signed-out prompt to sign in; signed-in copy is PRIVATE, no duplicate links, own collections cannot be copied. | Pass. Signed out → `/login?redirect_url=…`; copy is PRIVATE; second copy (`-2`) reused the same link row; no Save button on own collection. |
+| 7 | Publishing own collection makes it appear on profile and explore. | Pass. |
 
 ### Q4 Security + privacy
 Access matrix and threat list: `docs/architecture/access-and-security.md` §2 and §6.
 
-| # | Check |
-|---|---|
-| 1 | With user B, call every server action using user A's IDs → `NOT_FOUND`, no data change. |
-| 2 | A's private collection: 404 at its URL; absent from A's profile, explore, sitemap, page source. |
-| 3 | Public queries never return `clerkId` or private fields. |
-| 4 | SSRF list from B7.1 re-run through the UI "Add URL" field. |
-| 5 | Script/HTML in title, bio, description renders as text. |
-| 6 | Rate limits trigger and show a clear message. |
-| 7 | Signed-out access to `/app/*` redirects to `/login`; `/app/admin` still role-gated. |
+Run 2026-09-25.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | With user B, call every server action using user A's IDs → `NOT_FOUND`, no data change. | Pass, 18/18. A throwaway user (created and deleted by a temporary script) called every mutating controller and the private queries with `vinaybhoure`'s QA IDs: all `NOT_FOUND`, reads empty, victim data identical before/after. All 15 actions resolve the user server-side (`require*User`); none reads a user ID from input. |
+| 2 | A's private collection: 404 at its URL; absent from A's profile, explore, sitemap, page source. | Pass. |
+| 3 | Public queries never return `clerkId` or private fields. | Pass: explicit `select`s in `public.ts`; no `clerkId` or Clerk IDs in page HTML. |
+| 4 | SSRF list from B7.1 re-run through the UI "Add URL" field. | Pass. UI: `http://localhost:3000/` and `169.254.169.254` saved without fetched metadata; `javascript:` rejected. Fetcher: loopback, private ranges, hex/decimal IPs, IPv6, mapped IPv6, non-80/443 ports and `localtest.me` (DNS → 127.0.0.1) all blocked. |
+| 5 | Script/HTML in title, bio, description renders as text. | Pass (escaped in HTML). |
+| 6 | Rate limits trigger and show a clear message. | Pass at function level: call 31 (`createLink`) and 11 (`copyCollection`) → "Too many requests. Try again in a minute."; other users unaffected. Not triggered through the UI (dev metadata fetch is too slow to reach 30/min). |
+| 7 | Signed-out access to `/app/*` redirects to `/login`; `/app/admin` still role-gated. | Pass (307 → `/login?redirect_url=…`; non-admin → `/app`). BUG-005 (P2 styling). |
 
 ### Q5 Edge cases
 Empty states (no collections, empty collection, no search results); very long titles/URLs/descriptions truncate cleanly; non-Latin text; URL without scheme (decide: reject with message or prepend `https://` — confirm with owner if not set in frontend plan); rapid double-submit; deleting a collection open in another tab; slug/username change then old URL → 404 (accepted, D6); network error during action shows toast and keeps form input.
@@ -137,6 +143,7 @@ Widths 360, 768, 1280. No horizontal scroll; tap targets ≥ 44 px. Browsers per
 
 ### R1 Release checklist
 - Clerk production instance, Google + GitHub OAuth production credentials, allowed redirect URLs; Privacy and Terms URLs (R2) on the OAuth consent screens.
+- Clerk settings (dev and production): sign-in with Google and GitHub only — password, username and email sign-in off (BUG-002); "Allow users to delete their accounts" per the BUG-001 decision.
 - Production env vars: `DATABASE_URL`, Clerk keys and URLs, `NEXT_PUBLIC_APP_URL`, `RESEND_API_KEY`, `EMAIL_FROM`.
 - Vercel WAF (Firewall → Configure → New Rule; all plans, Hobby allows 1 rate-limit rule): If `Method` equals `POST` (every server action is a POST) → Rate Limit, Fixed Window, 60 s, 120 requests, key IP, action 429. Publish, then watch the rule in the Firewall overview after launch and tune. A 429 reaches the client as a failed action (same path as the Q5 network-error check).
 - `npm run db:deploy` then `npm run db:seed` on production DB.
