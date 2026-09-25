@@ -19,8 +19,6 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 | BUG-004 | Settings | P2 | Username field keeps the typed casing after save until reload | Q2.11 | Open |
 | BUG-005 | UI | P2 | `/app/admin` uses raw palette classes (starter page kept by D13) | Q4.7 | Open |
 | BUG-006 | Links | P2 | "Move to…" lists collections by title only; duplicate titles look identical | Q2.6 | Open |
-| BUG-007 | Config | P0 | Production build reads `NEXT_PUBLIC_APP_URL` as unset, falling back to `localhost:3000` for copy/share/open URLs, metadata and sitemap | Owner production review, 2026-09-26 | Open — plan 6 C1.2 |
-| BUG-008 | Auth / onboarding | P1 | Clerk sign-up asks for a username, then `/app/onboarding` asks again (double prompt) | Owner production review, 2026-09-26 | Open — plan 6 C1.3, see BUG-002 |
 | BUG-009 | UI / dialogs | P1 | Category picker popover renders outside the dialog; dialog scroll lock blocks wheel/touch scroll of the category list | Owner production review, 2026-09-26 | Open — plan 6 C2.1 |
 | BUG-010 | UI | P2 | Public collection/profile rows show `displayName` only; two owners with the same display name are indistinguishable | Owner production review, 2026-09-26 | Open — plan 6 C2.2, see BUG-003 |
 
@@ -39,6 +37,7 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 - Expected: Google and GitHub only (CLAUDE.md key decisions).
 - Actual: social = Google only (GitHub off); email address, username and password are enabled as sign-in methods, password required.
 - Fix: Clerk dashboard (owner) — enable GitHub; turn off password, username and email sign-in (email stays as a contact attribute from OAuth). Repeat on the production instance in R1. Then re-run Q2.1.
+- Note: the username portion is fixed — see BUG-008 (plan 6 C1.3). GitHub sign-in and password/email sign-in still open.
 
 ### BUG-003 — Clerk profile fields that ihateurl ignores (P2)
 - Steps: avatar menu → Manage account → Profile.
@@ -60,18 +59,6 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 - Actual: options show titles only, so same-titled collections cannot be told apart.
 - Fix: show the slug next to the title when titles repeat.
 
-### BUG-007 — Production URLs point to localhost (P0)
-- Steps: open the production site → Copy/Share/Open a link; view page source.
-- Expected: production URLs use the production domain.
-- Actual: `src/config/env.ts` falls back to `http://localhost:3000` because `NEXT_PUBLIC_APP_URL` is not set for the Vercel production build. Affects copy/share/open URLs, `metadataBase`, canonical, OG tags, `sitemap.xml`, `robots.txt` and the metadata-fetcher User-Agent.
-- Fix: plan 6 C1.2 — set `NEXT_PUBLIC_APP_URL` in Vercel Production and redeploy; fall back to Vercel's `VERCEL_PROJECT_PRODUCTION_URL` in code, `localhost` only outside production.
-
-### BUG-008 — Username asked twice at sign-up (P1)
-- Steps: sign up with Google or GitHub.
-- Expected: username asked once.
-- Actual: Clerk's sign-up form asks for a username (Clerk username field is on), then ihateurl's own `/app/onboarding` asks again.
-- Fix: plan 6 C1.3 — turn off Clerk's Username field (dev and production instances). Duplicate of the sign-in-method half of BUG-002; related to BUG-003 (separate Clerk profile fields ihateurl ignores).
-
 ### BUG-009 — Category list doesn't scroll inside form dialogs (P1)
 - Steps: open the new-collection or link-edit dialog → open the category picker with 15+ categories → try to scroll the list.
 - Expected: the list scrolls with wheel or touch.
@@ -88,4 +75,19 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 
 ## 3. Fixed
 
-None yet.
+| ID | Area | Severity | Summary | Fixed by |
+|---|---|---|---|---|
+| BUG-007 | Config | P0 | Production build reads `NEXT_PUBLIC_APP_URL` as unset, falling back to `localhost:3000` for copy/share/open URLs, metadata and sitemap | Plan 6 C1.2, commit `7a9c1d6`; owner set `NEXT_PUBLIC_APP_URL` in Vercel Production and redeployed. Owner-confirmed fixed 2026-09-26. |
+| BUG-008 | Auth / onboarding | P1 | Clerk sign-up asks for a username, then `/app/onboarding` asks again (double prompt) | Plan 6 C1.3; owner turned off Clerk's Username field (dev and production). Owner-confirmed fixed 2026-09-26. |
+
+### BUG-007 — Production URLs point to localhost (P0) — Fixed
+- Steps: open the production site → Copy/Share/Open a link; view page source.
+- Expected: production URLs use the production domain.
+- Actual: `src/config/env.ts` fell back to `http://localhost:3000` because `NEXT_PUBLIC_APP_URL` was not set for the Vercel production build. Affected copy/share/open URLs, `metadataBase`, canonical, OG tags, `sitemap.xml`, `robots.txt` and the metadata-fetcher User-Agent.
+- Fix: plan 6 C1.2 — `env.ts` `appUrl` now resolves `NEXT_PUBLIC_APP_URL` → Vercel's `VERCEL_PROJECT_PRODUCTION_URL` → `localhost` (dev only), failing the build with a clear error if neither is set in production (commit `7a9c1d6`); owner set `NEXT_PUBLIC_APP_URL` in Vercel Production and redeployed.
+
+### BUG-008 — Username asked twice at sign-up (P1) — Fixed
+- Steps: sign up with Google or GitHub.
+- Expected: username asked once.
+- Actual: Clerk's sign-up form asked for a username (Clerk username field was on), then ihateurl's own `/app/onboarding` asked again.
+- Fix: plan 6 C1.3 — owner turned off Clerk's Username field (dev and production instances). Duplicate of the sign-in-method half of BUG-002 (GitHub sign-in and password/email sign-in there remain open); related to BUG-003 (separate Clerk profile fields ihateurl ignores).
