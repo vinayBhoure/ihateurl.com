@@ -84,7 +84,7 @@ Defaults apply only after owner confirms at G0.
 | Chunk | Task | Item | Dependencies | Status |
 |---|---|---|---|---|
 | 1 Production fixes | C1.1 Log bugs in `docs/qa/bugs.md` | #1 #3 #5 #2b | G0 | Completed |
-| 1 | C1.2 Production app URL | #3 | G0 | Pending |
+| 1 | C1.2 Production app URL | #3 | G0 | Completed (code; owner Vercel step + live check pending) |
 | 1 | C1.3 Clerk username off | #1 | G0 | Pending |
 | 2 UI fixes | C2.1 Dialog + category picker | #5 | G1 | Blocked |
 | 2 | C2.2 `@username` on rows | #2b | G1 | Blocked |
