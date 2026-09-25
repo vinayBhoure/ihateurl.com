@@ -10,5 +10,3 @@ export const onboardingSchema = z.object({
     .optional()
     .transform((value) => value || undefined),
 });
-
-export type OnboardingInput = z.infer<typeof onboardingSchema>;

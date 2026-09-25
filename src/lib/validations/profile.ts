@@ -17,5 +17,3 @@ export const updateProfileSchema = z.object({
     .optional()
     .transform((value) => (value === undefined ? undefined : value || null)),
 });
-
-export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
