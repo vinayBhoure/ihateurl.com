@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Field } from "@/components/form-field";
+import { PrefixedInput } from "@/components/prefixed-input";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,24 +38,16 @@ export function ProfileForm({
         error={fieldErrors.username?.[0]}
         hint="Changing it moves your public pages; links to the old address stop working."
       >
-        <div className="flex h-11 min-w-0 items-center rounded-md border border-input focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background md:h-9">
-          <span aria-hidden className="pl-3 font-mono text-sm text-muted-foreground">
-            ihateurl.com/u/
-          </span>
-          <Input
-            id="username"
-            name="username"
-            defaultValue={user.username}
-            required
-            maxLength={30}
-            autoComplete="off"
-            autoCapitalize="none"
-            spellCheck={false}
-            aria-invalid={fieldErrors.username ? true : undefined}
-            aria-describedby={fieldErrors.username ? "username-error username-hint" : "username-hint"}
-            className="h-full min-w-0 border-0 pl-0 font-mono focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
-        </div>
+        <PrefixedInput
+          id="username"
+          name="username"
+          prefix="ihateurl.com/u/"
+          defaultValue={user.username}
+          required
+          maxLength={30}
+          aria-invalid={fieldErrors.username ? true : undefined}
+          aria-describedby={fieldErrors.username ? "username-error username-hint" : "username-hint"}
+        />
       </Field>
 
       <Field id="displayName" label="Display name" error={fieldErrors.displayName?.[0]}>
