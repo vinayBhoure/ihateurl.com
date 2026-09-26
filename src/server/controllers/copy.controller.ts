@@ -14,7 +14,7 @@ const systemCategory = { where: { category: { userId: null } }, select: { catego
  */
 export async function copyCollection(userId: string, sourceCollectionId: string): Promise<Collection> {
   const source = await prisma.collection.findFirst({
-    where: { id: sourceCollectionId, visibility: "PUBLIC", userId: { not: userId } },
+    where: { id: sourceCollectionId, visibility: "PUBLIC", allowCopy: true, userId: { not: userId } },
     select: {
       id: true,
       title: true,

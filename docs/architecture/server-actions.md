@@ -26,7 +26,7 @@ Every action: resolve user from session → Zod parse (schema in `src/lib/valida
 - Collections: title 1–100 (no limit in PRD; default chosen), description ≤ 500 (empty clears). Renaming keeps the slug; only an explicit `slug` changes the public URL. `categoryIds` replaces the whole set.
 - `createLink`: rate limit → schema → `normalizeUrl` (its message becomes the `url` field error). `Link.url` stores the parsed input (fragment and params kept); `normalizedUrl` is the dedupe key. Metadata is fetched before, not inside, the transaction; a race on the same URL attaches the link created first.
 - Link edits: title 1–300, description ≤ 1000 (empty clears), `categoryIds` replaces the set. `moveLink` into the same collection is a no-op. Invalid ids in link actions return `NOT_FOUND`; a reorder whose `itemIds` isn't exactly the current set returns `VALIDATION`.
-- `copyCollection`: source must be another user's `PUBLIC` collection, else `NOT_FOUND` (own included). One batched transaction: copy (`PRIVATE`, `uniqueSlug` from the source slug, `sourceCollectionId`, `copiedAt`) + system categories, new links with copied metadata and system categories, items in source order. Existing links are reused unchanged.
+- `copyCollection`: source must be another user's `PUBLIC` collection with `allowCopy: true`, else `NOT_FOUND` (own included, C3.2). One batched transaction: copy (`PRIVATE`, `uniqueSlug` from the source slug, `sourceCollectionId`, `copiedAt`) + system categories, new links with copied metadata and system categories, items in source order. Existing links are reused unchanged.
 
 ---
 
@@ -55,7 +55,7 @@ Auth column: **S** = signed-in (no `User` row required), **M** = member, owner-s
 | `createCategory` | `name` 1–30 | M | `VALIDATION`, `CONFLICT` | `/app/settings`, `/app/collections/[id]` |
 | `deleteCategory` | `id` (own) | M | `NOT_FOUND` | `/app/settings`, `/app`, `/u/{username}` |
 | `createCollection` | `title`, `description?` ≤ 500 | M | `VALIDATION` | `/app` |
-| `updateCollection` | `id`, `title?`, `slug?`, `description?`, `visibility?`, `categoryIds?` ≤ 5 | M | `VALIDATION`, `NOT_FOUND`, `CONFLICT` | `/app`, `/app/collections/[id]`, `/u/{username}`, `/u/{username}/{slug}/{publicId}` (old + new slug; `publicId` never changes) |
+| `updateCollection` | `id`, `title?`, `slug?`, `description?`, `visibility?`, `allowCopy?`, `categoryIds?` ≤ 5 | M | `VALIDATION`, `NOT_FOUND`, `CONFLICT` | `/app`, `/app/collections/[id]`, `/u/{username}`, `/u/{username}/{slug}/{publicId}` (old + new slug; `publicId` never changes) |
 | `deleteCollection` | `id` | M | `NOT_FOUND` | same as `updateCollection` |
 | `createLink` | `collectionId`, `url` | M, rate limited | `VALIDATION`, `NOT_FOUND`, `CONFLICT`, `RATE_LIMITED` | collection paths |
 | `updateLink` | `id`, `title?`, `description?`, `categoryIds?` ≤ 5 | M | `VALIDATION`, `NOT_FOUND` | paths of every collection holding the link |

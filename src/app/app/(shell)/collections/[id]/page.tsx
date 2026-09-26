@@ -52,6 +52,7 @@ export default async function CollectionPage({ params }: Props) {
                   slug: collection.slug,
                   description: collection.description,
                   visibility: collection.visibility,
+                  allowCopy: collection.allowCopy,
                   categoryIds: collectionCategories.map((c) => c.id),
                 }}
               />

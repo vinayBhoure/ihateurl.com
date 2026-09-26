@@ -91,7 +91,9 @@ export default async function PublicCollectionPage({ params }: Props) {
           </div>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <SaveCollectionButton collectionId={collection.id} viewer={viewer} returnPath={path} />
+          {collection.allowCopy && (
+            <SaveCollectionButton collectionId={collection.id} viewer={viewer} returnPath={path} />
+          )}
           <CopyButton value={`${env.appUrl}${path}`} label="Copy link" />
           <ShareButton title={collection.title} url={`${env.appUrl}${path}`} />
         </div>

@@ -52,6 +52,7 @@ export async function getPublicCollectionByPublicId(publicId: string) {
       publicId: true,
       description: true,
       updatedAt: true,
+      allowCopy: true,
       user: { select: ownerSelect },
       categories: { select: categorySelect },
       _count: { select: { items: true } },

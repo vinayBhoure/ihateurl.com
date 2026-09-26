@@ -108,6 +108,7 @@ export type EditableCollection = {
   slug: string;
   description: string | null;
   visibility: "PRIVATE" | "PUBLIC";
+  allowCopy: boolean;
   categoryIds: string[];
 };
 
@@ -163,6 +164,7 @@ function EditCollectionForm({
   onSaved: () => void;
 }) {
   const [isPublic, setIsPublic] = useState(collection.visibility === "PUBLIC");
+  const [allowCopy, setAllowCopy] = useState(collection.allowCopy);
   const [categoryIds, setCategoryIds] = useState(collection.categoryIds);
   const [description, setDescription] = useState(collection.description ?? "");
 
@@ -186,6 +188,7 @@ function EditCollectionForm({
           slug: form.get("slug"),
           description,
           visibility: isPublic ? "PUBLIC" : "PRIVATE",
+          allowCopy,
           categoryIds,
         });
       }}
@@ -259,6 +262,21 @@ function EditCollectionForm({
           </p>
         </div>
         <Switch id="public" checked={isPublic} onCheckedChange={setIsPublic} aria-describedby="public-hint" />
+      </div>
+
+      <div className="flex items-center justify-between gap-4 rounded-lg border px-3 py-2">
+        <div className="space-y-0.5">
+          <Label htmlFor="allow-copy">Allow others to save a copy</Label>
+          <p id="allow-copy-hint" className="text-xs text-muted-foreground">
+            Lets other members save this collection to their own, when it&apos;s public.
+          </p>
+        </div>
+        <Switch
+          id="allow-copy"
+          checked={allowCopy}
+          onCheckedChange={setAllowCopy}
+          aria-describedby="allow-copy-hint"
+        />
       </div>
 
       <DialogFooter>

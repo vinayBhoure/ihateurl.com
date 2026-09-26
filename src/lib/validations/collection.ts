@@ -32,6 +32,7 @@ export const updateCollectionSchema = z.object({
     .optional()
     .transform((value) => (value === undefined ? undefined : value || null)),
   visibility: z.enum(["PRIVATE", "PUBLIC"]).optional(),
+  allowCopy: z.boolean().optional(),
   categoryIds: categoryIdsSchema.optional(),
 });
 
