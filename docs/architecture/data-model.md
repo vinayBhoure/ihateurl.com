@@ -7,7 +7,7 @@
 4. [Delete behaviour](#4-delete-behaviour)
 5. [Queries and indexes](#5-queries-and-indexes)
 
-Status: **Built** (migration `20260923191101_init`). Field-level schema: `prisma/schema.prisma`; plan: `docs/implementation-plan/1_backend-mvp.md` §4. Update this file with every migration.
+Status: **Built** (migration `20260923191101_init`; `Collection.publicId` added in `20260926021155_add_collection_public_id_nullable` + `20260926021656_require_unique_collection_public_id`, plan 6 C3.1). Field-level schema: `prisma/schema.prisma`; plan: `docs/implementation-plan/1_backend-mvp.md` §4. Update this file with every migration.
 
 ---
 
@@ -34,7 +34,7 @@ erDiagram
 | Model | Purpose | Key constraints |
 |---|---|---|
 | `User` | App profile tied to a Clerk account | `clerkId` unique, `username` unique |
-| `Collection` | Named, ordered list of links | `(userId, slug)` unique; `visibility` default `PRIVATE`; `sourceCollectionId` → `SetNull` |
+| `Collection` | Named, ordered list of links | `(userId, slug)` unique; `publicId` unique (6-char `[a-z0-9]`, C3.1); `visibility` default `PRIVATE`; `sourceCollectionId` → `SetNull` |
 | `Link` | One saved URL + its metadata, shared by all collections that hold it | `(userId, normalizedUrl)` unique |
 | `CollectionItem` | Places a link in a collection at a position | `(collectionId, linkId)` unique |
 | `Category` | System (`userId = null`) or custom (`userId` set) label | `(userId, slug)` unique |
@@ -57,6 +57,7 @@ Enforced in controllers unless marked DB.
 | I7 | Custom category name ≠ any system name or the user's other names (case-insensitive) | `createCategory` |
 | I8 | A `User` row exists only after onboarding; username lowercase, not reserved | `completeOnboarding`, `updateProfile` |
 | I9 | System categories are seeded, never edited or deleted by the app | `prisma/seed.ts`, `deleteCategory` (own only) |
+| I10 | Every `Collection` has a unique `publicId` (6-char `[a-z0-9]`), assigned at creation and never changed by rename or slug change | DB unique + `uniquePublicId` in `createCollection`, `copyCollection` |
 
 ---
 
@@ -78,7 +79,8 @@ Enforced in controllers unless marked DB.
 |---|---|
 | My collections | `Collection @@index([userId])` |
 | Collection items in order | `CollectionItem @@index([collectionId, position])` |
-| Public profile / collection by URL | `User.username` unique, `Collection @@unique([userId, slug])` |
+| Public profile by URL | `User.username` unique |
+| Public collection by URL | `Collection.publicId` unique (C3.1); stale `username`/`slug` in the URL redirect to the current one |
 | Duplicate URL check | `Link @@unique([userId, normalizedUrl])` |
 | Explore category filter | `CollectionCategory @@index([categoryId])`, `Collection @@index([visibility])` |
 | Search (`contains`, case-insensitive) | None: `ILIKE '%q%'` scans. Accepted for MVP; check with `EXPLAIN` in `4_polish-mvp.md` Q8. `%`, `_` and `\` in `q` are escaped (`escapeLike`) so they match literally |

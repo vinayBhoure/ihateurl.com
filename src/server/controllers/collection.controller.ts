@@ -4,6 +4,7 @@ import { slugify } from "@/lib/slug";
 import type { UpdateCollectionInput } from "@/lib/validations/collection";
 import { assertAttachableCategories } from "@/server/controllers/category.controller";
 import { AppError } from "@/server/result";
+import { uniquePublicId } from "@/server/unique-public-id";
 import { uniqueSlug } from "@/server/unique-slug";
 
 const SLUG_TAKEN = "You already have a collection at that URL.";
@@ -23,11 +24,12 @@ export async function createCollection(
   data: { title: string; description?: string }
 ): Promise<Collection> {
   const base = slugify(data.title);
-  // Retry covers a concurrent create taking the same slug between check and insert.
+  // Retry covers a concurrent create taking the same slug or publicId between check and insert.
   for (let attempt = 0; ; attempt++) {
     const slug = await uniqueSlug(userId, base);
+    const publicId = await uniquePublicId();
     try {
-      return await prisma.collection.create({ data: { userId, ...data, slug } });
+      return await prisma.collection.create({ data: { userId, ...data, slug, publicId } });
     } catch (err) {
       if (!isUniqueViolation(err) || attempt >= 2) throw err;
     }

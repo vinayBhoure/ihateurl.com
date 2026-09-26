@@ -36,6 +36,7 @@ model Collection {
   description   String?
   visibility    Visibility @default(PRIVATE)
   coverImageUrl String?
+  publicId      String     @unique
 
   sourceCollectionId String?
   source             Collection?  @relation("Copies", fields: [sourceCollectionId], references: [id], onDelete: SetNull)

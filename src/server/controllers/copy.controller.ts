@@ -1,6 +1,7 @@
 import type { Collection } from "@prisma/client";
 import { prisma, TX_OPTIONS } from "@/config/db";
 import { AppError } from "@/server/result";
+import { uniquePublicId } from "@/server/unique-public-id";
 import { uniqueSlug } from "@/server/unique-slug";
 
 const systemCategory = { where: { category: { userId: null } }, select: { categoryId: true } } as const;
@@ -53,6 +54,7 @@ export async function copyCollection(userId: string, sourceCollectionId: string)
   );
   const toCreate = sourceLinks.filter((l) => !alreadySaved.has(l.normalizedUrl));
   const slug = await uniqueSlug(userId, source.slug);
+  const publicId = await uniquePublicId();
 
   return prisma.$transaction(async (tx) => {
     const copy = await tx.collection.create({
@@ -60,6 +62,7 @@ export async function copyCollection(userId: string, sourceCollectionId: string)
         userId,
         title: source.title,
         slug,
+        publicId,
         description: source.description,
         visibility: "PRIVATE",
         sourceCollectionId: source.id,
