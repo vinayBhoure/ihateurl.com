@@ -17,7 +17,7 @@ export function PublicCollectionRow({
 }: {
   username: string;
   collection: PublicCollectionRowData;
-  owner?: { username: string; displayName: string | null };
+  owner?: { username: string };
 }) {
   return (
     <Link
@@ -27,7 +27,7 @@ export function PublicCollectionRow({
       <p className="truncate text-sm font-medium">{c.title}</p>
       {c.description && <p className="truncate text-sm text-muted-foreground">{c.description}</p>}
       <p className="flex flex-wrap gap-x-3 text-xs text-muted-foreground">
-        {owner && <span className="truncate">by {owner.displayName ?? `@${owner.username}`}</span>}
+        {owner && <span className="truncate font-mono">by @{owner.username}</span>}
         <span>
           {c._count.items} {c._count.items === 1 ? "link" : "links"}
         </span>

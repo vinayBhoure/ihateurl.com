@@ -19,8 +19,6 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 | BUG-004 | Settings | P2 | Username field keeps the typed casing after save until reload | Q2.11 | Open |
 | BUG-005 | UI | P2 | `/app/admin` uses raw palette classes (starter page kept by D13) | Q4.7 | Open |
 | BUG-006 | Links | P2 | "Move to…" lists collections by title only; duplicate titles look identical | Q2.6 | Open |
-| BUG-009 | UI / dialogs | P1 | Category picker popover renders outside the dialog; dialog scroll lock blocks wheel/touch scroll of the category list | Owner production review, 2026-09-26 | Open — plan 6 C2.1 |
-| BUG-010 | UI | P2 | Public collection/profile rows show `displayName` only; two owners with the same display name are indistinguishable | Owner production review, 2026-09-26 | Open — plan 6 C2.2, see BUG-003 |
 
 ---
 
@@ -59,18 +57,6 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 - Actual: options show titles only, so same-titled collections cannot be told apart.
 - Fix: show the slug next to the title when titles repeat.
 
-### BUG-009 — Category list doesn't scroll inside form dialogs (P1)
-- Steps: open the new-collection or link-edit dialog → open the category picker with 15+ categories → try to scroll the list.
-- Expected: the list scrolls with wheel or touch.
-- Actual: `category-picker.tsx` renders the popover in a portal outside the `Dialog`; the dialog's scroll lock blocks wheel/touch scroll inside the portaled list. Dialogs also close on any outside click, so a stray click elsewhere loses form input.
-- Fix: plan 6 C2.1 — portal the popover into the dialog content so it scrolls; ignore outside clicks on the dialog (close via ✕, Cancel or Esc only).
-
-### BUG-010 — Public rows don't show a stable identifier (P2)
-- Steps: two owners set the same display name → view their collections on `/explore` or a public profile row.
-- Expected: rows are distinguishable regardless of display name.
-- Actual: `public-collection-row.tsx` and the landing explore section show the display name; nothing reliably shows the `@username`, so same-named owners look identical.
-- Fix: plan 6 C2.2 — show `by @username` (mono) on every row; display name is never used as the identifier. Related to BUG-003 (ihateurl profile fields not synced with Clerk).
-
 ---
 
 ## 3. Fixed
@@ -79,6 +65,8 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 |---|---|---|---|---|
 | BUG-007 | Config | P0 | Production build reads `NEXT_PUBLIC_APP_URL` as unset, falling back to `localhost:3000` for copy/share/open URLs, metadata and sitemap | Plan 6 C1.2, commit `7a9c1d6`; owner set `NEXT_PUBLIC_APP_URL` in Vercel Production and redeployed. Owner-confirmed fixed 2026-09-26. |
 | BUG-008 | Auth / onboarding | P1 | Clerk sign-up asks for a username, then `/app/onboarding` asks again (double prompt) | Plan 6 C1.3; owner turned off Clerk's Username field (dev and production). Owner-confirmed fixed 2026-09-26. |
+| BUG-009 | UI / dialogs | P1 | Category picker popover renders outside the dialog; dialog scroll lock blocks wheel/touch scroll of the category list | Plan 6 C2.1, commit `8ff4de1`. Browser-verified 2026-09-26: wheel scroll works, outside click keeps dialog open, Esc still closes. |
+| BUG-010 | UI | P2 | Public collection/profile rows show `displayName` only; two owners with the same display name are indistinguishable | Plan 6 C2.2. Browser-verified 2026-09-26 on `/explore`: every row shows `by @username` (mono). |
 
 ### BUG-007 — Production URLs point to localhost (P0) — Fixed
 - Steps: open the production site → Copy/Share/Open a link; view page source.
@@ -91,3 +79,15 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 - Expected: username asked once.
 - Actual: Clerk's sign-up form asked for a username (Clerk username field was on), then ihateurl's own `/app/onboarding` asked again.
 - Fix: plan 6 C1.3 — owner turned off Clerk's Username field (dev and production instances). Duplicate of the sign-in-method half of BUG-002 (GitHub sign-in and password/email sign-in there remain open); related to BUG-003 (separate Clerk profile fields ihateurl ignores).
+
+### BUG-009 — Category list doesn't scroll inside form dialogs (P1) — Fixed
+- Steps: open the new-collection or link-edit dialog → open the category picker with 15+ categories → try to scroll the list.
+- Expected: the list scrolls with wheel or touch.
+- Actual: `category-picker.tsx` rendered the popover in a portal outside the `Dialog`; the dialog's scroll lock blocked wheel/touch scroll inside the portaled list. Dialogs also closed on any outside click, so a stray click elsewhere lost form input.
+- Fix: plan 6 C2.1 (commit `8ff4de1`) — the popover now portals into the dialog's own content node so it scrolls with it; `DialogContent` ignores outside pointer interactions by default (Esc still closes). Browser-verified: wheel-scrolled a 15+ item list in both the Edit Collection and Edit Link dialogs; a stray click outside the dialog no longer closes it; a click outside the open category popover closes only the popover.
+
+### BUG-010 — Public rows don't show a stable identifier (P2) — Fixed
+- Steps: two owners set the same display name → view their collections on `/explore` or a public profile row.
+- Expected: rows are distinguishable regardless of display name.
+- Actual: `public-collection-row.tsx` and the landing explore section showed the display name; nothing reliably showed the `@username`, so same-named owners looked identical.
+- Fix: plan 6 C2.2 — `PublicCollectionRow` now always shows `by @username` (mono); the `displayName` field was dropped from its `owner` prop entirely. Browser-verified on `/explore`. Related to BUG-003 (ihateurl profile fields not synced with Clerk) — still open.
