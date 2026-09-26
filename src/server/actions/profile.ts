@@ -4,6 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { onboardingSchema } from "@/lib/validations/onboarding";
 import { updateProfileSchema } from "@/lib/validations/profile";
+import { socialLinksSchema } from "@/lib/validations/social";
 import { usernameSchema } from "@/lib/validations/username";
 import { requireOnboardedUser, requireUser } from "@/server/auth/current-user";
 import {
@@ -11,6 +12,7 @@ import {
   isUsernameTaken,
   updateUserProfile,
 } from "@/server/controllers/profile.controller";
+import { replaceSocialLinks } from "@/server/controllers/social.controller";
 import { AppError, ok, toActionResult, type ActionResult } from "@/server/result";
 
 export async function checkUsername(
@@ -77,6 +79,26 @@ export async function updateProfile(input: unknown): Promise<ActionResult<{ user
     revalidatePath(`/u/${user.username}`);
     if (updated.username !== user.username) revalidatePath(`/u/${updated.username}`);
     return ok({ username: updated.username });
+  } catch (err) {
+    return toActionResult(err);
+  }
+}
+
+/** Plan 7: replaces the full set; empty values are dropped by the schema. */
+export async function updateSocialLinks(input: unknown): Promise<ActionResult<null>> {
+  try {
+    const user = await requireOnboardedUser();
+
+    const parsed = socialLinksSchema.safeParse(input);
+    if (!parsed.success) {
+      throw new AppError("VALIDATION", undefined, parsed.error.flatten().fieldErrors);
+    }
+
+    await replaceSocialLinks(user.id, parsed.data.links);
+
+    revalidatePath("/app/settings");
+    revalidatePath(`/u/${user.username}`);
+    return ok(null);
   } catch (err) {
     return toActionResult(err);
   }
