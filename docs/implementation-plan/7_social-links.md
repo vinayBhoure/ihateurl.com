@@ -117,7 +117,7 @@ Inside the header's text column, under the bio (aligned with name and bio), `pt-
 | S7.2 Platform config + Zod | §2.1 rules, `buildUrl` | — | Completed |
 | S7.3 Action + queries | `updateSocialLinks`; settings read; public read | S7.1, S7.2 | Completed |
 | S7.4 Reusable components | `SocialIcon`, `SocialLinks`, `PrefixedInput` | S7.2 | Completed |
-| S7.5 Settings section | `SocialLinksForm` | S7.3, S7.4 | Pending |
+| S7.5 Settings section | `SocialLinksForm` | S7.3, S7.4 | Completed |
 | S7.6 Profile row | `SocialLinks` on `/u/{username}` | S7.3, S7.4 | Pending |
 | S7.7 Docs + Privacy Notice | Keep docs true | S7.5, S7.6 | Pending |
 
