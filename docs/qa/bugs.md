@@ -40,7 +40,7 @@ Plan 4 F1. One row per defect found in Q2–Q8. Severity: **P0** blocker, **P1**
 ### BUG-003 — Clerk profile fields that ihateurl ignores (P2)
 - Steps: avatar menu → Manage account → Profile.
 - Actual: "Update username" edits Clerk's own username, separate from the ihateurl username; "Update profile" changes the Clerk name and photo, but the ihateurl avatar was copied at onboarding (D8) and does not change.
-- Fix: turning off Clerk usernames (BUG-002) removes the username row. Photo and name: accept as known issue, or copy the photo on sign-in (new behaviour — owner decision).
+- Fix: turning off Clerk usernames (BUG-002) removes the username row (done). Photo: kept in sync automatically now (plan 6 C2.4, `syncAvatarIfChanged`). Name: owner decision 2026-09-26 — keep Clerk's first/last name fields on; "Manage account" still lets a member edit a Clerk name ihateurl never reads. Accepted as a known issue.
 
 ### BUG-004 — Username casing after save (P2)
 - Steps: Settings → username `VinayBhoure` → Save profile.

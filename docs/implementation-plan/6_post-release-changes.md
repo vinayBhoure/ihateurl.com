@@ -2,7 +2,7 @@
 
 Fixes and changes from the owner's production review (2026-09-26), in three chunks.
 
-Status: **Chunk 2 done. Waiting for "Approve chunk 3" (G2).**
+Status: **Chunk 3 approved (G2 open). In progress.**
 Depends on: nothing for Chunk 1; see §2 for Chunk 3 vs plan 5.
 
 ## Table of Contents
@@ -89,10 +89,10 @@ Defaults apply only after owner confirms at G0.
 | 2 UI fixes | C2.1 Dialog + category picker | #5 | G1 | Completed |
 | 2 | C2.2 `@username` on rows | #2b | G1 | Completed |
 | 2 | C2.3 Pencil on link rows | #4 | G1 | Completed |
-| 2 | C2.4 User menu + Clerk/DB profile ownership | #7 | G1 | Completed (code + docs; owner Clerk first/last-name toggle pending) |
-| 3 Product changes | C3.1 `publicId` + `/u/` URLs | #8 | G2, Q2 | Blocked |
+| 2 | C2.4 User menu + Clerk/DB profile ownership | #7 | G1 | Completed (owner decision 2026-09-26: keep Clerk first/last name fields on, see BUG-003) |
+| 3 Product changes | C3.1 `publicId` + `/u/` URLs | #8 | G2, Q2 | Pending |
 | 3 | C3.2 Allow-copy setting | #9 | C3.1 | Blocked |
-| 3 | C3.3 Merge search into `/explore` | #6 | G2 | Blocked |
+| 3 | C3.3 Merge search into `/explore` | #6 | G2 | Pending |
 | 3 | C3.4 Search suggestions | #2a | C3.3 | Blocked |
 | 3 | C3.5 Docs update | all | C3.1–C3.4 | Blocked |
 
