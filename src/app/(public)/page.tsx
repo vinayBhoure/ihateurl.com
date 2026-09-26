@@ -6,6 +6,7 @@ import { LandingExplore } from "@/components/landing-explore";
 import { LandingFaq } from "@/components/landing-faq";
 import { OrganizeCrop, ProductFrame, SaveCrop, ShareCrop } from "@/components/landing-product-frame";
 import { Button } from "@/components/ui/button";
+import { UserBadgeScript } from "@/components/user-badge-script";
 import { cn } from "@/lib/utils";
 import { listSystemCategories, searchPublic } from "@/server/queries/public";
 
@@ -51,6 +52,7 @@ export default async function LandingPage() {
 
   return (
     <>
+      <UserBadgeScript />
       <section className="mx-auto w-full max-w-5xl px-4 pt-16 md:px-6 md:pt-24">
         <div className="mx-auto max-w-2xl space-y-6 text-center">
           <h1 className="text-4xl font-semibold tracking-[-0.025em] text-balance md:text-5xl">

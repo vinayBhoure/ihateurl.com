@@ -5,6 +5,7 @@ import { EmptyState } from "@/components/empty-state";
 import { ExploreSearchForm } from "@/components/explore-search-form";
 import { PublicCollectionRow } from "@/components/public-collection-row";
 import { Button } from "@/components/ui/button";
+import { UserBadgeScript } from "@/components/user-badge-script";
 import { listSystemCategories, searchPublic } from "@/server/queries/public";
 
 const DESCRIPTION = "Browse public link collections shared on ihateurl.";
@@ -45,6 +46,7 @@ export default async function ExplorePage({ searchParams }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-12 md:px-6">
+      <UserBadgeScript />
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold tracking-[-0.015em]">Explore</h1>
         <ExploreSearchForm defaultValue={q} category={category} />
