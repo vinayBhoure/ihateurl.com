@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import Form from "next/form";
 import Link from "next/link";
-import { Compass, Search } from "lucide-react";
+import { Compass } from "lucide-react";
 import { EmptyState } from "@/components/empty-state";
+import { ExploreSearchForm } from "@/components/explore-search-form";
 import { PublicCollectionRow } from "@/components/public-collection-row";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { listSystemCategories, searchPublic } from "@/server/queries/public";
 
 const DESCRIPTION = "Browse public link collections shared on ihateurl.";
@@ -48,27 +47,7 @@ export default async function ExplorePage({ searchParams }: Props) {
     <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-12 md:px-6">
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold tracking-[-0.015em]">Explore</h1>
-        <Form action="/explore" role="search" className="flex max-w-xl gap-2">
-          {category && <input type="hidden" name="category" value={category} />}
-          <div className="relative flex-1">
-            <Search
-              aria-hidden
-              className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
-            />
-            <Input
-              type="search"
-              name="q"
-              defaultValue={q}
-              maxLength={100}
-              placeholder="Search public collections"
-              aria-label="Search public collections"
-              className="pl-9"
-            />
-          </div>
-          <Button type="submit" variant="outline">
-            Search
-          </Button>
-        </Form>
+        <ExploreSearchForm defaultValue={q} category={category} />
       </div>
 
       <nav aria-label="Categories" className="flex flex-wrap gap-2">

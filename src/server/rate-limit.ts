@@ -4,6 +4,7 @@ import { AppError } from "@/server/result";
 export const RATE_LIMITS = {
   createLink: { limit: 30, windowMs: 60_000 },
   copyCollection: { limit: 10, windowMs: 60_000 },
+  exploreSuggest: { limit: 20, windowMs: 60_000 },
 } as const;
 
 const hits = new Map<string, number[]>();

@@ -128,6 +128,41 @@ export async function searchPublic({
   };
 }
 
+export type PublicSuggestion = { title: string; username: string; url: string };
+
+const SUGGEST_MIN_CHARS = 2;
+const SUGGEST_LIMIT = 5;
+
+/** C3.4: top 5 public collections matching `q`, for /explore's suggestion dropdown. */
+export async function suggestPublic(q: string): Promise<PublicSuggestion[]> {
+  const trimmed = q.trim();
+  if (trimmed.length < SUGGEST_MIN_CHARS) return [];
+  const parsedQ = searchQuerySchema.safeParse(trimmed);
+  if (!parsedQ.success) return [];
+
+  const match = { contains: escapeLike(parsedQ.data), mode: "insensitive" as const };
+  const rows = await prisma.collection.findMany({
+    where: {
+      visibility: "PUBLIC",
+      OR: [
+        { title: match },
+        { description: match },
+        { items: { some: { link: { OR: [{ title: match }, { domain: match }] } } } },
+        { categories: { some: { category: { name: match } } } },
+      ],
+    },
+    select: { title: true, slug: true, publicId: true, user: { select: { username: true } } },
+    orderBy: { updatedAt: "desc" },
+    take: SUGGEST_LIMIT,
+  });
+
+  return rows.map((r) => ({
+    title: r.title,
+    username: r.user.username,
+    url: `/u/${r.user.username}/${r.slug}/${r.publicId}`,
+  }));
+}
+
 /** P7: explore filter lists system categories only. */
 export async function listSystemCategories() {
   return prisma.category.findMany({

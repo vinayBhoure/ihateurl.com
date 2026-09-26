@@ -92,9 +92,9 @@ Defaults apply only after owner confirms at G0.
 | 2 | C2.4 User menu + Clerk/DB profile ownership | #7 | G1 | Completed (owner decision 2026-09-26: keep Clerk first/last name fields on, see BUG-003) |
 | 3 Product changes | C3.1 `publicId` + `/u/` URLs | #8 | G2, Q2 | Completed |
 | 3 | C3.2 Allow-copy setting | #9 | C3.1 | Completed |
-| 3 | C3.3 Merge search into `/explore` | #6 | G2 | Pending |
-| 3 | C3.4 Search suggestions | #2a | C3.3 | Blocked |
-| 3 | C3.5 Docs update | all | C3.1–C3.4 | Blocked |
+| 3 | C3.3 Merge search into `/explore` | #6 | G2 | Skipped (owner decision 2026-09-26: keep `/app/search` and `/explore` separate; C3.4 scoped to public suggestions only) |
+| 3 | C3.4 Search suggestions | #2a | C3.3 | Completed (public `/explore` suggestions only, no `scope=mine` — see C3.3) |
+| 3 | C3.5 Docs update | all | C3.1–C3.4 | Pending |
 
 Parallel inside a chunk: C1.2 ∥ C1.3; C2.1–C2.4 independent; C3.1 ∥ C3.3.
 
