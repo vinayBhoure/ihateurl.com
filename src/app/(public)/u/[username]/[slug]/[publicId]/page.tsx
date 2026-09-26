@@ -3,7 +3,7 @@ import { cache } from "react";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
-import { Link2 } from "lucide-react";
+import { ArrowLeft, Link2 } from "lucide-react";
 import { CopyButton } from "@/components/copy-button";
 import { EmptyState } from "@/components/empty-state";
 import { LinkRow } from "@/components/link-row";
@@ -16,7 +16,10 @@ import { env } from "@/config/env";
 import { getCurrentUser } from "@/server/auth/current-user";
 import { getPublicCollectionByPublicId } from "@/server/queries/public";
 
-type Props = { params: Promise<{ username: string; slug: string; publicId: string }> };
+type Props = {
+  params: Promise<{ username: string; slug: string; publicId: string }>;
+  searchParams: Promise<{ from?: string | string[] }>;
+};
 
 // One query for generateMetadata and the page (R4). `null` for missing and private alike.
 const loadCollection = cache((publicId: string) => getPublicCollectionByPublicId(publicId));
@@ -43,8 +46,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function PublicCollectionPage({ params }: Props) {
+export default async function PublicCollectionPage({ params, searchParams }: Props) {
   const { username, slug, publicId } = await params;
+  const { from } = await searchParams;
   const collection = await loadCollection(publicId);
   if (!collection) notFound();
 
@@ -58,11 +62,22 @@ export default async function PublicCollectionPage({ params }: Props) {
   const ownerName = owner.displayName ?? owner.username;
   const path = `/u/${owner.username}/${collection.slug}/${collection.publicId}`;
   const count = collection._count.items;
+  // Back link: the owner's profile when opened from it (`?from=profile`), otherwise Explore
+  // (explore, landing, direct and shared links).
+  const fromProfile = (Array.isArray(from) ? from[0] : from) === "profile";
+  const back = fromProfile ? `/u/${owner.username}` : "/explore";
   const viewer = await getViewer(owner.username);
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12 md:px-6">
       <header className="space-y-4">
+        <Link
+          href={back}
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-sm text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none md:min-h-0"
+        >
+          <ArrowLeft aria-hidden className="size-4" />
+          Back to collections
+        </Link>
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold tracking-[-0.015em] break-words">{collection.title}</h1>
           {collection.description && (

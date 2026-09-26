@@ -10,19 +10,24 @@ export type PublicCollectionRowData = {
   _count: { items: number };
 };
 
-/** A public collection in a list (profile, explore). `owner` adds "by …" for explore. */
+/**
+ * A public collection in a list (profile, explore). `owner` adds "by …" for explore.
+ * `from="profile"` makes the collection page's back link return to the profile.
+ */
 export function PublicCollectionRow({
   username,
   collection: c,
   owner,
+  from,
 }: {
   username: string;
   collection: PublicCollectionRowData;
   owner?: { username: string };
+  from?: "profile";
 }) {
   return (
     <Link
-      href={`/u/${username}/${c.slug}/${c.publicId}`}
+      href={`/u/${username}/${c.slug}/${c.publicId}${from ? `?from=${from}` : ""}`}
       className="block min-h-11 space-y-1 px-4 py-3 transition-colors hover:bg-accent"
     >
       <p className="truncate text-sm font-medium">{c.title}</p>

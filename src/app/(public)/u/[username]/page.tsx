@@ -66,7 +66,7 @@ export default async function ProfilePage({ params }: Props) {
           <ul className="divide-y rounded-lg border">
             {profile.collections.map((c) => (
               <li key={c.slug}>
-                <PublicCollectionRow username={profile.username} collection={c} />
+                <PublicCollectionRow username={profile.username} collection={c} from="profile" />
               </li>
             ))}
           </ul>
