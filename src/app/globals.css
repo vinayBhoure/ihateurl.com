@@ -24,6 +24,17 @@
   --border: color-mix(in oklab, #000 10%, transparent);
   --input: color-mix(in oklab, #000 10%, transparent);
   --ring: oklch(0.552 0.016 285.938);
+  /* Plan 8 E1: collection icon block only (purple, green, blue, amber, rose). Soft tint + strong hue. */
+  --tile-1: oklch(0.946 0.033 307.174);
+  --tile-1-foreground: oklch(0.496 0.265 301.924);
+  --tile-2: oklch(0.962 0.044 156.743);
+  --tile-2-foreground: oklch(0.527 0.154 150.069);
+  --tile-3: oklch(0.932 0.032 255.585);
+  --tile-3-foreground: oklch(0.488 0.243 264.376);
+  --tile-4: oklch(0.962 0.059 95.617);
+  --tile-4-foreground: oklch(0.555 0.163 48.998);
+  --tile-5: oklch(0.941 0.03 12.58);
+  --tile-5-foreground: oklch(0.514 0.222 16.935);
 }
 
 .dark {
@@ -46,6 +57,17 @@
   --border: color-mix(in oklab, #fff 10%, transparent);
   --input: color-mix(in oklab, #fff 15%, transparent);
   --ring: oklch(0.552 0.016 285.938);
+  /* Deep tint + light hue. */
+  --tile-1: oklch(0.291 0.149 302.717);
+  --tile-1-foreground: oklch(0.827 0.119 306.383);
+  --tile-2: oklch(0.266 0.065 152.934);
+  --tile-2-foreground: oklch(0.871 0.15 154.449);
+  --tile-3: oklch(0.282 0.091 267.935);
+  --tile-3-foreground: oklch(0.809 0.105 251.813);
+  --tile-4: oklch(0.279 0.077 45.635);
+  --tile-4-foreground: oklch(0.879 0.169 91.605);
+  --tile-5: oklch(0.271 0.105 12.094);
+  --tile-5-foreground: oklch(0.81 0.117 11.638);
 }
 
 @theme inline {
@@ -68,6 +90,16 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-tile-1: var(--tile-1);
+  --color-tile-1-foreground: var(--tile-1-foreground);
+  --color-tile-2: var(--tile-2);
+  --color-tile-2-foreground: var(--tile-2-foreground);
+  --color-tile-3: var(--tile-3);
+  --color-tile-3-foreground: var(--tile-3-foreground);
+  --color-tile-4: var(--tile-4);
+  --color-tile-4-foreground: var(--tile-4-foreground);
+  --color-tile-5: var(--tile-5);
+  --color-tile-5-foreground: var(--tile-5-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --radius-sm: calc(var(--radius) - 4px);

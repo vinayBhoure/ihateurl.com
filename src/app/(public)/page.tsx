@@ -6,8 +6,10 @@ import { LandingExplore } from "@/components/landing-explore";
 import { LandingFaq } from "@/components/landing-faq";
 import { OrganizeCrop, ProductFrame, SaveCrop, ShareCrop } from "@/components/landing-product-frame";
 import { Button } from "@/components/ui/button";
-import { UserBadgeScript } from "@/components/user-badge-script";
+import { UserBadge } from "@/components/user-badge";
 import { cn } from "@/lib/utils";
+import { getViewer } from "@/server/auth/current-user";
+import { listSavedSourceIds } from "@/server/queries/collections";
 import { listSystemCategories, searchPublic } from "@/server/queries/public";
 
 // Title and description come from the root layout.
@@ -52,7 +54,7 @@ export default async function LandingPage() {
 
   return (
     <>
-      <UserBadgeScript />
+      <UserBadge />
       <section className="mx-auto w-full max-w-5xl px-4 pt-16 md:px-6 md:pt-24">
         <div className="mx-auto max-w-2xl space-y-6 text-center">
           <h1 className="text-4xl font-semibold tracking-[-0.025em] text-balance md:text-5xl">
@@ -97,7 +99,7 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {explore && <LandingExplore categories={explore.categories} collections={explore.collections} />}
+      {explore && <LandingExplore {...explore} />}
 
       <section aria-labelledby="privacy-heading" className="border-t">
         <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-16 md:px-6 md:py-24">
@@ -160,11 +162,22 @@ function CtaButtons() {
 /**
  * System categories and the newest public collections, or `null` when there are fewer than
  * EXPLORE_MIN. A failed query also returns `null`: the landing page must render without the DB.
+ * Plan 8: plus the viewer and which of the shown collections they already saved (card bookmarks).
  */
 async function loadExplore() {
   try {
-    const [categories, { results }] = await Promise.all([listSystemCategories(), searchPublic({ page: 1 })]);
-    return results.length >= EXPLORE_MIN ? { categories, collections: results.slice(0, EXPLORE_SHOW) } : null;
+    const [categories, { results }, viewer] = await Promise.all([
+      listSystemCategories(),
+      searchPublic({ page: 1 }),
+      getViewer(),
+    ]);
+    if (results.length < EXPLORE_MIN) return null;
+    const collections = results.slice(0, EXPLORE_SHOW);
+    const savedIds =
+      viewer.status === "member"
+        ? await listSavedSourceIds(viewer.userId, collections.map((c) => c.id))
+        : new Set<string>();
+    return { categories, collections, viewer, savedIds };
   } catch (error) {
     console.error("[landing] explore strip failed", error);
     return null;

@@ -2,13 +2,15 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import { notFound } from "next/navigation";
 import { FolderOpen } from "lucide-react";
+import { CollectionCard } from "@/components/collection-card";
 import { CopyButton } from "@/components/copy-button";
 import { EmptyState } from "@/components/empty-state";
-import { PublicCollectionRow } from "@/components/public-collection-row";
 import { ShareButton } from "@/components/share-button";
 import { SocialLinks } from "@/components/social-links";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { env } from "@/config/env";
+import { getViewer } from "@/server/auth/current-user";
+import { listSavedSourceIds } from "@/server/queries/collections";
 import { getPublicProfile } from "@/server/queries/public";
 
 type Props = { params: Promise<{ username: string }> };
@@ -37,7 +39,13 @@ export default async function ProfilePage({ params }: Props) {
   if (!profile) notFound();
 
   const name = profile.displayName ?? profile.username;
-  const url = `${env.appUrl}/u/${profile.username}`;
+  const path = `/u/${profile.username}`;
+  const url = `${env.appUrl}${path}`;
+  const viewer = await getViewer();
+  const savedIds =
+    viewer.status === "member"
+      ? await listSavedSourceIds(viewer.userId, profile.collections.map((c) => c.id))
+      : new Set<string>();
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12 md:px-6">
@@ -70,10 +78,18 @@ export default async function ProfilePage({ params }: Props) {
         {profile.collections.length === 0 ? (
           <EmptyState icon={FolderOpen} title="No public collections yet." />
         ) : (
-          <ul className="divide-y rounded-lg border">
+          <ul className="grid gap-4 md:grid-cols-2">
             {profile.collections.map((c) => (
-              <li key={c.slug}>
-                <PublicCollectionRow username={profile.username} collection={c} from="profile" />
+              <li key={c.id}>
+                <CollectionCard
+                  collection={c}
+                  owner={profile}
+                  showOwner={false}
+                  viewer={viewer}
+                  saved={savedIds.has(c.id)}
+                  returnPath={path}
+                  from="profile"
+                />
               </li>
             ))}
           </ul>

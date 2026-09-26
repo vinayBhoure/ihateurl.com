@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/config/db";
 import { buildUrl } from "@/lib/social-platforms";
 import { escapeLike, searchQuerySchema } from "@/lib/validations/search";
@@ -15,6 +16,36 @@ const ownerSelect = {
 
 const categorySelect = { category: { select: { name: true, slug: true } } } as const;
 
+const CARD_FAVICONS = 3;
+
+/**
+ * Plan 8 E2: what a `CollectionCard` needs. The first 3 links (by position) for the favicon row,
+ * and only the first system category by name for the tile icon (custom categories never leave).
+ */
+const cardSelect = {
+  id: true,
+  title: true,
+  slug: true,
+  publicId: true,
+  description: true,
+  updatedAt: true,
+  allowCopy: true,
+  _count: { select: { items: true } },
+  items: {
+    orderBy: { position: "asc" },
+    take: CARD_FAVICONS,
+    select: { id: true, link: { select: { faviconUrl: true, domain: true } } },
+  },
+  categories: {
+    where: { category: { userId: null } },
+    orderBy: { category: { name: "asc" } },
+    take: 1,
+    select: { category: { select: { name: true } } },
+  },
+} as const;
+
+export type PublicCollectionCardData = Prisma.CollectionGetPayload<{ select: typeof cardSelect }>;
+
 /**
  * `null` only when the user doesn't exist; a user without public collections gets an empty list.
  * Social links come back as built URLs only (plan 7), never the raw stored value.
@@ -28,14 +59,7 @@ export async function getPublicProfile(username: string) {
       socialLinks: { select: { platform: true, value: true }, orderBy: { position: "asc" } },
       collections: {
         where: { visibility: "PUBLIC" },
-        select: {
-          title: true,
-          slug: true,
-          publicId: true,
-          description: true,
-          updatedAt: true,
-          _count: { select: { items: true } },
-        },
+        select: cardSelect,
         orderBy: { updatedAt: "desc" },
       },
     },
@@ -122,15 +146,7 @@ export async function searchPublic({
         ],
       }),
     },
-    select: {
-      title: true,
-      slug: true,
-      publicId: true,
-      description: true,
-      updatedAt: true,
-      user: { select: ownerSelect },
-      _count: { select: { items: true } },
-    },
+    select: { ...cardSelect, user: { select: ownerSelect } },
     orderBy: { updatedAt: "desc" },
     skip: (currentPage - 1) * PAGE_SIZE,
     take: PAGE_SIZE + 1,
