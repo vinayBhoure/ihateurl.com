@@ -1,10 +1,14 @@
 import Link from "next/link";
-import { Show, UserButton } from "@clerk/nextjs";
+import { Show } from "@clerk/nextjs";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { UserMenu } from "@/components/user-menu";
 import { Wordmark } from "@/components/wordmark";
+import { getCurrentUser } from "@/server/auth/current-user";
 
-export function PublicHeader() {
+export async function PublicHeader() {
+  const user = await getCurrentUser();
+
   return (
     <header className="border-b">
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-4 md:gap-4 md:px-6">
@@ -28,7 +32,7 @@ export function PublicHeader() {
             <Button asChild variant="ghost" size="sm">
               <Link href="/app">Go to app</Link>
             </Button>
-            <UserButton />
+            <UserMenu username={user?.username} />
           </Show>
         </div>
       </div>

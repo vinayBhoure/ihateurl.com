@@ -42,6 +42,11 @@ export async function updateUserProfile(
   }
 }
 
+/** C2.4: keeps the DB avatar in sync with Clerk's photo. Not user-facing, so no unique-violation handling needed. */
+export async function syncAvatarUrl(userId: string, avatarUrl: string): Promise<void> {
+  await prisma.user.update({ where: { id: userId }, data: { avatarUrl } });
+}
+
 function throwIfUniqueViolation(err: unknown, otherFieldMessage: string): void {
   if (!(err instanceof Prisma.PrismaClientKnownRequestError) || err.code !== "P2002") return;
   const target = err.meta?.target;

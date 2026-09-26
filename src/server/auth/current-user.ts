@@ -1,8 +1,9 @@
 import { cache } from "react";
 import { redirect } from "next/navigation";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import type { User } from "@prisma/client";
 import { prisma } from "@/config/db";
+import { syncAvatarUrl } from "@/server/controllers/profile.controller";
 import { AppError } from "@/server/result";
 
 /** Memoized per request, so the shell layout and its page share one query. */
@@ -31,4 +32,12 @@ export async function requireOnboardedUser(): Promise<User> {
   const user = await prisma.user.findUnique({ where: { clerkId } });
   if (!user) throw new AppError("NOT_ONBOARDED");
   return user;
+}
+
+/** C2.4, shell layout only: Clerk owns the photo, so pull it in when it's changed there. */
+export async function syncAvatarIfChanged(user: User): Promise<void> {
+  const clerkUser = await currentUser();
+  if (clerkUser?.imageUrl && clerkUser.imageUrl !== user.avatarUrl) {
+    await syncAvatarUrl(user.id, clerkUser.imageUrl);
+  }
 }

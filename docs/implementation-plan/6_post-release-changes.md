@@ -89,7 +89,7 @@ Defaults apply only after owner confirms at G0.
 | 2 UI fixes | C2.1 Dialog + category picker | #5 | G1 | Completed |
 | 2 | C2.2 `@username` on rows | #2b | G1 | Completed |
 | 2 | C2.3 Pencil on link rows | #4 | G1 | Completed |
-| 2 | C2.4 User menu + Clerk/DB profile ownership | #7 | G1 | Pending |
+| 2 | C2.4 User menu + Clerk/DB profile ownership | #7 | G1 | Completed (code + docs; owner Clerk first/last-name toggle pending) |
 | 3 Product changes | C3.1 `publicId` + `/u/` URLs | #8 | G2, Q2 | Blocked |
 | 3 | C3.2 Allow-copy setting | #9 | C3.1 | Blocked |
 | 3 | C3.3 Merge search into `/explore` | #6 | G2 | Blocked |

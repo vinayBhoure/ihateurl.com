@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { AppHeader } from "@/components/app-header";
 import { SkipLink } from "@/components/skip-link";
-import { requirePageUser } from "@/server/auth/current-user";
+import { requirePageUser, syncAvatarIfChanged } from "@/server/auth/current-user";
 
 export const metadata: Metadata = { robots: { index: false } };
 
@@ -11,12 +11,13 @@ export const metadata: Metadata = { robots: { index: false } };
  * which sits outside this group so it can't loop. Pages still check auth themselves.
  */
 export default async function ShellLayout({ children }: { children: ReactNode }) {
-  await requirePageUser();
+  const user = await requirePageUser();
+  await syncAvatarIfChanged(user);
 
   return (
     <>
       <SkipLink />
-      <AppHeader />
+      <AppHeader user={user} />
       <main id="main" className="mx-auto w-full max-w-3xl flex-1 px-4 py-8 md:px-6">
         {children}
       </main>
