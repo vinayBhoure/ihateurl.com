@@ -91,10 +91,10 @@ Every session that reads or changes this repo MUST write two log entries before 
 
 ## 3. Project
 
-**ihateurl** lets people save URLs into collections, keep them private, and publish selected collections at `ihateurl.com/{username}/{collection-slug}`.
+**ihateurl** lets people save URLs into collections, keep them private, and publish selected collections at `ihateurl.com/u/{username}/{collection-slug}/{publicId}`.
 Core loop: Save → Organize → Share → Maintain.
 
-**Current state:** backend MVP built (plan 1, all tasks done); frontend (plan 2) and landing v2 (plan 3) built and on `staging` and `main` (F2.3 sign-in check and `og.png` headline both owner-confirmed done/kept); next: plan 4 (QA, Privacy/Terms, release).
+**Current state:** backend MVP (plan 1), frontend (plan 2), landing v2 (plan 3) and Privacy/Terms (plan 4 R2) built. Plan 6 (post-release fixes: production URL, dialog/UI bugs, `/u/` short URLs + `publicId`, allow-copy setting, `/explore` search suggestions) chunks 1–3 done (C3.3 skipped, owner decision) on branches not yet merged to `staging`; next: plan 4 remaining QA + release checklist, or plan 5 (Prisma upgrade).
 
 ### Source of truth (read before any task)
 | Doc | Purpose |
@@ -106,6 +106,7 @@ Core loop: Save → Organize → Share → Maintain.
 | `docs/implementation-plan/3_landing-v2.md` | Landing page v2: decisions LD1–LD6, LP1–LP7, page spec and copy |
 | `docs/implementation-plan/4_polish-mvp.md` | Manual QA, Privacy/Terms pages, release checklist |
 | `docs/implementation-plan/5_prisma-upgrade.md` | Prisma 6 → 7 upgrade (Approved; starts after plan 4 R1); Prisma 8 deferred |
+| `docs/implementation-plan/6_post-release-changes.md` | Post-release fixes: production URL, dialog/UI bugs, `/u/` short URLs, allow-copy, `/explore` search suggestions (3 gated chunks) |
 
 ### Architecture reference
 | Doc | Read when |

@@ -35,7 +35,7 @@ Core flow:
 
 Example:
 
-`ihateurl.com/vinay/ai-engineering`
+`ihateurl.com/u/vinay/ai-engineering`
 
 A collection can contain docs, articles, tools, videos, repositories, and other useful URLs.
 
@@ -190,7 +190,7 @@ Validate whether users publish and share collections.
 URL:
 
 ```text
-/{username}
+/u/{username}
 ```
 
 Show:
@@ -207,7 +207,7 @@ Never expose private collections.
 URL:
 
 ```text
-/{username}/{collection-slug}
+/u/{username}/{collection-slug}/{publicId}
 ```
 
 Show:

@@ -2,7 +2,7 @@
 
 Fixes and changes from the owner's production review (2026-09-26), in three chunks.
 
-Status: **Chunk 3 approved (G2 open). In progress.**
+Status: **Done.** Chunks 1–2 fully completed; Chunk 3 completed (C3.3 skipped, owner decision 2026-09-26; C3.4 rescoped to public-only suggestions). Branches not yet merged to `staging`.
 Depends on: nothing for Chunk 1; see §2 for Chunk 3 vs plan 5.
 
 ## Table of Contents
@@ -94,7 +94,7 @@ Defaults apply only after owner confirms at G0.
 | 3 | C3.2 Allow-copy setting | #9 | C3.1 | Completed |
 | 3 | C3.3 Merge search into `/explore` | #6 | G2 | Skipped (owner decision 2026-09-26: keep `/app/search` and `/explore` separate; C3.4 scoped to public suggestions only) |
 | 3 | C3.4 Search suggestions | #2a | C3.3 | Completed (public `/explore` suggestions only, no `scope=mine` — see C3.3) |
-| 3 | C3.5 Docs update | all | C3.1–C3.4 | Pending |
+| 3 | C3.5 Docs update | all | C3.1–C3.4 | Completed |
 
 Parallel inside a chunk: C1.2 ∥ C1.3; C2.1–C2.4 independent; C3.1 ∥ C3.3.
 

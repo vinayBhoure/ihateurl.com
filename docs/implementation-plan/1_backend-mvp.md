@@ -31,7 +31,7 @@ Architecture reference: `docs/architecture/`.
 | D3 | Routes | Signed-in area under `/app`; auth at `/login`, `/signup`; onboarding `/app/onboarding`; settings `/app/settings`. |
 | D4 | Link lifecycle | A link always belongs to ≥1 collection. Removing it from its last collection deletes it. |
 | D5 | Duplicates | One `Link` per user per `normalizedUrl`. Same link can be in many collections; metadata edits show everywhere. |
-| D6 | Slug/username change | Allowed. Old URLs break in MVP (redirects next phase). |
+| D6 | Slug/username change | Allowed. Collection slug: old link redirects via the permanent `publicId`, never breaks (plan 6 C3.1). Username: old profile/collection URLs still break (O5, accepted) — no stable identifier for a username. |
 | D7 | Search | Case-insensitive `contains` (Prisma `mode: "insensitive"`). |
 | D8 | Images | Hotlink favicon/OG URLs. No S3. Avatar = Clerk profile image URL, copied at onboarding, not editable. |
 | D9 | Rate limit | In-memory, no Redis. |
