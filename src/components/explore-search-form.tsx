@@ -13,7 +13,7 @@ const DEBOUNCE_MS = 200;
 const MIN_CHARS = 2;
 const LISTBOX_ID = "explore-suggestions";
 
-/** C3.4: /explore search input with a debounced suggestion dropdown (ARIA combobox). */
+/** C3.4: /explore search input with a debounced suggestion dropdown (ARIA combobox). Plan 8: large hero field. */
 export function ExploreSearchForm({ defaultValue, category }: { defaultValue: string; category?: string }) {
   const router = useRouter();
   const [q, setQ] = useState(defaultValue);
@@ -71,12 +71,12 @@ export function ExploreSearchForm({ defaultValue, category }: { defaultValue: st
   }
 
   return (
-    <Form action="/explore" role="search" className="flex max-w-xl gap-2">
+    <Form action="/explore" role="search" className="flex w-full gap-2 md:max-w-2xl">
       {category && <input type="hidden" name="category" value={category} />}
       <div className="relative flex-1">
         <Search
           aria-hidden
-          className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+          className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted-foreground"
         />
         <Input
           type="search"
@@ -92,10 +92,10 @@ export function ExploreSearchForm({ defaultValue, category }: { defaultValue: st
           aria-autocomplete="list"
           aria-activedescendant={activeIndex >= 0 ? `${LISTBOX_ID}-${activeIndex}` : undefined}
           maxLength={100}
-          placeholder="Search public collections"
+          placeholder="Search collections, tools, resources…"
           aria-label="Search public collections"
           autoComplete="off"
-          className="pl-9"
+          className="h-12 pl-11 md:h-12"
         />
         {open && (
           <ul
@@ -123,7 +123,7 @@ export function ExploreSearchForm({ defaultValue, category }: { defaultValue: st
           </ul>
         )}
       </div>
-      <Button type="submit" variant="outline">
+      <Button type="submit" className="h-12 px-6 md:h-12">
         Search
       </Button>
     </Form>

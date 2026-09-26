@@ -26,7 +26,7 @@ Source: `docs/implementation-plan/2_frontend-mvp.md` §4–§5 (Quiet Index). If
 ## 2. Type
 | Role | Classes | Use |
 |---|---|---|
-| display | `text-4xl md:text-5xl font-semibold tracking-[-0.025em]` | Landing h1 only |
+| display | `text-4xl md:text-5xl font-semibold tracking-[-0.025em]` | Landing and Explore h1 only (plan 8) |
 | h1 | `text-2xl font-semibold tracking-[-0.015em]` | Page title (use `PageHeader`) |
 | h2 | `text-xl font-semibold` | Section titles |
 | body | `text-base` | Descriptions, bio |
@@ -39,7 +39,7 @@ Source: `docs/implementation-plan/2_frontend-mvp.md` §4–§5 (Quiet Index). If
 - Gaps: 4, 8, 12, 16, 24, 32, 48, 64, 96 px (`gap-1` … `gap-24`).
 - Page padding `px-4 md:px-6`. Width: app and public pages `max-w-3xl`; landing and explore `max-w-5xl`. Landing sections `py-16 md:py-24`.
 - List rows: `min-h-11`, `divide-y` / `border` dividers, `hover:bg-accent`.
-- Radius: `rounded-md` buttons, inputs, badges; `rounded-lg` cards, popovers, menus; `rounded-xl` dialogs, sheets.
+- Radius: `rounded-md` buttons, inputs, badges; `rounded-lg` cards, popovers, menus; `rounded-xl` dialogs, sheets and `CollectionCard` (plan 8); `rounded-full` Explore category pills.
 - Shadow: none on cards and controls; `shadow-sm` popovers/menus; `shadow-lg` dialogs/sheets. Nothing else.
 
 ## 4. Icons

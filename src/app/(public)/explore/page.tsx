@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Compass } from "lucide-react";
+import { CollectionCard } from "@/components/collection-card";
 import { EmptyState } from "@/components/empty-state";
 import { ExploreSearchForm } from "@/components/explore-search-form";
-import { PublicCollectionRow } from "@/components/public-collection-row";
 import { Button } from "@/components/ui/button";
 import { UserBadgeScript } from "@/components/user-badge-script";
+import { getViewer } from "@/server/auth/current-user";
+import { listSavedSourceIds } from "@/server/queries/collections";
 import { listSystemCategories, searchPublic } from "@/server/queries/public";
 
 const DESCRIPTION = "Browse public link collections shared on ihateurl.";
@@ -39,24 +41,48 @@ export default async function ExplorePage({ searchParams }: Props) {
   const category = first(sp.category);
   const requestedPage = Number.parseInt(first(sp.page) || "1", 10);
 
-  const [categories, { results, page, hasNext }] = await Promise.all([
+  const [categories, { results, page, hasNext }, viewer] = await Promise.all([
     listSystemCategories(),
     searchPublic({ q: q || undefined, categorySlug: category || undefined, page: requestedPage }),
+    getViewer(),
   ]);
+  // Plan 8: one lookup per page for the bookmarks' "already saved" state.
+  const saved =
+    viewer.status === "member"
+      ? await listSavedSourceIds(viewer.userId, results.map((c) => c.id))
+      : new Set<string>();
+  const returnPath = exploreHref({ q, category, page });
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-12 md:px-6">
       <UserBadgeScript />
-      <div className="space-y-4">
-        <h1 className="text-2xl font-semibold tracking-[-0.015em]">Explore</h1>
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <h1 className="text-4xl font-semibold tracking-[-0.025em] text-balance md:text-5xl">
+            Discover collections worth saving
+          </h1>
+          <p className="text-lg text-balance text-muted-foreground">
+            Curated links, tools, articles and resources shared by people like you.
+          </p>
+        </div>
         <ExploreSearchForm defaultValue={q} category={category} />
       </div>
 
-      <nav aria-label="Categories" className="flex flex-wrap gap-2">
+      {/* One scrollable row below 768 px (padding keeps focus rings unclipped); wraps from md. */}
+      <nav
+        aria-label="Categories"
+        className="-mx-4 flex gap-2 overflow-x-auto px-4 py-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
+      >
         {[{ name: "All", slug: "" }, ...categories].map((c) => {
           const active = c.slug === category;
           return (
-            <Button key={c.slug || "all"} asChild size="sm" variant={active ? "default" : "outline"}>
+            <Button
+              key={c.slug || "all"}
+              asChild
+              size="sm"
+              variant={active ? "default" : "outline"}
+              className="shrink-0 rounded-full px-4"
+            >
               <Link href={exploreHref({ q, category: c.slug })} aria-current={active ? "page" : undefined}>
                 {c.name}
               </Link>
@@ -68,10 +94,17 @@ export default async function ExplorePage({ searchParams }: Props) {
       {results.length === 0 ? (
         <EmptyState icon={Compass} title="No public collections match." />
       ) : (
-        <ul className="divide-y rounded-lg border">
+        <ul className="grid gap-4 md:grid-cols-2">
           {results.map((c) => (
-            <li key={`${c.user.username}/${c.slug}`}>
-              <PublicCollectionRow username={c.user.username} collection={c} owner={c.user} />
+            <li key={c.id}>
+              <CollectionCard
+                collection={c}
+                owner={c.user}
+                viewer={viewer}
+                saved={saved.has(c.id)}
+                returnPath={returnPath}
+                headingAs="h2"
+              />
             </li>
           ))}
         </ul>
