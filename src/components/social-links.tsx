@@ -39,7 +39,7 @@ export function SocialLinks({
   if (links.length === 0) return null;
 
   return (
-    <ul aria-label="Social links" className={cn("flex flex-wrap items-center gap-1", className)}>
+    <ul aria-label="Social links" className={cn("flex flex-wrap items-center md:gap-1", className)}>
       {links.map(({ platform, url }, index) => {
         const label = linkLabel(platform, url, ownerName);
         return (
