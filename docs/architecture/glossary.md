@@ -19,7 +19,7 @@
 | Metadata | Title, description, domain, favicon URL, image URL fetched when a URL is first saved; user-editable | Page SEO metadata (`generateMetadata`) |
 | Visibility | `PRIVATE` (default, owner only) or `PUBLIC` (anyone, indexable) | Access control on `/app` routes |
 | System category | Seeded category (`userId = null`), same for all users, used in explore filter | Custom category: created by one user, visible on their items only |
-| Copy (collection) | Snapshot of another user's public collection into your account, starts `PRIVATE`; keeps `sourceCollectionId`, no sync | Fork (final product): copy with visible attribution |
+| Copy (collection) | Snapshot of another user's public collection into your account, starts `PRIVATE`; keeps `sourceCollectionId`, no sync. UI: "Save to my collections" (button on the collection page, bookmark icon on collection cards, plan 8) | Fork (final product): copy with visible attribution |
 | Allow copy | Per-collection setting (`allowCopy`, default on, C3.2): whether other members can copy a `PUBLIC` collection. Off hides the Save button and refuses `copyCollection` | Visibility: a `PRIVATE` collection can't be copied regardless of this setting |
 | Member / onboarded user | Has a Clerk session and a `User` row with a username | Signed-in user without a `User` row |
 | Reserved username | Name blocked because it matches an app route or system word | A taken username |
