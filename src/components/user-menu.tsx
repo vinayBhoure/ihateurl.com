@@ -11,7 +11,7 @@ export function UserMenu({ username }: { username?: string }) {
   return (
     <UserButton>
       <UserButton.MenuItems>
-        {username && <UserButton.Link label="My public page" labelIcon={<Globe2 />} href={`/${username}`} />}
+        {username && <UserButton.Link label="My public page" labelIcon={<Globe2 />} href={`/u/${username}`} />}
         <UserButton.Link label="Settings" labelIcon={<Settings />} href="/app/settings" />
       </UserButton.MenuItems>
     </UserButton>

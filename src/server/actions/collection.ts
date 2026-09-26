@@ -47,7 +47,7 @@ export async function updateCollection(
 
     const { before, after } = await collections.updateCollection(user.id, parsed.data);
 
-    revalidateCollectionPaths(user.username, after.id, [before.slug, after.slug]);
+    revalidateCollectionPaths(user.username, after.id, after.publicId, [before.slug, after.slug]);
     return ok({ id: after.id, slug: after.slug });
   } catch (err) {
     return toActionResult(err);
@@ -62,7 +62,7 @@ export async function deleteCollection(input: unknown): Promise<ActionResult<nul
 
     const deleted = await collections.deleteCollection(user.id, parsed.data.id);
 
-    revalidateCollectionPaths(user.username, deleted.id, [deleted.slug]);
+    revalidateCollectionPaths(user.username, deleted.id, deleted.publicId, [deleted.slug]);
     return ok(null);
   } catch (err) {
     return toActionResult(err);

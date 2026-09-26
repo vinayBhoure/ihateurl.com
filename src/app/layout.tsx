@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(env.appUrl),
   title: { default: "ihateurl", template: "%s · ihateurl" },
   description:
-    "Save URLs into collections, keep them private, publish the ones you choose at ihateurl.com/you/collection.",
+    "Save URLs into collections, keep them private, publish the ones you choose at ihateurl.com/u/you/collection.",
   openGraph: { type: "website", siteName: "ihateurl", images: ["/og.png"] },
   twitter: { card: "summary_large_image" },
 };

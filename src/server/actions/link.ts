@@ -47,7 +47,7 @@ export async function createLink(
       normalizedUrl
     );
 
-    revalidateCollectionPaths(user.username, collection.id, [collection.slug]);
+    revalidateCollectionPaths(user.username, collection.id, collection.publicId, [collection.slug]);
     return ok({ itemId: item.id, linkId: item.linkId, created });
   } catch (err) {
     return toActionResult(err);

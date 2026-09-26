@@ -32,7 +32,7 @@ export default async function CollectionPage({ params }: Props) {
   if (!collection) notFound();
 
   const [categories, collections] = await Promise.all([listCategories(user.id), listMyCollections(user.id)]);
-  const publicUrl = `${env.appUrl}/${user.username}/${collection.slug}`;
+  const publicUrl = `${env.appUrl}/u/${user.username}/${collection.slug}/${collection.publicId}`;
   const collectionCategories = collection.categories.map(({ category }) => category);
 
   return (

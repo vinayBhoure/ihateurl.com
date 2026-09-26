@@ -4,6 +4,7 @@ import { LocalDate } from "@/components/local-date";
 export type PublicCollectionRowData = {
   title: string;
   slug: string;
+  publicId: string;
   description?: string | null;
   updatedAt: Date;
   _count: { items: number };
@@ -21,7 +22,7 @@ export function PublicCollectionRow({
 }) {
   return (
     <Link
-      href={`/${username}/${c.slug}`}
+      href={`/u/${username}/${c.slug}/${c.publicId}`}
       className="block min-h-11 space-y-1 px-4 py-3 transition-colors hover:bg-accent"
     >
       <p className="truncate text-sm font-medium">{c.title}</p>

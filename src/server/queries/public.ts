@@ -26,6 +26,7 @@ export async function getPublicProfile(username: string) {
         select: {
           title: true,
           slug: true,
+          publicId: true,
           description: true,
           updatedAt: true,
           _count: { select: { items: true } },
@@ -36,18 +37,19 @@ export async function getPublicProfile(username: string) {
   });
 }
 
-/** `null` when missing or not PUBLIC, so a private collection's existence isn't revealed. */
-export async function getPublicCollection(username: string, slug: string) {
+/**
+ * `null` when missing or not PUBLIC, so a private collection's existence isn't revealed.
+ * C3.1: looked up by `publicId` alone — the page compares `user.username`/`slug` against the
+ * URL and issues a `permanentRedirect` if either is stale (rename or slug change).
+ */
+export async function getPublicCollectionByPublicId(publicId: string) {
   return prisma.collection.findFirst({
-    where: {
-      slug: slug.toLowerCase(),
-      visibility: "PUBLIC",
-      user: { username: username.toLowerCase() },
-    },
+    where: { publicId, visibility: "PUBLIC" },
     select: {
       id: true,
       title: true,
       slug: true,
+      publicId: true,
       description: true,
       updatedAt: true,
       user: { select: ownerSelect },
@@ -107,6 +109,7 @@ export async function searchPublic({
     select: {
       title: true,
       slug: true,
+      publicId: true,
       description: true,
       updatedAt: true,
       user: { select: ownerSelect },
@@ -137,7 +140,7 @@ export async function listSystemCategories() {
 export async function getSitemapEntries() {
   const collections = await prisma.collection.findMany({
     where: { visibility: "PUBLIC" },
-    select: { slug: true, updatedAt: true, user: { select: { username: true } } },
+    select: { slug: true, publicId: true, updatedAt: true, user: { select: { username: true } } },
     orderBy: { updatedAt: "desc" },
   });
 
@@ -151,6 +154,7 @@ export async function getSitemapEntries() {
     collections: collections.map((c) => ({
       username: c.user.username,
       slug: c.slug,
+      publicId: c.publicId,
       updatedAt: c.updatedAt,
     })),
   };

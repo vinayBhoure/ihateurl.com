@@ -15,7 +15,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/explore` },
     { url: `${base}/privacy` },
     { url: `${base}/terms` },
-    ...profiles.map((p) => ({ url: `${base}/${p.username}`, lastModified: p.updatedAt })),
-    ...collections.map((c) => ({ url: `${base}/${c.username}/${c.slug}`, lastModified: c.updatedAt })),
+    ...profiles.map((p) => ({ url: `${base}/u/${p.username}`, lastModified: p.updatedAt })),
+    ...collections.map((c) => ({
+      url: `${base}/u/${c.username}/${c.slug}/${c.publicId}`,
+      lastModified: c.updatedAt,
+    })),
   ];
 }

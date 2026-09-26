@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { cache } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import { Link2 } from "lucide-react";
 import { CopyButton } from "@/components/copy-button";
@@ -14,25 +14,26 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { env } from "@/config/env";
 import { getCurrentUser } from "@/server/auth/current-user";
-import { getPublicCollection } from "@/server/queries/public";
+import { getPublicCollectionByPublicId } from "@/server/queries/public";
 
-type Props = { params: Promise<{ username: string; slug: string }> };
+type Props = { params: Promise<{ username: string; slug: string; publicId: string }> };
 
 // One query for generateMetadata and the page (R4). `null` for missing and private alike.
-const loadCollection = cache((username: string, slug: string) => getPublicCollection(username, slug));
+const loadCollection = cache((publicId: string) => getPublicCollectionByPublicId(publicId));
 
 // Outbound links to user-submitted URLs (FP8 + Q3).
 const PUBLIC_LINK_REL = "noopener noreferrer nofollow ugc";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { username, slug } = await params;
-  const collection = await loadCollection(username, slug);
+  const { publicId } = await params;
+  const collection = await loadCollection(publicId);
   if (!collection) return {};
 
   const owner = collection.user.username;
   const title = `${collection.title} by @${owner}`;
   const description = collection.description ?? `${collection._count.items} links curated by @${owner}`;
-  const url = `/${owner}/${collection.slug}`;
+  // Canonical always points at the collection's current username/slug, even on a stale URL.
+  const url = `/u/${owner}/${collection.slug}/${collection.publicId}`;
   return {
     title,
     description,
@@ -43,13 +44,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PublicCollectionPage({ params }: Props) {
-  const { username, slug } = await params;
-  const collection = await loadCollection(username, slug);
+  const { username, slug, publicId } = await params;
+  const collection = await loadCollection(publicId);
   if (!collection) notFound();
 
   const owner = collection.user;
+  // C3.1: publicId is the real key; a rename or slug change lands here via the old URL,
+  // so redirect to the current one instead of serving it at a stale address.
+  if (username !== owner.username || slug !== collection.slug) {
+    permanentRedirect(`/u/${owner.username}/${collection.slug}/${collection.publicId}`);
+  }
+
   const ownerName = owner.displayName ?? owner.username;
-  const path = `/${owner.username}/${collection.slug}`;
+  const path = `/u/${owner.username}/${collection.slug}/${collection.publicId}`;
   const count = collection._count.items;
   const viewer = await getViewer(owner.username);
 
@@ -63,7 +70,7 @@ export default async function PublicCollectionPage({ params }: Props) {
           )}
         </div>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
-          <Link href={`/${owner.username}`} className="inline-flex items-center gap-2 text-foreground hover:underline">
+          <Link href={`/u/${owner.username}`} className="inline-flex items-center gap-2 text-foreground hover:underline">
             <Avatar size="sm">
               {owner.avatarUrl && <AvatarImage src={owner.avatarUrl} alt="" />}
               <AvatarFallback className="text-xs">{ownerName.charAt(0).toUpperCase()}</AvatarFallback>

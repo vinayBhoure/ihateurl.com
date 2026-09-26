@@ -1,4 +1,5 @@
 export const RESERVED_USERNAMES: ReadonlySet<string> = new Set([
+  "u",
   "app",
   "admin",
   "api",

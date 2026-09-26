@@ -51,11 +51,11 @@ Auth column: **S** = signed-in (no `User` row required), **M** = member, owner-s
 |---|---|---|---|---|
 | `checkUsername` | `username` | S | `VALIDATION` | — (returns `{ available, reason? }`) |
 | `completeOnboarding` | `username`, `displayName?` | S | `VALIDATION`, `CONFLICT` | `/app` |
-| `updateProfile` | `username?`, `displayName?` ≤ 60, `bio?` ≤ 280 | M | `VALIDATION`, `CONFLICT` | `/app/settings`, `/{old}`, `/{new}` |
+| `updateProfile` | `username?`, `displayName?` ≤ 60, `bio?` ≤ 280 | M | `VALIDATION`, `CONFLICT` | `/app/settings`, `/u/{old}`, `/u/{new}` |
 | `createCategory` | `name` 1–30 | M | `VALIDATION`, `CONFLICT` | `/app/settings`, `/app/collections/[id]` |
-| `deleteCategory` | `id` (own) | M | `NOT_FOUND` | `/app/settings`, `/app`, `/{username}` |
+| `deleteCategory` | `id` (own) | M | `NOT_FOUND` | `/app/settings`, `/app`, `/u/{username}` |
 | `createCollection` | `title`, `description?` ≤ 500 | M | `VALIDATION` | `/app` |
-| `updateCollection` | `id`, `title?`, `slug?`, `description?`, `visibility?`, `categoryIds?` ≤ 5 | M | `VALIDATION`, `NOT_FOUND`, `CONFLICT` | `/app`, `/app/collections/[id]`, `/{username}`, `/{username}/{slug}` (old + new) |
+| `updateCollection` | `id`, `title?`, `slug?`, `description?`, `visibility?`, `categoryIds?` ≤ 5 | M | `VALIDATION`, `NOT_FOUND`, `CONFLICT` | `/app`, `/app/collections/[id]`, `/u/{username}`, `/u/{username}/{slug}/{publicId}` (old + new slug; `publicId` never changes) |
 | `deleteCollection` | `id` | M | `NOT_FOUND` | same as `updateCollection` |
 | `createLink` | `collectionId`, `url` | M, rate limited | `VALIDATION`, `NOT_FOUND`, `CONFLICT`, `RATE_LIMITED` | collection paths |
 | `updateLink` | `id`, `title?`, `description?`, `categoryIds?` ≤ 5 | M | `VALIDATION`, `NOT_FOUND` | paths of every collection holding the link |
@@ -65,4 +65,4 @@ Auth column: **S** = signed-in (no `User` row required), **M** = member, owner-s
 | `reorderCollectionItems` | `collectionId`, `itemIds` (full set) | M | `VALIDATION`, `NOT_FOUND` | collection paths |
 | `copyCollection` | `sourceCollectionId` | M, rate limited | `NOT_FOUND`, `RATE_LIMITED` | `/app` (returns new collection `id`) |
 
-"Collection paths" = `/app/collections/[id]`, `/{username}/{slug}`, `/{username}`, `/app`.
+"Collection paths" = `/app/collections/[id]`, `/u/{username}/{slug}/{publicId}`, `/u/{username}`, `/app`.

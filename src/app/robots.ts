@@ -2,15 +2,15 @@ import type { MetadataRoute } from "next";
 import { env } from "@/config/env";
 
 /**
- * §5.4. Exact (`$`) and trailing-slash patterns instead of bare prefixes, so a profile such as
- * `/apple` or `/logins` isn't caught by `/app` or `/login`.
+ * §5.4. Profiles and collections live under `/u/`, so plain prefixes are safe here —
+ * no username can collide with `/app`, `/login` or `/signup` the way a bare `/{username}` could.
  */
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/app$", "/app/", "/login$", "/login/", "/signup$", "/signup/", "/api/"],
+      disallow: ["/app", "/login", "/signup", "/api"],
     },
     sitemap: `${env.appUrl}/sitemap.xml`,
   };

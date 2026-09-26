@@ -73,9 +73,10 @@ Dependency direction: `app → actions → controllers → config/db` and `app �
 3. New URL → `getMetadata` (never throws) → transaction: create `Link` + `CollectionItem` at end of list.
 
 ### 4.4 Public page
-1. `/{username}/{slug}` → `getPublicCollection` (wrapped in React `cache()` for page + metadata).
+1. `/u/{username}/{slug}/{publicId}` → `getPublicCollectionByPublicId` (wrapped in React `cache()` for page + metadata), looked up by `publicId` alone.
 2. Query filters `visibility: PUBLIC` → `null` → `notFound()` (404, same as missing).
-3. `/` (landing) → `listSystemCategories` + `searchPublic` page 1, per request (`force-dynamic`); the Explore strip shows the newest 6 only when there are ≥ 3 public collections, and a failed query hides it instead of failing the page.
+3. Found, but the URL's `username` or `slug` no longer matches the collection's current ones (rename or slug change) → `permanentRedirect` to `/u/{currentUsername}/{currentSlug}/{publicId}` (C3.1, O4: old bare `/{username}` URLs from before C3.1 are not redirected, they 404).
+4. `/` (landing) → `listSystemCategories` + `searchPublic` page 1, per request (`force-dynamic`); the Explore strip shows the newest 6 only when there are ≥ 3 public collections, and a failed query hides it instead of failing the page.
 
 ---
 
@@ -83,16 +84,17 @@ Dependency direction: `app → actions → controllers → config/db` and `app �
 
 ```text
 prisma/
-  schema.prisma                 Built (MVP models, B2.1)
-  migrations/                   Built (init)
+  schema.prisma                 Built (MVP models, B2.1; `Collection.publicId` C3.1)
+  migrations/                   Built (init; `publicId` C3.1)
   seed.ts                       Built (system categories, B2.2)
+  backfill-public-id.ts         Built (one-off, plan 6 C3.1)
 src/
   proxy.ts                      Built
   app/
     layout.tsx, globals.css     Built: Quiet Index tokens, Geist fonts, ThemeProvider, root metadata (F1.1, F2.1)
     sitemap.ts, robots.ts       Built (F4.5; sitemap force-dynamic)
     not-found.tsx, error.tsx    Built (F2.1)
-    (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1; v2 hero, product frame, how it works, Explore strip, privacy, FAQ, closing CTA: plan 3 L1.1–L1.4), error, /[username] (F4.2), /[username]/[slug] (F4.3), /explore (F4.4), /privacy and /terms (static, `LegalDocument`; plan 4 R2)
+    (public)/                   Built: layout (header, footer, skip link), / (landing, F4.1; v2 hero, product frame, how it works, Explore strip, privacy, FAQ, closing CTA: plan 3 L1.1–L1.4), error, /u/[username] (F4.2), /u/[username]/[slug]/[publicId] (F4.3; `publicId` lookup + stale-URL redirect, plan 6 C3.1), /explore (F4.4), /privacy and /terms (static, `LegalDocument`; plan 4 R2)
     login/, signup/             Built
     app/
       onboarding/               Built (F3.1): OnboardingForm, live username check
@@ -116,6 +118,7 @@ src/
     result.ts                   Built: AppError, ActionResult, toActionResult (B3.1–B3.2)
     rate-limit.ts               Built (B3.2)
     unique-slug.ts              Built (B3.3; queries DB, so not in lib/)
+    unique-public-id.ts         Built (plan 6 C3.1; queries DB, so not in lib/)
     revalidate.ts               Built: revalidateCollectionPaths, revalidateCollections (B8)
   config/                       Built: db, env, resend
   emails/templates/             Built (kept)

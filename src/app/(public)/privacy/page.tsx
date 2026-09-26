@@ -73,7 +73,7 @@ const SECTIONS: LegalSection[] = [
           its address sees &ldquo;Page not found&rdquo;.
         </p>
         <p>
-          Your profile page at <span className="font-mono">ihateurl.com/your-username</span> is public. It shows your
+          Your profile page at <span className="font-mono">ihateurl.com/u/your-username</span> is public. It shows your
           username, display name, profile photo, bio and public collections.
         </p>
         <p>When you make a collection public:</p>

@@ -74,8 +74,8 @@ export async function updateProfile(input: unknown): Promise<ActionResult<{ user
     const updated = await updateUserProfile(user.id, parsed.data);
 
     revalidatePath("/app/settings");
-    revalidatePath(`/${user.username}`);
-    if (updated.username !== user.username) revalidatePath(`/${updated.username}`);
+    revalidatePath(`/u/${user.username}`);
+    if (updated.username !== user.username) revalidatePath(`/u/${updated.username}`);
     return ok({ username: updated.username });
   } catch (err) {
     return toActionResult(err);

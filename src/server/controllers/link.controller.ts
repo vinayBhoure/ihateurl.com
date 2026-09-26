@@ -98,12 +98,14 @@ export async function createLink(
   }
 }
 
-type CollectionRef = { id: string; slug: string };
+type CollectionRef = { id: string; slug: string; publicId: string };
 
 async function getOwnedLink(userId: string, id: string) {
   const link = await prisma.link.findFirst({
     where: { id, userId },
-    include: { collections: { select: { collection: { select: { id: true, slug: true } } } } },
+    include: {
+      collections: { select: { collection: { select: { id: true, slug: true, publicId: true } } } },
+    },
   });
   if (!link) throw new AppError("NOT_FOUND");
   return { link, collections: link.collections.map((i) => i.collection) };
@@ -112,7 +114,7 @@ async function getOwnedLink(userId: string, id: string) {
 async function getOwnedItem(userId: string, itemId: string) {
   const item = await prisma.collectionItem.findFirst({
     where: { id: itemId, collection: { userId } },
-    include: { collection: { select: { id: true, slug: true } } },
+    include: { collection: { select: { id: true, slug: true, publicId: true } } },
   });
   if (!item) throw new AppError("NOT_FOUND");
   return item;
@@ -172,7 +174,7 @@ export async function moveLink(
 ): Promise<{ source: CollectionRef; target: CollectionRef }> {
   const item = await getOwnedItem(userId, itemId);
   const target = await getOwnedCollection(userId, targetCollectionId);
-  const refs = { source: item.collection, target: { id: target.id, slug: target.slug } };
+  const refs = { source: item.collection, target: { id: target.id, slug: target.slug, publicId: target.publicId } };
   if (target.id === item.collectionId) return refs;
 
   await prisma.$transaction(async (tx) => {
@@ -219,5 +221,5 @@ export async function reorderCollectionItems(
       prisma.collectionItem.update({ where: { id: itemId }, data: { position: index } })
     )
   );
-  return { id: collection.id, slug: collection.slug };
+  return { id: collection.id, slug: collection.slug, publicId: collection.publicId };
 }

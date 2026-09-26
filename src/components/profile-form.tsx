@@ -39,7 +39,7 @@ export function ProfileForm({
       >
         <div className="flex h-11 min-w-0 items-center rounded-md border border-input focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background md:h-9">
           <span aria-hidden className="pl-3 font-mono text-sm text-muted-foreground">
-            ihateurl.com/
+            ihateurl.com/u/
           </span>
           <Input
             id="username"

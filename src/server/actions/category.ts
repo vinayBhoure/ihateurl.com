@@ -36,7 +36,7 @@ export async function deleteCategory(input: unknown): Promise<ActionResult<null>
 
     revalidatePath("/app/settings");
     revalidatePath("/app");
-    revalidatePath(`/${user.username}`);
+    revalidatePath(`/u/${user.username}`);
     return ok(null);
   } catch (err) {
     return toActionResult(err);

@@ -58,7 +58,7 @@ export default async function LandingPage() {
           </h1>
           <p className="text-lg text-balance text-muted-foreground">
             Save URLs into collections, keep them private, publish the ones you choose at{" "}
-            <span className="font-mono text-base text-foreground">ihateurl.com/you/collection</span>.
+            <span className="font-mono text-base text-foreground">ihateurl.com/u/you/collection</span>.
           </p>
           <div className="space-y-4">
             <CtaButtons />

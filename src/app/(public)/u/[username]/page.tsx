@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = `${profile.displayName ?? profile.username} (@${profile.username})`;
   const description = profile.bio ?? `Public collections by @${profile.username}`;
-  const url = `/${profile.username}`;
+  const url = `/u/${profile.username}`;
   return {
     title,
     description,
@@ -36,7 +36,7 @@ export default async function ProfilePage({ params }: Props) {
   if (!profile) notFound();
 
   const name = profile.displayName ?? profile.username;
-  const url = `${env.appUrl}/${profile.username}`;
+  const url = `${env.appUrl}/u/${profile.username}`;
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12 md:px-6">

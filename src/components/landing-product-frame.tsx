@@ -29,7 +29,7 @@ export function ProductFrame() {
       <Panel url="ihateurl.com/app/collections/…" visibility="PRIVATE" className="hidden md:block">
         <PrivateCollection />
       </Panel>
-      <Panel url="ihateurl.com/you/reading-list" visibility="PUBLIC" className="md:mt-12">
+      <Panel url="ihateurl.com/u/you/reading-list" visibility="PUBLIC" className="md:mt-12">
         <PublicCollection />
       </Panel>
     </div>
@@ -98,7 +98,7 @@ export function ShareCrop() {
   return (
     <CropTray>
       <div className="flex items-center gap-1 rounded-lg border bg-background py-1 pr-1 pl-3">
-        <span className="min-w-0 flex-1 truncate font-mono text-sm">ihateurl.com/you/reading-list</span>
+        <span className="min-w-0 flex-1 truncate font-mono text-sm">ihateurl.com/u/you/reading-list</span>
         <StaticButton variant="ghost" size="icon">
           <Copy />
         </StaticButton>
@@ -108,7 +108,7 @@ export function ShareCrop() {
       </div>
       {/* The pasted link in a chat, with the title and description generateMetadata sets. */}
       <div className="space-y-3 rounded-lg border bg-background p-4">
-        <p className="font-mono text-sm break-all">ihateurl.com/you/reading-list</p>
+        <p className="font-mono text-sm break-all">ihateurl.com/u/you/reading-list</p>
         <div className="space-y-1 border-l-2 pl-3">
           <p className="font-mono text-xs text-muted-foreground">ihateurl.com</p>
           <p className="text-sm font-medium">Reading list by @you</p>

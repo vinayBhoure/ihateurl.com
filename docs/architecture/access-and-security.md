@@ -68,6 +68,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 4. `/app/*` is `noindex`; `robots.txt` disallows `/app`, `/login`, `/signup`, `/api`.
 5. Sitemap lists only profiles with public collections and public collections.
 6. The landing page (`/`) shows the newest public collections through `searchPublic`, rendered per request (`force-dynamic`), so a collection made private leaves it on the next request.
+7. Public collection URLs (`/u/{username}/{slug}/{publicId}`, C3.1) are looked up by `publicId` alone; a stale `username`/`slug` in the URL redirects to the current one rather than 404ing.
 
 ---
 

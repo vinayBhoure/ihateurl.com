@@ -203,10 +203,10 @@ function EditCollectionForm({
         />
       </Field>
 
-      <Field id="slug" label="URL" error={fieldErrors.slug?.[0]} hint="Old links stop working if you change it.">
+      <Field id="slug" label="URL" error={fieldErrors.slug?.[0]} hint="Old links keep working — they redirect here.">
         <div className="flex h-11 min-w-0 items-center rounded-md border border-input focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background md:h-9">
           <span aria-hidden className="max-w-[55%] truncate pl-3 font-mono text-sm text-muted-foreground">
-            ihateurl.com/{username}/
+            ihateurl.com/u/{username}/
           </span>
           <Input
             id="slug"
