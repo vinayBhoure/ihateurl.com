@@ -32,7 +32,7 @@ Update this file in the same commit as any change that moves a feature's status.
 | SEO, Performance, Security | 17 | 0 | 2 |
 | Product Metrics | 0 | 0 | 13 |
 | Final Product | 1 | 0 | 12 |
-| Future Scope | 0 | 0 | 13 |
+| Future Scope | 0 | 1 | 12 |
 
 ---
 
@@ -123,7 +123,7 @@ Update this file in the same commit as any change that moves a feature's status.
 ### Explore (`/explore`)
 | # | Feature | Status | Notes |
 |---|---|---|---|
-| 2.12 | Search public collections | Done | With suggestions while typing |
+| 2.12 | Search public collections | Done | With suggestions while typing; unchanged by the card redesign (F.13) |
 | 2.13 | Search public links | Done | Finds collections by link title/domain |
 | 2.14 | Filter by category | Done | System categories |
 | 2.15 | Filter by domain | Yet to start | |
@@ -236,4 +236,4 @@ Planned by the owner on 2026-09-26. Not in the PRD yet; add to the PRD before pl
 | F.10 | Progressive Web App (install from browser) | Yet to start | PRD non-goal "Mobile apps" covers native apps only |
 | F.11 | Hover card on @username in Explore rows: underline, avatar, collection count, bio | Yet to start | |
 | F.12 | AI bot for search / curation | Yet to start | Owner's description incomplete; related to 5.9; PRD non-goal "AI assistant" (initially) |
-| F.13 | "Jev home page as ihateurl explore" | Yet to start | Needs clarification |
+| F.13 | Explore redesign (collection cards), from the owner's "Jev home page as ihateurl explore" | In progress | Plan 8: built on `feature/public/explore-cards` (cards on Explore, landing, profile; bookmark = copy); Done once merged to `main`. UserBadge placement (E6) waits on owner |

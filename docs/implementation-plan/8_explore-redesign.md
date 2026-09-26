@@ -124,8 +124,8 @@ None open. §1 records the owner's answers.
 | E3 Reusable components | `CollectionCard`, `CollectionTile`, `FaviconStack`, `RelativeTime`, `SaveBookmarkButton` | E1, E2 | Completed |
 | E4 Explore page | Hero, search, pills, grid | E3 | Completed |
 | E5 Landing + profile | Use cards; remove `PublicCollectionRow` | E3 | Completed |
-| E6 UserBadge in hero | Position the badge (single commit) | E4 | Pending |
-| E7 Docs | UI rule, feature list, architecture | E4, E5 | Pending |
+| E6 UserBadge in hero | Position the badge (single commit) | E4 | Blocked (owner decision, see §5 E6 findings) |
+| E7 Docs | UI rule, feature list, architecture | E4, E5 | Completed |
 
 Critical path: E1/E2 → E3 → E4 → E6. Parallel: E1 ∥ E2; E5 ∥ E4.
 
@@ -163,8 +163,16 @@ Validation: landing grid and profile grid render cards; profile cards have no cr
 - Check UserBadge options for rendering into a container; if supported, mount it in the hero's right slot on `md+`; keep script on `/` and `/explore` only.
 Validation: pill sits in the hero on desktop and does not overlap content on mobile. Otherwise revert this commit and leave the badge as today.
 
+E6 findings (2026-09-27, badge.js v0.7.41):
+| Finding | Detail |
+|---|---|
+| Container mount exists | `data-preview="<selector>"` on the script mounts the live widget inside that element (absolute, scrolls with the page); visits still counted (`session-start`, `preview: false`); a MutationObserver re-attaches when the element appears. Tested in the Explore hero: works. |
+| Not documented | The script's header describes preview mode as the vendor's playground stage; a vendor update could change it. |
+| Couples `/` and `/explore` | React 19 loads the script once (deduped by `src`), so both pages must use the same attributes. Explore-only breaks client navigation (floats on Explore after `/`; missing on `/` after Explore). Needs a slot on the landing hero too, which ends the floating badge there. |
+| Owner decision | (a) slot on `/` and `/explore`; (b) keep the floating badge (no E6). |
+
 **E7 Docs**
-- `docs/prd/feature-list.md`: add "Explore redesign (collection cards)" to Future Scope as Done; note 2.12 unchanged.
+- `docs/prd/feature-list.md`: add "Explore redesign (collection cards)" to Future Scope as Done; note 2.12 unchanged. Built: F.13 ("Jev home page as ihateurl explore") is this feature, so F.13 was updated instead of a new row, status In progress until merged to `main` (the file's Done = merged).
 - `docs/architecture/overview.md` (components) if affected; tracking logs.
 Validation: statements match behaviour.
 
