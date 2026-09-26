@@ -47,7 +47,8 @@ const SECTIONS: LegalSection[] = [
     body: (
       <p>
         Clerk sets the cookies that keep you signed in. We keep your theme choice (light, dark or system) in your
-        browser&rsquo;s local storage. We do not use analytics, advertising or tracking cookies.
+        browser&rsquo;s local storage. We do not use advertising cookies. The home page and the Explore page load
+        a visitor counter from UserBadge (see &ldquo;Who processes your data&rdquo;).
       </p>
     ),
   },
@@ -119,6 +120,10 @@ const SECTIONS: LegalSection[] = [
           <li>Clerk: sign-in and account management.</li>
           <li>Vercel: hosting.</li>
           <li>Neon: the database that stores your profile, links and collections.</li>
+          <li>
+            UserBadge: a visitor counter on the home page and the Explore page. It receives your IP address and
+            browser details to count visits, show how many people are online and show visitors&rsquo; countries.
+          </li>
         </ul>
         <p>
           They may store and process data outside India, including in the United States. Google and GitHub handle your
@@ -214,8 +219,8 @@ export default function PrivacyPage() {
   return (
     <LegalDocument
       title="Privacy Notice"
-      updated="September 25, 2026"
-      updatedIso="2026-09-25"
+      updated="September 26, 2026"
+      updatedIso="2026-09-26"
       intro={
         <p>
           ihateurl (<span className="font-mono">ihateurl.com</span>) is run by Vinay Bhoure, an individual based in
