@@ -1,4 +1,5 @@
 import { prisma } from "@/config/db";
+import { buildUrl } from "@/lib/social-platforms";
 import { escapeLike, searchQuerySchema } from "@/lib/validations/search";
 
 // Every public read filters `visibility: PUBLIC` and selects fields explicitly, so
@@ -14,13 +15,17 @@ const ownerSelect = {
 
 const categorySelect = { category: { select: { name: true, slug: true } } } as const;
 
-/** `null` only when the user doesn't exist; a user without public collections gets an empty list. */
+/**
+ * `null` only when the user doesn't exist; a user without public collections gets an empty list.
+ * Social links come back as built URLs only (plan 7), never the raw stored value.
+ */
 export async function getPublicProfile(username: string) {
-  return prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { username: username.toLowerCase() },
     select: {
       ...ownerSelect,
       bio: true,
+      socialLinks: { select: { platform: true, value: true }, orderBy: { position: "asc" } },
       collections: {
         where: { visibility: "PUBLIC" },
         select: {
@@ -35,6 +40,16 @@ export async function getPublicProfile(username: string) {
       },
     },
   });
+  if (!user) return null;
+
+  const { socialLinks, ...profile } = user;
+  return {
+    ...profile,
+    socialLinks: socialLinks.map(({ platform, value }) => ({
+      platform,
+      url: buildUrl(platform, value),
+    })),
+  };
 }
 
 /**

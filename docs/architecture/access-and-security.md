@@ -80,6 +80,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 | Private data leak | Public pages, explore, sitemap, metadata tags | §5 |
 | SSRF | Metadata fetch in `createLink` | Fetcher only: http(s), ports 80/443, IP checked at connect time (blocks DNS rebinding; IP-literal hosts checked before connect; any blocked address in a DNS answer rejects the host), manual redirects ≤ 3 re-checked, 5 s timeout, 1 MB cap, `text/html` only. Details: plan 1 B7.1 |
 | `javascript:` / `data:` links | Saved URLs, favicon/image URLs | `normalizeUrl` and parser keep only `http(s)` |
+| Unsafe or misleading profile links | Social links (plan 7) | Handles must match the platform pattern and the URL is built server-side (`buildUrl`, fixed `https://` prefix); Website/Other accept `https://` only, no credentials, ≤ 200 chars. The public query returns built URLs, never raw values. Links use `rel="me nofollow ugc noopener noreferrer"` |
 | XSS | Titles, descriptions, bio, fetched metadata | Render as text; no `dangerouslySetInnerHTML` |
 | Tab-napping, link spam | Outbound links | `target="_blank" rel="noopener noreferrer"`; saved-URL links on public pages add `nofollow ugc` (plan 2 Q3) |
 | Viewer tracking by image hosts | Hotlinked favicons/OG images | `referrerPolicy="no-referrer"` |

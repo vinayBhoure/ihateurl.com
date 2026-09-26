@@ -12,6 +12,16 @@ enum Visibility {
   PUBLIC
 }
 
+enum SocialPlatform {
+  YOUTUBE
+  INSTAGRAM
+  X
+  GITHUB
+  LINKEDIN
+  WEBSITE
+  OTHER
+}
+
 model User {
   id          String  @id @default(cuid())
   clerkId     String  @unique
@@ -23,6 +33,7 @@ model User {
   collections Collection[]
   links       Link[]
   categories  Category[]
+  socialLinks SocialLink[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -134,4 +145,19 @@ model LinkCategory {
 
   @@id([linkId, categoryId])
   @@index([categoryId])
+}
+
+model SocialLink {
+  id       String         @id @default(cuid())
+  userId   String
+  platform SocialPlatform
+  value    String
+  position Int
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, position])
 }

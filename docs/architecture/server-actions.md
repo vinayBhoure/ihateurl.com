@@ -22,6 +22,7 @@ Every action: resolve user from session → Zod parse (schema in `src/lib/valida
 - Signed out: `requireUser()` (Clerk `auth.protect()`) throws Next's 401 interrupt; `toActionResult` maps it to `UNAUTHORIZED`. Other Next interrupts (`redirect`, `notFound`) are rethrown, not swallowed.
 - `checkUsername` reports bad format, reserved and taken names as `{ available: false, reason }`; `VALIDATION` only for non-string input.
 - `updateProfile`: an omitted field is unchanged; an empty `displayName` or `bio` clears it.
+- `updateSocialLinks` (plan 7): replaces the full set (`deleteMany` + `createMany` in one transaction, `position` = input order). Handles are normalized (leading `@` and a pasted profile URL stripped); empty values are dropped. One link per named platform, one Website, Website + Other ≤ 3; those two are `https://` only, ≤ 200 chars. Row errors use flat keys `links.{index}`.
 - `categoryIds` (collection/link actions): `categoryIdsSchema` (max 5, deduped) + `assertAttachableCategories` (system or own, else `NOT_FOUND`).
 - Collections: title 1–100 (no limit in PRD; default chosen), description ≤ 500 (empty clears). Renaming keeps the slug; only an explicit `slug` changes the public URL. `categoryIds` replaces the whole set.
 - `createLink`: rate limit → schema → `normalizeUrl` (its message becomes the `url` field error). `Link.url` stores the parsed input (fragment and params kept); `normalizedUrl` is the dedupe key. Metadata is fetched before, not inside, the transaction; a race on the same URL attaches the link created first.
@@ -52,6 +53,7 @@ Auth column: **S** = signed-in (no `User` row required), **M** = member, owner-s
 | `checkUsername` | `username` | S | `VALIDATION` | — (returns `{ available, reason? }`) |
 | `completeOnboarding` | `username`, `displayName?` | S | `VALIDATION`, `CONFLICT` | `/app` |
 | `updateProfile` | `username?`, `displayName?` ≤ 60, `bio?` ≤ 280 | M | `VALIDATION`, `CONFLICT` | `/app/settings`, `/u/{old}`, `/u/{new}` |
+| `updateSocialLinks` | `links: { platform, value }[]` ≤ 8, full set | M | `VALIDATION` | `/app/settings`, `/u/{username}` |
 | `createCategory` | `name` 1–30 | M | `VALIDATION`, `CONFLICT` | `/app/settings`, `/app/collections/[id]` |
 | `deleteCategory` | `id` (own) | M | `NOT_FOUND` | `/app/settings`, `/app`, `/u/{username}` |
 | `createCollection` | `title`, `description?` ≤ 500 | M | `VALIDATION` | `/app` |

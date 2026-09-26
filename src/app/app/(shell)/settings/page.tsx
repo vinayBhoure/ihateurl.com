@@ -5,15 +5,21 @@ import { AppearanceSelect } from "@/components/appearance-select";
 import { CategorySettings } from "@/components/category-settings";
 import { PageHeader } from "@/components/page-header";
 import { ProfileForm } from "@/components/profile-form";
+import { SocialLinksForm } from "@/components/social-links-form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { requirePageUser } from "@/server/auth/current-user";
 import { listCategories } from "@/server/queries/categories";
+import { listMySocialLinks } from "@/server/queries/social";
 
 export const metadata: Metadata = { title: "Settings" };
 
 export default async function SettingsPage() {
   const user = await requirePageUser();
-  const [categories, clerkUser] = await Promise.all([listCategories(user.id), currentUser()]);
+  const [categories, socialLinks, clerkUser] = await Promise.all([
+    listCategories(user.id),
+    listMySocialLinks(user.id),
+    currentUser(),
+  ]);
   const avatarUrl = clerkUser?.imageUrl ?? user.avatarUrl;
   const initial = (user.displayName || user.username).charAt(0).toUpperCase();
 
@@ -30,6 +36,10 @@ export default async function SettingsPage() {
           <p className="text-sm text-muted-foreground">Your avatar comes from your sign-in account.</p>
         </div>
         <ProfileForm user={{ username: user.username, displayName: user.displayName, bio: user.bio }} />
+      </Section>
+
+      <Section id="social-links" title="Social links">
+        <SocialLinksForm links={socialLinks} />
       </Section>
 
       <Section id="categories" title="Categories">
