@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { PublicCollectionRow } from "@/components/public-collection-row";
+import { CollectionCard } from "@/components/collection-card";
 import { Button } from "@/components/ui/button";
+import type { Viewer } from "@/server/auth/current-user";
 import type { listSystemCategories, searchPublic } from "@/server/queries/public";
 
 type Category = Awaited<ReturnType<typeof listSystemCategories>>[number];
@@ -10,9 +11,13 @@ type ExploreCollection = Awaited<ReturnType<typeof searchPublic>>["results"][num
 export function LandingExplore({
   categories,
   collections,
+  viewer,
+  savedIds,
 }: {
   categories: Category[];
   collections: ExploreCollection[];
+  viewer: Viewer;
+  savedIds: Set<string>;
 }) {
   return (
     <section aria-labelledby="explore-heading" className="border-t bg-muted/60">
@@ -27,10 +32,16 @@ export function LandingExplore({
             </Button>
           ))}
         </nav>
-        <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {collections.map((c) => (
-            <li key={`${c.user.username}/${c.slug}`} className="overflow-hidden rounded-lg border bg-background">
-              <PublicCollectionRow username={c.user.username} collection={c} owner={c.user} />
+            <li key={c.id}>
+              <CollectionCard
+                collection={c}
+                owner={c.user}
+                viewer={viewer}
+                saved={savedIds.has(c.id)}
+                returnPath="/"
+              />
             </li>
           ))}
         </ul>
