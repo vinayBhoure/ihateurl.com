@@ -108,19 +108,20 @@ src/
     api/health/                 Built
     api/explore/suggest/        Built (plan 6 C3.4)
   components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
-  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create + edit), category-picker, collection-menu, public-link-bar, local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → link-row, collection-row, public-collection-row, save-collection-button, add-link-form, confirm-dialog, profile-form, category-settings, appearance-select, collection-links, link-edit-dialog, move-link-dialog, form-field (F3.4) → letter-tile, landing-product-frame (frame + how-it-works crops), landing-explore, landing-faq (plan 3 L1.1–L1.4) → user-menu (plan 6 C2.4), explore-search-form (plan 6 C3.4)
+  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create + edit), category-picker, collection-menu, public-link-bar, local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → link-row, collection-row, public-collection-row, save-collection-button, add-link-form, confirm-dialog, profile-form, category-settings, appearance-select, collection-links, link-edit-dialog, move-link-dialog, form-field (F3.4) → letter-tile, landing-product-frame (frame + how-it-works crops), landing-explore, landing-faq (plan 3 L1.1–L1.4) → user-menu (plan 6 C2.4), explore-search-form (plan 6 C3.4) → social-icon, social-links, prefixed-input, social-links-form (plan 7)
   hooks/                        Built: use-action-form (F1.3)
   lib/
     utils.ts                    Built
     validations/                Built (username) → Planned: other MVP schemas
     url/normalize.ts, slug.ts, reserved-usernames.ts   Built (B3.3)
     url/ensure-scheme.ts        Built (F1.3, FD4)
+    social-platforms.ts         Built (plan 7): platform config, handle normalizing, `buildUrl`
   server/
     auth/current-user.ts        Built (B3.1; requirePageUser + cached getCurrentUser, F3.2)
-    actions/                    Built: profile.ts (B4), category.ts (B5), collection.ts (B6), link.ts (B8), copyCollection (B11)
-    queries/                    Built: categories.ts (B5), collections.ts (B6), search.ts (B9), public.ts (B10)
+    actions/                    Built: profile.ts (B4; updateSocialLinks plan 7), category.ts (B5), collection.ts (B6), link.ts (B8), copyCollection (B11)
+    queries/                    Built: categories.ts (B5), collections.ts (B6), search.ts (B9), public.ts (B10), social.ts (plan 7)
     metadata/                   Built: fetch.ts, parse.ts (B7)
-    controllers/, routers/, middleware/    Built (health, profile, category, collection, link, copy, validate, explore-suggest C3.4)
+    controllers/, routers/, middleware/    Built (health, profile, category, collection, link, copy, validate, explore-suggest C3.4, social plan 7)
     result.ts                   Built: AppError, ActionResult, toActionResult (B3.1–B3.2)
     rate-limit.ts               Built (B3.2; exploreSuggest limit added C3.4)
     unique-slug.ts              Built (B3.3; queries DB, so not in lib/)

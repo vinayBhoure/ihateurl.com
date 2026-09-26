@@ -6,6 +6,7 @@ import { CopyButton } from "@/components/copy-button";
 import { EmptyState } from "@/components/empty-state";
 import { PublicCollectionRow } from "@/components/public-collection-row";
 import { ShareButton } from "@/components/share-button";
+import { SocialLinks } from "@/components/social-links";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { env } from "@/config/env";
 import { getPublicProfile } from "@/server/queries/public";
@@ -49,6 +50,12 @@ export default async function ProfilePage({ params }: Props) {
           <h1 className="text-2xl font-semibold tracking-[-0.015em] break-words">{name}</h1>
           <p className="font-mono text-sm text-muted-foreground">@{profile.username}</p>
           {profile.bio && <p className="pt-2 break-words whitespace-pre-line">{profile.bio}</p>}
+          {/* Negative margin lines the icons up with the text above; buttons keep their 44 px target. */}
+          <SocialLinks
+            links={profile.socialLinks}
+            ownerName={name}
+            className="-ml-3.5 pt-2 md:-ml-2.5"
+          />
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <CopyButton value={url} label="Copy profile link" />
