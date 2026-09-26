@@ -2,8 +2,7 @@
 
 Social links set in `/app/settings`, shown as an icon row on the public profile `/u/{username}`.
 
-Status: **Waiting for approval.**
-Depends on: §3 Q1 and Q2 answered.
+Status: **Approved** (owner, 2026-09-26: `/execute-plan`; Q1–Q4 answered in §3).
 
 ## Table of Contents
 1. [Current Understanding](#1-current-understanding)
@@ -37,7 +36,7 @@ Depends on: §3 Q1 and Q2 answered.
 | Public read | `getPublicProfile` in `src/server/queries/public.ts` selects fields explicitly. |
 | Profile page | `src/app/(public)/u/[username]/page.tsx`: header (avatar, name, @username, bio, copy/share) → collections. |
 | Icons | `lucide-react ^0.400`; lucide's brand icons are deprecated. |
-| Working tree | `main` has uncommitted logo + UserBadge changes (Q1). |
+| Working tree | Logo + UserBadge changes committed (`2598a09`), on `staging` and `main` (Q1). |
 
 ### Risks
 | Risk | Mitigation |
@@ -101,12 +100,12 @@ Inside the header's text column, under the bio (aligned with name and bio), `pt-
 
 ## 3. Clarification Questions
 
-| Priority | # | Question | Default if confirmed |
+| Priority | # | Question | Answer (2026-09-26) |
 |---|---|---|---|
-| High | Q1 | Uncommitted logo + UserBadge changes on `main`: commit them (own branch → staging → main) before this plan starts? | Yes, commit first |
-| High | Q2 | Run after plan 5 (Prisma upgrade) or before? Both add migrations. | After plan 5, or now if plan 5 is not started soon |
+| High | Q1 | Uncommitted logo + UserBadge changes on `main`: commit them (own branch → staging → main) before this plan starts? | Done: committed `2598a09`, on `staging` and `main` |
+| High | Q2 | Run after plan 5 (Prisma upgrade) or before? Both add migrations. | Now, on Prisma 6 (plan 5 not started) |
 | Low | Q3 | Profile row placement per §2.5 (under bio, aligned with name)? | Yes |
-| Low | Q4 | Label "X" with tooltip "X (Twitter)"? | Yes |
+| Low | Q4 | Label "X" with tooltip "X (Twitter)"? | Yes: settings "X", profile "{name} on X (Twitter)" |
 
 ---
 
@@ -114,7 +113,7 @@ Inside the header's text column, under the bio (aligned with name and bio), `pt-
 
 | Task | Purpose | Dependencies | Status |
 |---|---|---|---|
-| S7.1 Schema + migration | `SocialPlatform`, `SocialLink` | Q1, Q2 | Blocked |
+| S7.1 Schema + migration | `SocialPlatform`, `SocialLink` | Q1, Q2 | Completed |
 | S7.2 Platform config + Zod | §2.1 rules, `buildUrl` | — | Pending |
 | S7.3 Action + queries | `updateSocialLinks`; settings read; public read | S7.1, S7.2 | Pending |
 | S7.4 Reusable components | `SocialIcon`, `SocialLinks`, `PrefixedInput` | S7.2 | Pending |
