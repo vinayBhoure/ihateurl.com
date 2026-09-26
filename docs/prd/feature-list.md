@@ -236,4 +236,4 @@ Planned by the owner on 2026-09-26. Not in the PRD yet; add to the PRD before pl
 | F.10 | Progressive Web App (install from browser) | Yet to start | PRD non-goal "Mobile apps" covers native apps only |
 | F.11 | Hover card on @username in Explore rows: underline, avatar, collection count, bio | Yet to start | |
 | F.12 | AI bot for search / curation | Yet to start | Owner's description incomplete; related to 5.9; PRD non-goal "AI assistant" (initially) |
-| F.13 | Explore redesign (collection cards), from the owner's "Jev home page as ihateurl explore" | In progress | Plan 8: built on `feature/public/explore-cards` (cards on Explore, landing, profile; bookmark = copy); Done once merged to `main`. UserBadge placement (E6) waits on owner |
+| F.13 | Explore redesign (collection cards), from the owner's "Jev home page as ihateurl explore" | In progress | Plan 8: built on `feature/public/explore-cards` (cards on Explore, landing, profile; bookmark = copy); Done once merged to `main`. UserBadge: fixed floating, home page only (E6) |

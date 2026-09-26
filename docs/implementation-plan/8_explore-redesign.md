@@ -29,7 +29,7 @@ Depends on: nothing.
 | O6 | Accent colours allowed for card icon blocks only; `.claude/rules/ui.md` updated. |
 | O7 | Cards are reusable: Explore, landing Explore section, public profile. |
 | O8 | Public profile cards hide the creator row. |
-| O9 | UserBadge moved into the hero as a separate single commit, easy to revert. |
+| O9 | ~~UserBadge moved into the hero~~ Revised 2026-09-27: keep the fixed floating badge (no container mount); show it on the home page only, removed from Explore. Separate single commit. |
 | O10 | No change to routes, search logic, category filtering, auth or data model. No invented metrics. |
 
 ### Verified in code
@@ -96,7 +96,7 @@ Depends on: nothing.
 ### 2.4 Explore page
 | Area | Design |
 |---|---|
-| Hero | `h1` "Discover collections worth saving" (display size), sub-line "Curated links, tools, articles and resources shared by people like you."; UserBadge pill right on `md+` (E6). |
+| Hero | `h1` "Discover collections worth saving" (display size), sub-line "Curated links, tools, articles and resources shared by people like you."; no UserBadge (O9 revised). |
 | Search | `ExploreSearchForm` restyled: one large input (`h-12`, search icon, placeholder "Search collections, tools, resources…") + "Search" button on the right; full width on mobile. Suggestions unchanged. |
 | Categories | Pills (`rounded-full`), "All" active = filled (primary), others outline. Mobile: one scrollable row (`overflow-x-auto`, no wrap); `md+`: wrap. Links unchanged. |
 | Grid | `grid gap-4 md:grid-cols-2`; empty state and pagination unchanged. |
@@ -124,7 +124,7 @@ None open. §1 records the owner's answers.
 | E3 Reusable components | `CollectionCard`, `CollectionTile`, `FaviconStack`, `RelativeTime`, `SaveBookmarkButton` | E1, E2 | Completed |
 | E4 Explore page | Hero, search, pills, grid | E3 | Completed |
 | E5 Landing + profile | Use cards; remove `PublicCollectionRow` | E3 | Completed |
-| E6 UserBadge in hero | Position the badge (single commit) | E4 | Blocked (owner decision, see §5 E6 findings) |
+| E6 UserBadge home only | Fixed floating badge on `/` only (single commit) | E4 | Completed |
 | E7 Docs | UI rule, feature list, architecture | E4, E5 | Completed |
 
 Critical path: E1/E2 → E3 → E4 → E6. Parallel: E1 ∥ E2; E5 ∥ E4.
@@ -170,6 +170,10 @@ E6 findings (2026-09-27, badge.js v0.7.41):
 | Not documented | The script's header describes preview mode as the vendor's playground stage; a vendor update could change it. |
 | Couples `/` and `/explore` | React 19 loads the script once (deduped by `src`), so both pages must use the same attributes. Explore-only breaks client navigation (floats on Explore after `/`; missing on `/` after Explore). Needs a slot on the landing hero too, which ends the floating badge there. |
 | Owner decision | (a) slot on `/` and `/explore`; (b) keep the floating badge (no E6). |
+| Owner answer (2026-09-27) | Keep the badge fixed (no container mount); show it on the home page only, remove it from Explore. |
+
+E6 as built: `UserBadge` (client, `src/components/user-badge.tsx`, replaces `UserBadgeScript`) is rendered only on `/`. It inserts the script on mount and calls `window.UserBadge.destroy()` on unmount (removes the pill, closes its live connection), because the widget pins itself to `<body>` and would otherwise follow a client-side navigation. A script that loads after the page is left is destroyed on its `load` event. Privacy Notice updated (home page only).
+Validation: `/` shows the fixed pill (same position at scroll 0–1500); client nav `/` → `/explore` removes it, back to `/` restores it; leaving `/` 50 ms after arriving leaves no pill; direct `/explore` has no script.
 
 **E7 Docs**
 - `docs/prd/feature-list.md`: add "Explore redesign (collection cards)" to Future Scope as Done; note 2.12 unchanged. Built: F.13 ("Jev home page as ihateurl explore") is this feature, so F.13 was updated instead of a new row, status In progress until merged to `main` (the file's Done = merged).
@@ -188,7 +192,7 @@ feat(public): add card data to public queries
 feat(ui): add reusable collection card components
 feat(public): redesign explore with collection cards
 feat(public): use collection cards on landing and profile
-feat(public): place userbadge in explore hero        # E6 alone, revertable
+feat(public): show userbadge on the home page only   # E6 alone, revertable (O9 revised)
 docs: update ui rule and feature list for explore cards
 ```
 

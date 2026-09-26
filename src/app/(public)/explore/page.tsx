@@ -5,7 +5,6 @@ import { CollectionCard } from "@/components/collection-card";
 import { EmptyState } from "@/components/empty-state";
 import { ExploreSearchForm } from "@/components/explore-search-form";
 import { Button } from "@/components/ui/button";
-import { UserBadgeScript } from "@/components/user-badge-script";
 import { getViewer } from "@/server/auth/current-user";
 import { listSavedSourceIds } from "@/server/queries/collections";
 import { listSystemCategories, searchPublic } from "@/server/queries/public";
@@ -55,7 +54,6 @@ export default async function ExplorePage({ searchParams }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-12 md:px-6">
-      <UserBadgeScript />
       <div className="space-y-6">
         <div className="space-y-3">
           <h1 className="text-4xl font-semibold tracking-[-0.025em] text-balance md:text-5xl">
