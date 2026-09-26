@@ -21,6 +21,7 @@ Source: `docs/implementation-plan/2_frontend-mvp.md` §4–§5 (Quiet Index). If
 - No raw palette classes (`neutral-*`, `violet-*`, `text-white`) and no inline hex in app code. Destructive fills use `text-background`.
 - `success` only for "username available" and the Public badge dot.
 - Monochrome: no hue accent, borders over shadows.
+- Exception (plan 8 O6): `bg-tile-{1..5}` / `text-tile-{1..5}-foreground` only in the collection icon block (`CollectionTile`). Nowhere else.
 
 ## 2. Type
 | Role | Classes | Use |

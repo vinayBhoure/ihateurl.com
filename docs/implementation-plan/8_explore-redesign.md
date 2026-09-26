@@ -119,7 +119,7 @@ None open. §1 records the owner's answers.
 
 | Task | Purpose | Dependencies | Status |
 |---|---|---|---|
-| E1 Accent tokens + UI rule | Tile colours for light/dark | — | Pending |
+| E1 Accent tokens + UI rule | Tile colours for light/dark | — | Completed |
 | E2 Queries | Card data + saved lookup | — | Pending |
 | E3 Reusable components | `CollectionCard`, `CollectionTile`, `FaviconStack`, `RelativeTime`, `SaveBookmarkButton` | E1, E2 | Pending |
 | E4 Explore page | Hero, search, pills, grid | E3 | Pending |
