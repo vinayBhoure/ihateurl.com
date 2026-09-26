@@ -46,7 +46,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 1. Clerk owns sign-in, OAuth (Google, GitHub) and sessions. The app stores no passwords or tokens.
 2. `proxy.ts` only runs `clerkMiddleware()`. Each page, layout and action checks auth itself (`auth.protect()`, `requireOnboardedUser()`).
 3. `User.clerkId` links the DB row to Clerk. The row is created in `completeOnboarding`.
-4. Helpers: `getCurrentUser()` → `User | null` (memoized per request); `requireUser()` → Clerk `userId`; `requireOnboardedUser()` → `User` or `NOT_ONBOARDED` (actions); `requirePageUser()` → `User`, else redirect to `/login` or `/app/onboarding` (shell layout and pages).
+4. Helpers: `getCurrentUser()` → `User | null` (memoized per request); `requireUser()` → Clerk `userId`; `requireOnboardedUser()` → `User` or `NOT_ONBOARDED` (actions); `requirePageUser()` → `User`, else redirect to `/login` or `/app/onboarding` (shell layout and pages). Public pages use `getViewer()` → `signed-out | not-onboarded | member` (no redirect; the DB `userId` stays on the server) and `viewerStatusFor(viewer, ownerUsername)` → adds `owner` (plan 8).
 5. Profile ownership split (C2.4): Clerk owns sign-in data — email, password, connected accounts, security, photo (`Manage account`). ihateurl's DB owns the public profile — `username`, `displayName`, `bio` (`/app/settings`). The photo is the one exception copied into the DB: `avatarUrl` is set once at onboarding and kept in sync with Clerk's `imageUrl` on every `/app` shell load (`syncAvatarIfChanged`), since public pages render `User.avatarUrl`, not a live Clerk call.
 
 ---
@@ -69,6 +69,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 5. Sitemap lists only profiles with public collections and public collections.
 6. The landing page (`/`) shows the newest public collections through `searchPublic`, rendered per request (`force-dynamic`), so a collection made private leaves it on the next request.
 7. Public collection URLs (`/u/{username}/{slug}/{publicId}`, C3.1) are looked up by `publicId` alone; a stale `username`/`slug` in the URL redirects to the current one rather than 404ing.
+8. Collection cards (plan 8) select the first 3 links' `faviconUrl`/`domain` and only the first **system** category name; custom categories and `Category.userId` are never selected. The viewer's "already saved" check (`listSavedSourceIds`) reads only the viewer's own collections (`where: { userId }`).
 
 ---
 

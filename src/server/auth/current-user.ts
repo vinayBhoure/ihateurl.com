@@ -13,6 +13,25 @@ export const getCurrentUser = cache(async (): Promise<User | null> => {
   return prisma.user.findUnique({ where: { clerkId: userId } });
 });
 
+export type Viewer =
+  | { status: "signed-out" }
+  | { status: "not-onboarded" }
+  | { status: "member"; userId: string; username: string };
+
+/** Public pages: who is looking, without redirecting. `userId` is the DB id; keep it on the server. */
+export async function getViewer(): Promise<Viewer> {
+  const { userId } = await auth();
+  if (!userId) return { status: "signed-out" };
+  const user = await getCurrentUser();
+  if (!user) return { status: "not-onboarded" };
+  return { status: "member", userId: user.id, username: user.username };
+}
+
+/** The viewer's status for one collection: "owner" when they own it (save buttons hide). */
+export function viewerStatusFor(viewer: Viewer, ownerUsername: string): Viewer["status"] | "owner" {
+  return viewer.status === "member" && viewer.username === ownerUsername ? "owner" : viewer.status;
+}
+
 /** Signed-out: pages redirect to /login, server actions get a 401. */
 export async function requireUser(): Promise<string> {
   const { userId } = await auth.protect();

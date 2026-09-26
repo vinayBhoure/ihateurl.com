@@ -120,7 +120,7 @@ None open. §1 records the owner's answers.
 | Task | Purpose | Dependencies | Status |
 |---|---|---|---|
 | E1 Accent tokens + UI rule | Tile colours for light/dark | — | Completed |
-| E2 Queries | Card data + saved lookup | — | Pending |
+| E2 Queries | Card data + saved lookup | — | Completed |
 | E3 Reusable components | `CollectionCard`, `CollectionTile`, `FaviconStack`, `RelativeTime`, `SaveBookmarkButton` | E1, E2 | Pending |
 | E4 Explore page | Hero, search, pills, grid | E3 | Pending |
 | E5 Landing + profile | Use cards; remove `PublicCollectionRow` | E3 | Pending |
@@ -141,10 +141,10 @@ Every task ends with `npm run lint`, `npx tsc --noEmit`, `npm run build` and its
 Validation: all five tiles readable in light and dark (icon contrast ≥ 3:1).
 
 **E2 Queries** (`src/server/queries/public.ts`, `collections.ts`)
-- Shared `cardSelect`: `id, title, slug, publicId, description, updatedAt, allowCopy, _count.items`, `items { take: 3, orderBy: position, link { faviconUrl, domain } }`, `categories { category { name, slug, userId } }`.
+- Shared `cardSelect`: `id, title, slug, publicId, description, updatedAt, allowCopy, _count.items`, `items { take: 3, orderBy: position, link { faviconUrl, domain } }`, `categories` filtered to system ones, ordered by name, `take: 1`, `{ category { name } }` (built: no `userId`/custom categories leave the server).
 - Use it in `searchPublic` and `getPublicProfile` collections. Still `visibility: PUBLIC` only; no private fields.
 - `listSavedSourceIds(userId, ids)` → `Set` of source ids the viewer already copied.
-- `getViewer()` shared helper (move the one in the collection page) returning `signed-out | not-onboarded | member (+ userId, username)`.
+- `getViewer()` shared helper (move the one in the collection page) returning `signed-out | not-onboarded | member (+ userId, username)`. Built in `src/server/auth/current-user.ts` with `viewerStatusFor(viewer, ownerUsername)` for the `owner` case.
 Validation: Explore returns ≤ 3 favicons per card; private collections and `clerkId` still absent; saved lookup returns only the viewer's copies.
 
 **E3 Reusable components** (`src/components/`)

@@ -2,19 +2,18 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
-import { auth } from "@clerk/nextjs/server";
 import { Link2 } from "lucide-react";
 import { BackLink } from "@/components/back-link";
 import { CopyButton } from "@/components/copy-button";
 import { EmptyState } from "@/components/empty-state";
 import { LinkRow } from "@/components/link-row";
 import { LocalDate } from "@/components/local-date";
-import { SaveCollectionButton, type SaveViewer } from "@/components/save-collection-button";
+import { SaveCollectionButton } from "@/components/save-collection-button";
 import { ShareButton } from "@/components/share-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { env } from "@/config/env";
-import { getCurrentUser } from "@/server/auth/current-user";
+import { getViewer, viewerStatusFor } from "@/server/auth/current-user";
 import { getPublicCollectionByPublicId } from "@/server/queries/public";
 
 type Props = {
@@ -67,7 +66,7 @@ export default async function PublicCollectionPage({ params, searchParams }: Pro
   // (explore, landing, direct and shared links).
   const fromProfile = (Array.isArray(from) ? from[0] : from) === "profile";
   const back = fromProfile ? `/u/${owner.username}` : "/explore";
-  const viewer = await getViewer(owner.username);
+  const viewer = viewerStatusFor(await getViewer(), owner.username);
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12 md:px-6">
@@ -122,12 +121,4 @@ export default async function PublicCollectionPage({ params, searchParams }: Pro
       )}
     </div>
   );
-}
-
-async function getViewer(ownerUsername: string): Promise<SaveViewer> {
-  const { userId } = await auth();
-  if (!userId) return "signed-out";
-  const user = await getCurrentUser();
-  if (!user) return "not-onboarded";
-  return user.username === ownerUsername ? "owner" : "member";
 }
