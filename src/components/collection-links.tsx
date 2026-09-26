@@ -120,6 +120,11 @@ function LinkRowActions({
         </IconButton>
       </div>
 
+      {/* All widths (C2.3): pencil sits before the ⋯ menu, which no longer has its own Edit item. */}
+      <IconButton label="Edit link" disabled={false} onClick={() => setDialog("edit")}>
+        <Pencil />
+      </IconButton>
+
       <DropdownMenu modal={false}>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -141,10 +146,6 @@ function LinkRowActions({
             Move down
           </DropdownMenuItem>
           <DropdownMenuSeparator className="md:hidden" />
-          <DropdownMenuItem onSelect={() => setDialog("edit")}>
-            <Pencil />
-            Edit
-          </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => setDialog("move")}>
             <FolderInput />
             Move to…
