@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import { notFound } from "next/navigation";
 import { AddLinkForm } from "@/components/add-link-form";
+import { BackLink } from "@/components/back-link";
 import { EditCollectionDialog } from "@/components/collection-form-dialog";
 import { CollectionLinks } from "@/components/collection-links";
 import { CollectionMenu } from "@/components/collection-menu";
@@ -38,6 +39,7 @@ export default async function CollectionPage({ params }: Props) {
   return (
     <div className="space-y-8">
       <header className="space-y-4">
+        <BackLink href="/app" />
         <PageHeader
           title={collection.title}
           description={collection.description}

@@ -3,7 +3,8 @@ import { cache } from "react";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
-import { ArrowLeft, Link2 } from "lucide-react";
+import { Link2 } from "lucide-react";
+import { BackLink } from "@/components/back-link";
 import { CopyButton } from "@/components/copy-button";
 import { EmptyState } from "@/components/empty-state";
 import { LinkRow } from "@/components/link-row";
@@ -71,13 +72,7 @@ export default async function PublicCollectionPage({ params, searchParams }: Pro
   return (
     <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12 md:px-6">
       <header className="space-y-4">
-        <Link
-          href={back}
-          className="inline-flex min-h-11 items-center gap-1.5 rounded-sm text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none md:min-h-0"
-        >
-          <ArrowLeft aria-hidden className="size-4" />
-          Back to collections
-        </Link>
+        <BackLink href={back} />
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold tracking-[-0.015em] break-words">{collection.title}</h1>
           {collection.description && (
