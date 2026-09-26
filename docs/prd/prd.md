@@ -101,6 +101,7 @@ Validate that users create and return to collections.
 - Display name
 - Bio
 - Avatar
+- Social links (plan 7): YouTube, Instagram, X, GitHub, LinkedIn handles; up to 3 Website / Other `https://` links
 
 Username:
 
@@ -198,6 +199,7 @@ Show:
 - Avatar
 - Name
 - Bio
+- Social links (icons; only filled platforms, plan 7)
 - Public collections
 
 Never expose private collections.

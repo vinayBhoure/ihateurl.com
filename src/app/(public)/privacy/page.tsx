@@ -25,7 +25,8 @@ const SECTIONS: LegalSection[] = [
           your login. We store your Clerk account ID and a link to your profile photo.
         </p>
         <p>
-          <strong>What you give us.</strong> Your username, display name and bio; the links you save; the collections
+          <strong>What you give us.</strong> Your username, display name and bio; the social links you add to your
+          profile; the links you save; the collections
           you create, with their titles, descriptions, categories, order and visibility; and any edits you make to link
           titles and descriptions.
         </p>
@@ -75,7 +76,7 @@ const SECTIONS: LegalSection[] = [
         </p>
         <p>
           Your profile page at <span className="font-mono">ihateurl.com/u/your-username</span> is public. It shows your
-          username, display name, profile photo, bio and public collections.
+          username, display name, profile photo, bio, social links and public collections.
         </p>
         <p>When you make a collection public:</p>
         <ul>

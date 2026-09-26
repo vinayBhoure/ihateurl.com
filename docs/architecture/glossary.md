@@ -24,3 +24,4 @@
 | Member / onboarded user | Has a Clerk session and a `User` row with a username | Signed-in user without a `User` row |
 | Reserved username | Name blocked because it matches an app route or system word | A taken username |
 | Owner | The user whose `userId` is on a record | Admin |
+| Social link | A profile link (plan 7, `SocialLink`): a handle for YouTube, Instagram, X, GitHub or LinkedIn (URL built from a fixed prefix), or a full `https://` URL for Website/Other. Public on `/u/{username}` | A link: a saved URL inside collections |

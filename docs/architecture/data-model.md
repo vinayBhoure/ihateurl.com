@@ -18,6 +18,7 @@ erDiagram
   User ||--o{ Collection : owns
   User ||--o{ Link : owns
   User ||--o{ Category : "owns (custom)"
+  User ||--o{ SocialLink : "shows on profile"
   Collection ||--o{ CollectionItem : contains
   Link ||--o{ CollectionItem : "appears in"
   Collection ||--o{ CollectionCategory : tagged
@@ -39,6 +40,7 @@ erDiagram
 | `CollectionItem` | Places a link in a collection at a position | `(collectionId, linkId)` unique |
 | `Category` | System (`userId = null`) or custom (`userId` set) label | `(userId, slug)` unique |
 | `CollectionCategory`, `LinkCategory` | Many-to-many category joins | composite primary key |
+| `SocialLink` | One profile link (plan 7): a handle for YouTube/Instagram/X/GitHub/LinkedIn, a full URL for Website/Other | `platform` enum `SocialPlatform`; `position` = display order; limits are app rules (I12), no DB unique |
 
 ---
 
@@ -59,6 +61,7 @@ Enforced in controllers unless marked DB.
 | I9 | System categories are seeded, never edited or deleted by the app | `prisma/seed.ts`, `deleteCategory` (own only) |
 | I10 | Every `Collection` has a unique `publicId` (6-char `[a-z0-9]`), assigned at creation and never changed by rename or slug change | DB unique + `uniquePublicId` in `createCollection`, `copyCollection` |
 | I11 | `copyCollection` only copies a source with `visibility: PUBLIC` and `allowCopy: true` | `copyCollection` (query filter, not app-level check) |
+| I12 | A user has at most one `SocialLink` per handle platform and one Website; Website + Other ≤ 3; handles match the platform pattern, Website/Other are `https://` ≤ 200 chars; the set is replaced as a whole with `position` `0..n-1` | `socialLinksSchema` + `updateSocialLinks` (one transaction) |
 
 ---
 
@@ -66,7 +69,7 @@ Enforced in controllers unless marked DB.
 
 | Deleted | DB cascade | App follow-up (same transaction) |
 |---|---|---|
-| `User` | collections, links, custom categories, and their items/joins | — (Clerk deletion is not synced in MVP) |
+| `User` | collections, links, custom categories, social links, and their items/joins | — (Clerk deletion is not synced in MVP) |
 | `Collection` | items, collection-category joins; copies' `sourceCollectionId` → `null` | delete the user's links left with zero items (I2) |
 | `Link` | items, link-category joins | — |
 | `CollectionItem` (remove) | — | delete the link if zero items remain (I2) |
@@ -81,6 +84,7 @@ Enforced in controllers unless marked DB.
 | My collections | `Collection @@index([userId])` |
 | Collection items in order | `CollectionItem @@index([collectionId, position])` |
 | Public profile by URL | `User.username` unique |
+| Profile social links in order (settings, public profile) | `SocialLink @@index([userId, position])` |
 | Public collection by URL | `Collection.publicId` unique (C3.1); stale `username`/`slug` in the URL redirect to the current one |
 | Duplicate URL check | `Link @@unique([userId, normalizedUrl])` |
 | Explore category filter | `CollectionCategory @@index([categoryId])`, `Collection @@index([visibility])` |
