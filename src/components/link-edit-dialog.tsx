@@ -39,14 +39,16 @@ export function LinkEditDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const [container, setContainer] = useState<HTMLDivElement | null>(null);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent ref={setContainer}>
         <DialogHeader>
           <DialogTitle>Edit link</DialogTitle>
           <DialogDescription>Changes show in every collection with this link.</DialogDescription>
         </DialogHeader>
-        <LinkEditForm link={link} categories={categories} onSaved={() => onOpenChange(false)} />
+        <LinkEditForm link={link} categories={categories} container={container} onSaved={() => onOpenChange(false)} />
       </DialogContent>
     </Dialog>
   );
@@ -55,10 +57,12 @@ export function LinkEditDialog({
 function LinkEditForm({
   link,
   categories,
+  container,
   onSaved,
 }: {
   link: EditableLink;
   categories: CategoryOption[];
+  container: HTMLDivElement | null;
   onSaved: () => void;
 }) {
   const [title, setTitle] = useState(link.title ?? "");
@@ -115,7 +119,13 @@ function LinkEditForm({
         />
       </Field>
       <Field id="link-categories" label="Categories" error={fieldErrors.categoryIds?.[0]}>
-        <CategoryPicker id="link-categories" categories={categories} value={categoryIds} onChange={setCategoryIds} />
+        <CategoryPicker
+          id="link-categories"
+          categories={categories}
+          value={categoryIds}
+          onChange={setCategoryIds}
+          container={container}
+        />
       </Field>
       <DialogFooter>
         <DialogClose asChild>

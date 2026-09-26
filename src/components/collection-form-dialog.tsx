@@ -122,6 +122,7 @@ export function EditCollectionDialog({
   categories: CategoryOption[];
 }) {
   const [open, setOpen] = useState(false);
+  const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -131,7 +132,7 @@ export function EditCollectionDialog({
           <span className="max-md:sr-only">Edit</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent ref={setContainer}>
         <DialogHeader>
           <DialogTitle>Edit collection</DialogTitle>
           <DialogDescription>Changes apply to the public page too.</DialogDescription>
@@ -140,6 +141,7 @@ export function EditCollectionDialog({
           collection={collection}
           username={username}
           categories={categories}
+          container={container}
           onSaved={() => setOpen(false)}
         />
       </DialogContent>
@@ -151,11 +153,13 @@ function EditCollectionForm({
   collection,
   username,
   categories,
+  container,
   onSaved,
 }: {
   collection: EditableCollection;
   username: string;
   categories: CategoryOption[];
+  container: HTMLDivElement | null;
   onSaved: () => void;
 }) {
   const [isPublic, setIsPublic] = useState(collection.visibility === "PUBLIC");
@@ -238,7 +242,13 @@ function EditCollectionForm({
       </Field>
 
       <Field id="categories" label="Categories" error={fieldErrors.categoryIds?.[0]}>
-        <CategoryPicker id="categories" categories={categories} value={categoryIds} onChange={setCategoryIds} />
+        <CategoryPicker
+          id="categories"
+          categories={categories}
+          value={categoryIds}
+          onChange={setCategoryIds}
+          container={container}
+        />
       </Field>
 
       <div className="flex items-center justify-between gap-4 rounded-lg border px-3 py-2">

@@ -22,11 +22,14 @@ export function CategoryPicker({
   categories,
   value,
   onChange,
+  container,
 }: {
   id?: string;
   categories: CategoryOption[];
   value: string[];
   onChange: (ids: string[]) => void;
+  /** Enclosing dialog's content node, if any — keeps the list scrolling inside the dialog. */
+  container?: HTMLElement | null;
 }) {
   const [created, setCreated] = useState<CategoryOption[]>([]);
   const [name, setName] = useState("");
@@ -60,7 +63,7 @@ export function CategoryPicker({
           <ChevronDown className="text-muted-foreground" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-(--radix-popover-trigger-width) min-w-64 p-0">
+      <PopoverContent align="start" container={container} className="w-(--radix-popover-trigger-width) min-w-64 p-0">
         <p className="border-b px-3 py-2 text-xs text-muted-foreground">
           {value.length}/{MAX_CATEGORIES_PER_ITEM} selected
         </p>

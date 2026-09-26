@@ -2,7 +2,7 @@
 
 Fixes and changes from the owner's production review (2026-09-26), in three chunks.
 
-Status: **Chunk 1 done. Waiting for "Approve chunk 2" (G1).**
+Status: **Chunk 2 approved (G1 open). In progress.**
 Depends on: nothing for Chunk 1; see §2 for Chunk 3 vs plan 5.
 
 ## Table of Contents
@@ -86,10 +86,10 @@ Defaults apply only after owner confirms at G0.
 | 1 Production fixes | C1.1 Log bugs in `docs/qa/bugs.md` | #1 #3 #5 #2b | G0 | Completed |
 | 1 | C1.2 Production app URL | #3 | G0 | Completed |
 | 1 | C1.3 Clerk username off | #1 | G0 | Completed |
-| 2 UI fixes | C2.1 Dialog + category picker | #5 | G1 | Blocked |
-| 2 | C2.2 `@username` on rows | #2b | G1 | Blocked |
-| 2 | C2.3 Pencil on link rows | #4 | G1 | Blocked |
-| 2 | C2.4 User menu + Clerk/DB profile ownership | #7 | G1 | Blocked |
+| 2 UI fixes | C2.1 Dialog + category picker | #5 | G1 | Completed |
+| 2 | C2.2 `@username` on rows | #2b | G1 | Pending |
+| 2 | C2.3 Pencil on link rows | #4 | G1 | Pending |
+| 2 | C2.4 User menu + Clerk/DB profile ownership | #7 | G1 | Pending |
 | 3 Product changes | C3.1 `publicId` + `/u/` URLs | #8 | G2, Q2 | Blocked |
 | 3 | C3.2 Allow-copy setting | #9 | C3.1 | Blocked |
 | 3 | C3.3 Merge search into `/explore` | #6 | G2 | Blocked |
