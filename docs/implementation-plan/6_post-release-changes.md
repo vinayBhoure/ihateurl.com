@@ -2,7 +2,7 @@
 
 Fixes and changes from the owner's production review (2026-09-26), in three chunks.
 
-Status: **Chunk 2 approved (G1 open). In progress.**
+Status: **Chunk 2 done. Waiting for "Approve chunk 3" (G2).**
 Depends on: nothing for Chunk 1; see §2 for Chunk 3 vs plan 5.
 
 ## Table of Contents
