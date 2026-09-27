@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { env } from "@/config/env";
 import { getViewer, viewerStatusFor } from "@/server/auth/current-user";
+import { listSavedCollectionIds } from "@/server/queries/collections";
 import { getPublicCollectionByPublicId } from "@/server/queries/public";
 
 type Props = {
@@ -66,7 +67,12 @@ export default async function PublicCollectionPage({ params, searchParams }: Pro
   // (explore, landing, direct and shared links).
   const fromProfile = (Array.isArray(from) ? from[0] : from) === "profile";
   const back = fromProfile ? `/u/${owner.username}` : "/explore";
-  const viewer = viewerStatusFor(await getViewer(), owner.username);
+  const viewerInfo = await getViewer();
+  const viewer = viewerStatusFor(viewerInfo, owner.username);
+  const saved =
+    viewer === "member" && viewerInfo.status === "member"
+      ? (await listSavedCollectionIds(viewerInfo.userId, [collection.id])).has(collection.id)
+      : false;
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-12 md:px-6">
@@ -100,9 +106,13 @@ export default async function PublicCollectionPage({ params, searchParams }: Pro
           </div>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          {collection.allowCopy && (
-            <SaveCollectionButton collectionId={collection.id} viewer={viewer} returnPath={path} />
-          )}
+          <SaveCollectionButton
+            collectionId={collection.id}
+            viewer={viewer}
+            saved={saved}
+            canSave={collection.allowCopy}
+            returnPath={path}
+          />
           <CopyButton value={`${env.appUrl}${path}`} label="Copy link" />
           <ShareButton title={collection.title} url={`${env.appUrl}${path}`} />
         </div>
