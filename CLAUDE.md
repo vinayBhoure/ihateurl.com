@@ -94,7 +94,7 @@ Every session that reads or changes this repo MUST write two log entries before 
 **ihateurl** lets people save URLs into collections, keep them private, and publish selected collections at `ihateurl.com/u/{username}/{collection-slug}/{publicId}`.
 Core loop: Save → Organize → Share → Maintain.
 
-**Current state:** backend MVP (plan 1), frontend (plan 2), landing v2 (plan 3) and Privacy/Terms (plan 4 R2) built. Plan 6 (post-release fixes: production URL, dialog/UI bugs, `/u/` short URLs + `publicId`, allow-copy setting, `/explore` search suggestions) chunks 1–3 done (C3.3 skipped, owner decision) on branches not yet merged to `staging`; next: plan 4 remaining QA + release checklist, or plan 5 (Prisma upgrade). Plan 7 (social links) built on `feature/profile/social-links`, not yet merged. Plan 8 (Explore redesign, collection cards) E1–E7 built on `feature/public/explore-cards`, not yet merged (E6: UserBadge fixed, home page only).
+**Current state:** backend MVP (plan 1), frontend (plan 2), landing v2 (plan 3) and Privacy/Terms (plan 4 R2) built. Plan 6 (post-release fixes: production URL, dialog/UI bugs, `/u/` short URLs + `publicId`, allow-copy setting, `/explore` search suggestions) chunks 1–3 done (C3.3 skipped, owner decision) on branches not yet merged to `staging`; next: plan 4 remaining QA + release checklist, or plan 5 (Prisma upgrade). Plan 7 (social links) built on `feature/profile/social-links`, not yet merged. Plan 8 (Explore redesign, collection cards) E1–E7 built on `feature/public/explore-cards`, not yet merged (E6: UserBadge fixed, home page only). Plan 9 (saved collections: save = bookmark in `/app/saved`, copy flow removed) G1–G6 built on `feature/collections/saved`, not yet merged; plan 5 starts after it.
 
 ### Source of truth (read before any task)
 | Doc | Purpose |
@@ -108,7 +108,8 @@ Core loop: Save → Organize → Share → Maintain.
 | `docs/implementation-plan/5_prisma-upgrade.md` | Prisma 6 → 7 upgrade (Approved; starts after plan 4 R1); Prisma 8 deferred |
 | `docs/implementation-plan/6_post-release-changes.md` | Post-release fixes: production URL, dialog/UI bugs, `/u/` short URLs, allow-copy, `/explore` search suggestions (3 gated chunks) |
 | `docs/implementation-plan/7_social-links.md` | Social links in `/app/settings`, icon row on `/u/{username}` |
-| `docs/implementation-plan/8_explore-redesign.md` | Explore redesign: collection cards on Explore, landing and profile; bookmark = copy |
+| `docs/implementation-plan/8_explore-redesign.md` | Explore redesign: collection cards on Explore, landing and profile; bookmark = copy (replaced by plan 9) |
+| `docs/implementation-plan/9_saved-collections.md` | Saved collections: save = bookmark (`SavedCollection`), `/app` tabs + `/app/saved`, copy flow removed |
 
 ### Architecture reference
 | Doc | Read when |

@@ -2,7 +2,7 @@
 
 Replace "Save to my collections" (copies the collection and all its links) with a bookmark that points to the owner's collection. Saved collections appear in a new **Saved collections** tab on `/app`.
 
-Status: **Approved** (owner, 2026-09-27: `/execute-plan`). Q1–Q2 answered (owner, 2026-09-27).
+Status: **Built** on `feature/collections/saved` (G1–G6), not merged. Approved (owner, 2026-09-27: `/execute-plan`). Q1–Q2 answered (owner, 2026-09-27).
 Depends on: nothing. Runs before plan 5 (Prisma upgrade).
 
 ## Table of Contents
@@ -105,10 +105,10 @@ model SavedCollection {
 |---|---|---|---|
 | G1 Schema + migration | `SavedCollection` table | — | Completed |
 | G2 Actions + queries | Save/unsave; saved ids; saved list | G1 | Completed |
-| G3 Bookmark + collection page toggle | Replace copy calls in UI | G2 | Built; signed-in UI check pending |
-| G4 `/app` tabs + `/app/saved` page | Show saved collections | G2 | Built; signed-in UI check pending |
+| G3 Bookmark + collection page toggle | Replace copy calls in UI | G2 | Completed |
+| G4 `/app` tabs + `/app/saved` page | Show saved collections | G2 | Completed |
 | G5 Remove copy code | Delete copy action, controller, schema, rate limit, `listSavedSourceIds` | G3 | Completed |
-| G6 Docs | PRD, Terms, architecture, glossary, feature list | G3–G5 | Pending |
+| G6 Docs | PRD, Terms, architecture, glossary, feature list; plus Privacy, landing FAQ and landing mock (owner, 2026-09-27) | G3–G5 | Completed |
 
 Critical path: G1 → G2 → G3 → G5 → G6. Parallel: G3 ∥ G4.
 
