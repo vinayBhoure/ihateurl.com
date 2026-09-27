@@ -30,10 +30,11 @@ model User {
   bio         String?
   avatarUrl   String?
 
-  collections Collection[]
-  links       Link[]
-  categories  Category[]
-  socialLinks SocialLink[]
+  collections      Collection[]
+  links            Link[]
+  categories       Category[]
+  socialLinks      SocialLink[]
+  savedCollections SavedCollection[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -58,6 +59,7 @@ model Collection {
   user       User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   items      CollectionItem[]
   categories CollectionCategory[]
+  savedBy    SavedCollection[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -160,4 +162,18 @@ model SocialLink {
   updatedAt DateTime @updatedAt
 
   @@index([userId, position])
+}
+
+/// A bookmark: a user's reference to another user's public collection (plan 9). No data is copied.
+model SavedCollection {
+  userId       String
+  collectionId String
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@id([userId, collectionId])
+  @@index([collectionId])
 }
