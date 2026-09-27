@@ -19,8 +19,9 @@
 | Metadata | Title, description, domain, favicon URL, image URL fetched when a URL is first saved; user-editable | Page SEO metadata (`generateMetadata`) |
 | Visibility | `PRIVATE` (default, owner only) or `PUBLIC` (anyone, indexable) | Access control on `/app` routes |
 | System category | Seeded category (`userId = null`), same for all users, used in explore filter | Custom category: created by one user, visible on their items only |
-| Copy (collection) | Snapshot of another user's public collection into your account, starts `PRIVATE`; keeps `sourceCollectionId`, no sync. UI: "Save to my collections" (button on the collection page, bookmark icon on collection cards, plan 8) | Fork (final product): copy with visible attribution |
-| Allow copy | Per-collection setting (`allowCopy`, default on, C3.2): whether other members can copy a `PUBLIC` collection. Off hides the Save button and refuses `copyCollection` | Visibility: a `PRIVATE` collection can't be copied regardless of this setting |
+| Save (collection) | A bookmark (plan 9, `SavedCollection`): a reference to another user's `PUBLIC` collection, listed in Saved collections (`/app/saved`). Nothing is copied; the owner's edits show; hidden while private; gone when deleted. UI: bookmark icon on collection cards, "Save" / "Saved" on the collection page | Copy (collection): a snapshot, no longer made; Fork (final product) |
+| Copy (collection) | Retired in plan 9. A snapshot the old "Save to my collections" (P4) put in the user's account (`PRIVATE`, `sourceCollectionId`, no sync). Existing copies stay as the copier's own collections; no new ones are made | Save (collection): a reference, not a snapshot |
+| Allow others to save | Per-collection setting (`allowCopy`, column name kept, default on, C3.2): whether other members can save a `PUBLIC` collection. Off refuses new saves and hides the save button from people who haven't saved it; existing saves stay (plan 9) | Visibility: a `PRIVATE` collection can't be saved regardless of this setting |
 | Member / onboarded user | Has a Clerk session and a `User` row with a username | Signed-in user without a `User` row |
 | Reserved username | Name blocked because it matches an app route or system word | A taken username |
 | Owner | The user whose `userId` is on a record | Admin |

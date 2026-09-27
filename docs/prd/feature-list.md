@@ -28,7 +28,7 @@ Update this file in the same commit as any change that moves a feature's status.
 | Area | Done | In progress | Yet to start |
 |---|---|---|---|
 | Phase 1 | 30 | 1 | 0 |
-| Phase 2 | 17 | 0 | 1 |
+| Phase 2 | 16 | 1 | 1 |
 | SEO, Performance, Security | 17 | 0 | 2 |
 | Product Metrics | 0 | 0 | 13 |
 | Final Product | 1 | 0 | 12 |
@@ -131,7 +131,7 @@ Update this file in the same commit as any change that moves a feature's status.
 ### Save collection
 | # | Feature | Status | Notes |
 |---|---|---|---|
-| 2.16 | Copy a public collection into own account (no live sync) | Done | Owner can turn off per collection |
+| 2.16 | Save a public collection to Saved collections (bookmark, no copy) | In progress | Plan 9: built on `feature/collections/saved`, replaces copy-on-save; Done once merged to `main`. Owner can turn off new saves per collection |
 
 ### Phase 2 flows
 | # | Feature | Status | Notes |
@@ -236,4 +236,4 @@ Planned by the owner on 2026-09-26. Not in the PRD yet; add to the PRD before pl
 | F.10 | Progressive Web App (install from browser) | Yet to start | PRD non-goal "Mobile apps" covers native apps only |
 | F.11 | Hover card on @username in Explore rows: underline, avatar, collection count, bio | Yet to start | |
 | F.12 | AI bot for search / curation | Yet to start | Owner's description incomplete; related to 5.9; PRD non-goal "AI assistant" (initially) |
-| F.13 | Explore redesign (collection cards), from the owner's "Jev home page as ihateurl explore" | In progress | Plan 8: built on `feature/public/explore-cards` (cards on Explore, landing, profile; bookmark = copy); Done once merged to `main`. UserBadge: fixed floating, home page only (E6) |
+| F.13 | Explore redesign (collection cards), from the owner's "Jev home page as ihateurl explore" | In progress | Plan 8: built on `feature/public/explore-cards` (cards on Explore, landing, profile; bookmark = save, plan 9); Done once merged to `main`. UserBadge: fixed floating, home page only (E6) |
