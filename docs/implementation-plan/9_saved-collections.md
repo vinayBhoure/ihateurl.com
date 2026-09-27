@@ -104,7 +104,7 @@ model SavedCollection {
 | Task | Purpose | Dependencies | Status |
 |---|---|---|---|
 | G1 Schema + migration | `SavedCollection` table | — | Completed |
-| G2 Actions + queries | Save/unsave; saved ids; saved list | G1 | Pending |
+| G2 Actions + queries | Save/unsave; saved ids; saved list | G1 | Completed |
 | G3 Bookmark + collection page toggle | Replace copy calls in UI | G2 | Pending |
 | G4 `/app` tabs + `/app/saved` page | Show saved collections | G2 | Pending |
 | G5 Remove copy code | Delete copy action, controller, schema, rate limit, `listSavedSourceIds` | G3 | Pending |

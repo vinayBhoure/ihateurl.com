@@ -27,6 +27,7 @@ Every action: resolve user from session → Zod parse (schema in `src/lib/valida
 - Collections: title 1–100 (no limit in PRD; default chosen), description ≤ 500 (empty clears). Renaming keeps the slug; only an explicit `slug` changes the public URL. `categoryIds` replaces the whole set.
 - `createLink`: rate limit → schema → `normalizeUrl` (its message becomes the `url` field error). `Link.url` stores the parsed input (fragment and params kept); `normalizedUrl` is the dedupe key. Metadata is fetched before, not inside, the transaction; a race on the same URL attaches the link created first.
 - Link edits: title 1–300, description ≤ 1000 (empty clears), `categoryIds` replaces the set. `moveLink` into the same collection is a no-op. Invalid ids in link actions return `NOT_FOUND`; a reorder whose `itemIds` isn't exactly the current set returns `VALIDATION`.
+- `saveCollection` / `unsaveCollection` (plan 9): a bookmark row in `SavedCollection`; nothing is copied. Save needs another user's `PUBLIC` collection with `allowCopy: true` ("allow new saves"), else `NOT_FOUND` (own included); saving twice keeps the first row. Unsave deletes the viewer's row whatever the collection's visibility or `allowCopy` is now; no row → `NOT_FOUND`. Invalid ids → `NOT_FOUND`. Both share the `saveCollection` rate limit (30/min/user).
 - `copyCollection`: source must be another user's `PUBLIC` collection with `allowCopy: true`, else `NOT_FOUND` (own included, C3.2). One batched transaction: copy (`PRIVATE`, `uniqueSlug` from the source slug, `sourceCollectionId`, `copiedAt`) + system categories, new links with copied metadata and system categories, items in source order. Existing links are reused unchanged.
 
 ---
@@ -66,5 +67,7 @@ Auth column: **S** = signed-in (no `User` row required), **M** = member, owner-s
 | `moveLink` | `itemId`, `targetCollectionId` | M | `NOT_FOUND` | source + target collection paths |
 | `reorderCollectionItems` | `collectionId`, `itemIds` (full set) | M | `VALIDATION`, `NOT_FOUND` | collection paths |
 | `copyCollection` | `sourceCollectionId` | M, rate limited | `NOT_FOUND`, `RATE_LIMITED` | `/app` (returns new collection `id`) |
+| `saveCollection` | `collectionId` | M, rate limited | `NOT_FOUND`, `RATE_LIMITED` | `/app/saved` |
+| `unsaveCollection` | `collectionId` (own saved row) | M, rate limited | `NOT_FOUND`, `RATE_LIMITED` | `/app/saved` |
 
 "Collection paths" = `/app/collections/[id]`, `/u/{username}/{slug}/{publicId}`, `/u/{username}`, `/app`.

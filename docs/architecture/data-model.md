@@ -65,6 +65,7 @@ Enforced in controllers unless marked DB.
 | I10 | Every `Collection` has a unique `publicId` (6-char `[a-z0-9]`), assigned at creation and never changed by rename or slug change | DB unique + `uniquePublicId` in `createCollection`, `copyCollection` |
 | I11 | `copyCollection` only copies a source with `visibility: PUBLIC` and `allowCopy: true` | `copyCollection` (query filter, not app-level check) |
 | I12 | A user has at most one `SocialLink` per handle platform and one Website; Website + Other ≤ 3; handles match the platform pattern, Website/Other are `https://` ≤ 200 chars; the set is replaced as a whole with `position` `0..n-1` | `socialLinksSchema` + `updateSocialLinks` (one transaction) |
+| I13 | A user saves a collection at most once, and only another user's `PUBLIC` collection with `allowCopy: true`; existing saves survive `PRIVATE` and `allowCopy: false`, and are listed only while `PUBLIC` | DB primary key + `saveCollection` (query filter); `listMySavedCollections` |
 
 ---
 
