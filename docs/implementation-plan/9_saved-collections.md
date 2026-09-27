@@ -107,7 +107,7 @@ model SavedCollection {
 | G2 Actions + queries | Save/unsave; saved ids; saved list | G1 | Completed |
 | G3 Bookmark + collection page toggle | Replace copy calls in UI | G2 | Built; signed-in UI check pending |
 | G4 `/app` tabs + `/app/saved` page | Show saved collections | G2 | Built; signed-in UI check pending |
-| G5 Remove copy code | Delete copy action, controller, schema, rate limit, `listSavedSourceIds` | G3 | Pending |
+| G5 Remove copy code | Delete copy action, controller, schema, rate limit, `listSavedSourceIds` | G3 | Completed |
 | G6 Docs | PRD, Terms, architecture, glossary, feature list | G3–G5 | Pending |
 
 Critical path: G1 → G2 → G3 → G5 → G6. Parallel: G3 ∥ G4.

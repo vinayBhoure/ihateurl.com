@@ -37,7 +37,6 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 | `/api/health` | ✓ | ✓ | ✓ | ✓ |
 | `checkUsername`, `completeOnboarding` | ✗ | ✓ | ✗ (already onboarded) | — |
 | All other actions | ✗ | ✗ | ✓ owner only | as member |
-| `copyCollection` | ✗ | ✗ | ✓ source is `PUBLIC` and not own | as member |
 | `saveCollection` | ✗ | ✗ | ✓ collection is `PUBLIC`, `allowCopy` on, not own | as member |
 | `unsaveCollection` | ✗ | ✗ | ✓ own saved row only (any visibility) | as member |
 
@@ -89,7 +88,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 | Tab-napping, link spam | Outbound links | `target="_blank" rel="noopener noreferrer"`; saved-URL links on public pages add `nofollow ugc` (plan 2 Q3) |
 | Viewer tracking by image hosts | Hotlinked favicons/OG images | `referrerPolicy="no-referrer"` |
 | Route squatting | `/u/{username}` | Reserved username list |
-| Abuse / cost | `createLink`, `copyCollection`, `saveCollection`/`unsaveCollection`; all server actions | In-memory per-user rate limit (P3); resets per server instance. Planned backstop: Vercel WAF per-IP limit on `POST` (plan 4 R1) |
+| Abuse / cost | `createLink`, `saveCollection`/`unsaveCollection`; all server actions | In-memory per-user rate limit (P3); resets per server instance. Planned backstop: Vercel WAF per-IP limit on `POST` (plan 4 R1) |
 | Abuse / cost, unauthenticated | `GET /api/explore/suggest` (C3.4) | In-memory per-IP rate limit (`x-forwarded-for`); same per-server-instance caveat as above |
 | Error detail leak | Actions | `AppError` → safe message; unknown errors logged, generic message returned |
 | Secret exposure | Env | Only `NEXT_PUBLIC_*` reach the client; never print `.env` values |

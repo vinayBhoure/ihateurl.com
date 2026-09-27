@@ -3,7 +3,6 @@ import { AppError } from "@/server/result";
 /** P3. Per server instance only (D9): limits reset on restart or across instances. */
 export const RATE_LIMITS = {
   createLink: { limit: 30, windowMs: 60_000 },
-  copyCollection: { limit: 10, windowMs: 60_000 },
   saveCollection: { limit: 30, windowMs: 60_000 },
   exploreSuggest: { limit: 20, windowMs: 60_000 },
 } as const;

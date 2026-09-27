@@ -18,16 +18,6 @@ export async function listMyCollections(userId: string) {
   });
 }
 
-/** Plan 8 E2: which of `sourceIds` the viewer has already saved (copied), for the card bookmark. */
-export async function listSavedSourceIds(userId: string, sourceIds: string[]): Promise<Set<string>> {
-  if (sourceIds.length === 0) return new Set();
-  const copies = await prisma.collection.findMany({
-    where: { userId, sourceCollectionId: { in: sourceIds } },
-    select: { sourceCollectionId: true },
-  });
-  return new Set(copies.flatMap((c) => (c.sourceCollectionId ? [c.sourceCollectionId] : [])));
-}
-
 /** Plan 9: which of `collectionIds` the viewer has saved (bookmarked), for the save buttons. */
 export async function listSavedCollectionIds(userId: string, collectionIds: string[]): Promise<Set<string>> {
   if (collectionIds.length === 0) return new Set();

@@ -37,7 +37,7 @@ erDiagram
 | Model | Purpose | Key constraints |
 |---|---|---|
 | `User` | App profile tied to a Clerk account | `clerkId` unique, `username` unique |
-| `Collection` | Named, ordered list of links | `(userId, slug)` unique; `publicId` unique (6-char `[a-z0-9]`, C3.1); `visibility` default `PRIVATE`; `allowCopy` default `true` (C3.2); `sourceCollectionId` → `SetNull` |
+| `Collection` | Named, ordered list of links | `(userId, slug)` unique; `publicId` unique (6-char `[a-z0-9]`, C3.1); `visibility` default `PRIVATE`; `allowCopy` default `true` (C3.2; since plan 9 it means "allow new saves"); `sourceCollectionId` → `SetNull` |
 | `Link` | One saved URL + its metadata, shared by all collections that hold it | `(userId, normalizedUrl)` unique |
 | `CollectionItem` | Places a link in a collection at a position | `(collectionId, linkId)` unique |
 | `Category` | System (`userId = null`) or custom (`userId` set) label | `(userId, slug)` unique |
@@ -53,7 +53,7 @@ Enforced in controllers unless marked DB.
 
 | # | Rule | Enforced in |
 |---|---|---|
-| I1 | A user has at most one `Link` per `normalizedUrl` | DB unique + `createLink`, `copyCollection` |
+| I1 | A user has at most one `Link` per `normalizedUrl` | DB unique + `createLink` |
 | I2 | Every `Link` has ≥ 1 `CollectionItem` | `removeLinkFromCollection`, `deleteCollection` (same transaction) |
 | I3 | A link appears once per collection | DB unique + `createLink`, `moveLink` |
 | I4 | Items are read in `position` order; reorder rewrites `0..n-1`; gaps after removal are allowed | `reorderCollectionItems` |
@@ -62,8 +62,8 @@ Enforced in controllers unless marked DB.
 | I7 | Custom category name ≠ any system name or the user's other names (case-insensitive) | `createCategory` |
 | I8 | A `User` row exists only after onboarding; username lowercase, not reserved | `completeOnboarding`, `updateProfile` |
 | I9 | System categories are seeded, never edited or deleted by the app | `prisma/seed.ts`, `deleteCategory` (own only) |
-| I10 | Every `Collection` has a unique `publicId` (6-char `[a-z0-9]`), assigned at creation and never changed by rename or slug change | DB unique + `uniquePublicId` in `createCollection`, `copyCollection` |
-| I11 | `copyCollection` only copies a source with `visibility: PUBLIC` and `allowCopy: true` | `copyCollection` (query filter, not app-level check) |
+| I10 | Every `Collection` has a unique `publicId` (6-char `[a-z0-9]`), assigned at creation and never changed by rename or slug change | DB unique + `uniquePublicId` in `createCollection` |
+| I11 | Retired in plan 9: `copyCollection` is removed. Collections copied earlier keep `sourceCollectionId`/`copiedAt` and are ordinary collections of their owner | — |
 | I12 | A user has at most one `SocialLink` per handle platform and one Website; Website + Other ≤ 3; handles match the platform pattern, Website/Other are `https://` ≤ 200 chars; the set is replaced as a whole with `position` `0..n-1` | `socialLinksSchema` + `updateSocialLinks` (one transaction) |
 | I13 | A user saves a collection at most once, and only another user's `PUBLIC` collection with `allowCopy: true`; existing saves survive `PRIVATE` and `allowCopy: false`, and are listed only while `PUBLIC` | DB primary key + `saveCollection` (query filter); `listMySavedCollections` |
 
