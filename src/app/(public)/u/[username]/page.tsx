@@ -10,7 +10,7 @@ import { SocialLinks } from "@/components/social-links";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { env } from "@/config/env";
 import { getViewer } from "@/server/auth/current-user";
-import { listSavedSourceIds } from "@/server/queries/collections";
+import { listSavedCollectionIds } from "@/server/queries/collections";
 import { getPublicProfile } from "@/server/queries/public";
 
 type Props = { params: Promise<{ username: string }> };
@@ -44,7 +44,7 @@ export default async function ProfilePage({ params }: Props) {
   const viewer = await getViewer();
   const savedIds =
     viewer.status === "member"
-      ? await listSavedSourceIds(viewer.userId, profile.collections.map((c) => c.id))
+      ? await listSavedCollectionIds(viewer.userId, profile.collections.map((c) => c.id))
       : new Set<string>();
 
   return (

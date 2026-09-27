@@ -1,49 +1,36 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Bookmark, Loader2 } from "lucide-react";
-import { toast } from "sonner";
 import type { SaveViewer } from "@/components/save-collection-button";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useActionForm } from "@/hooks/use-action-form";
-import { copyCollectionSchema } from "@/lib/validations/collection";
-import { copyCollection } from "@/server/actions/collection";
+import { useSaveToggle } from "@/hooks/use-save-toggle";
 
-const SAVE_LABEL = "Save to my collections";
+const SAVE_LABEL = "Save collection";
 
 /**
- * Plan 8 §2.3: the card's icon version of "Save to my collections" (a copy). Owners see nothing;
- * signed out → sign in and come back to `returnPath`; not onboarded → onboarding. Members stay
- * on the page after saving: toast with "Open", then the bookmark is filled and inactive.
+ * Plan 9 §2.4: the card's icon toggle for saving a collection (a bookmark). Owners see nothing;
+ * signed out → sign in and come back to `returnPath`; not onboarded → onboarding. Members toggle
+ * in place: filled = saved. Hidden when saving is off (`canSave`) and it isn't already saved.
  */
 export function SaveBookmarkButton({
   collectionId,
   viewer,
   saved: initialSaved,
+  canSave,
   returnPath,
 }: {
   collectionId: string;
   viewer: SaveViewer;
   saved: boolean;
+  canSave: boolean;
   returnPath: string;
 }) {
-  const router = useRouter();
-  const [saved, setSaved] = useState(initialSaved);
-  const { pending, submit } = useActionForm({
-    schema: copyCollectionSchema,
-    action: copyCollection,
-    onSuccess: ({ id }) => {
-      setSaved(true);
-      toast.success("Saved to your collections", {
-        action: { label: "Open", onClick: () => router.push(`/app/collections/${id}`) },
-      });
-    },
-  });
+  const { saved, pending, toggle } = useSaveToggle(collectionId, initialSaved);
 
-  if (viewer === "owner") return null;
+  if (viewer === "owner" || (!saved && !canSave)) return null;
 
   if (viewer !== "member") {
     const href =
@@ -59,36 +46,23 @@ export function SaveBookmarkButton({
     );
   }
 
-  if (saved) {
-    // aria-disabled (not disabled) keeps it focusable and hoverable, so the "Saved" tooltip still shows.
-    return (
-      <BookmarkTooltip label="Saved">
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          aria-label="Saved"
-          aria-disabled
-          className="cursor-default hover:bg-transparent"
-        >
-          <Bookmark className="fill-current" />
-        </Button>
-      </BookmarkTooltip>
-    );
-  }
-
   return (
-    <BookmarkTooltip label={SAVE_LABEL}>
+    <BookmarkTooltip label={saved ? "Remove from saved" : SAVE_LABEL}>
       <Button
         type="button"
         variant="ghost"
         size="icon"
         aria-label={SAVE_LABEL}
+        aria-pressed={saved}
         disabled={pending}
         aria-busy={pending || undefined}
-        onClick={() => submit({ sourceCollectionId: collectionId })}
+        onClick={toggle}
       >
-        {pending ? <Loader2 aria-hidden className="animate-spin" /> : <Bookmark />}
+        {pending ? (
+          <Loader2 aria-hidden className="animate-spin" />
+        ) : (
+          <Bookmark className={saved ? "fill-current" : undefined} />
+        )}
       </Button>
     </BookmarkTooltip>
   );

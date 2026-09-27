@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FolderOpen } from "lucide-react";
 import { NewCollectionDialog } from "@/components/collection-form-dialog";
 import { CollectionRow } from "@/components/collection-row";
+import { CollectionTabs } from "@/components/collection-tabs";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { requirePageUser } from "@/server/auth/current-user";
@@ -16,6 +17,7 @@ export default async function CollectionsPage() {
   return (
     <div className="space-y-6">
       <PageHeader title="Collections" actions={collections.length > 0 && <NewCollectionDialog />} />
+      <CollectionTabs current="/app" />
 
       {collections.length === 0 ? (
         <EmptyState

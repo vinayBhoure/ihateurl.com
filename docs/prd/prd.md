@@ -251,9 +251,18 @@ Do not build recommendations yet.
 
 ## Save Collection
 
-Logged-in users can copy a public collection into their account.
+Logged-in users can save another user's public collection to their **Saved collections** (`/app/saved`, a tab next to My collections). Saving stores a reference only: no collection or link data is copied, so the saved entry always shows the owner's current collection. (Changed from copy-on-save in plan 9, 2026-09-27.)
 
-For MVP, copy the collection and its links. Do not implement live syncing.
+| Case | Result |
+|---|---|
+| Save | Only another user's public collection with "Allow others to save" on. Saving twice keeps one entry |
+| Unsave | Removed from the Saved list; works even if the collection is now private or saving is off |
+| Owner deletes the collection | It disappears from every Saved list |
+| Owner makes it private | Hidden from Saved lists, not removed; shown again if made public |
+| Owner turns off "Allow others to save" | New saves blocked; existing saves stay |
+| Copies made before plan 9 | Stay as their users' own collections |
+
+`/app/search` searches only the user's own collections, not saved ones.
 
 ### Phase 2 Acceptance Criteria
 
@@ -267,7 +276,7 @@ A visitor can:
 
 A logged-in user can:
 
-6. Copy a public collection into their account.
+6. Save a public collection to their Saved collections.
 7. Publish their own collection.
 
 ---
@@ -695,7 +704,7 @@ Track:
 - Public collection views
 - Link clicks
 - Shares
-- Collection copies
+- Collection saves
 - Public searches
 
 The key validation question:
@@ -733,7 +742,7 @@ The key validation question:
 17. Sharing
 18. Public search
 19. Explore
-20. Copy collection
+20. Save collection
 21. Basic analytics
 ```
 

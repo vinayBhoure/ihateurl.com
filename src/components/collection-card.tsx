@@ -54,16 +54,15 @@ export function CollectionCard({
           )}
           <FaviconStack links={c.items.map((item) => item.link)} total={count} className="pt-1" />
         </div>
-        {c.allowCopy && (
-          <div className="-mt-2 -mr-2 shrink-0">
-            <SaveBookmarkButton
-              collectionId={c.id}
-              viewer={viewerStatusFor(viewer, owner.username)}
-              saved={saved}
-              returnPath={returnPath}
-            />
-          </div>
-        )}
+        <div className="-mt-2 -mr-2 shrink-0">
+          <SaveBookmarkButton
+            collectionId={c.id}
+            viewer={viewerStatusFor(viewer, owner.username)}
+            saved={saved}
+            canSave={c.allowCopy}
+            returnPath={returnPath}
+          />
+        </div>
       </div>
 
       <div className="mt-auto pt-5">

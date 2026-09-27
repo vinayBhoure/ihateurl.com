@@ -266,9 +266,9 @@ function EditCollectionForm({
 
       <div className="flex items-center justify-between gap-4 rounded-lg border px-3 py-2">
         <div className="space-y-0.5">
-          <Label htmlFor="allow-copy">Allow others to save a copy</Label>
+          <Label htmlFor="allow-copy">Allow others to save</Label>
           <p id="allow-copy-hint" className="text-xs text-muted-foreground">
-            Lets other members save this collection to their own, when it&apos;s public.
+            Lets other members add it to their Saved collections when it&apos;s public. Turning this off keeps existing saves.
           </p>
         </div>
         <Switch

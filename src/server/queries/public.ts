@@ -4,11 +4,12 @@ import { buildUrl } from "@/lib/social-platforms";
 import { escapeLike, searchQuerySchema } from "@/lib/validations/search";
 
 // Every public read filters `visibility: PUBLIC` and selects fields explicitly, so
-// private data and `clerkId` never leave this file.
+// private data and `clerkId` never leave this file. The selects are exported only for
+// `listMySavedCollections` (plan 9), which filters `visibility: PUBLIC` the same way.
 
 const PAGE_SIZE = 20;
 
-const ownerSelect = {
+export const ownerSelect = {
   username: true,
   displayName: true,
   avatarUrl: true,
@@ -22,7 +23,7 @@ const CARD_FAVICONS = 3;
  * Plan 8 E2: what a `CollectionCard` needs. The first 3 links (by position) for the favicon row,
  * and only the first system category by name for the tile icon (custom categories never leave).
  */
-const cardSelect = {
+export const cardSelect = {
   id: true,
   title: true,
   slug: true,

@@ -7,7 +7,7 @@
 4. [Delete behaviour](#4-delete-behaviour)
 5. [Queries and indexes](#5-queries-and-indexes)
 
-Status: **Built** (migration `20260923191101_init`; `Collection.publicId` added in `20260926021155_add_collection_public_id_nullable` + `20260926021656_require_unique_collection_public_id`, plan 6 C3.1; `Collection.allowCopy` added in `20260926024726_add_collection_allow_copy`, plan 6 C3.2). Field-level schema: `prisma/schema.prisma`; plan: `docs/implementation-plan/1_backend-mvp.md` §4. Update this file with every migration.
+Status: **Built** (migration `20260923191101_init`; `Collection.publicId` added in `20260926021155_add_collection_public_id_nullable` + `20260926021656_require_unique_collection_public_id`, plan 6 C3.1; `Collection.allowCopy` added in `20260926024726_add_collection_allow_copy`, plan 6 C3.2; `SocialLink` added in `20260926121045_social_links`, plan 7; `SavedCollection` added in `20260927033328_saved_collections`, plan 9 G1). Field-level schema: `prisma/schema.prisma`; plan: `docs/implementation-plan/1_backend-mvp.md` §4. Update this file with every migration.
 
 ---
 
@@ -19,6 +19,8 @@ erDiagram
   User ||--o{ Link : owns
   User ||--o{ Category : "owns (custom)"
   User ||--o{ SocialLink : "shows on profile"
+  User ||--o{ SavedCollection : saves
+  Collection ||--o{ SavedCollection : "saved by"
   Collection ||--o{ CollectionItem : contains
   Link ||--o{ CollectionItem : "appears in"
   Collection ||--o{ CollectionCategory : tagged
@@ -35,11 +37,12 @@ erDiagram
 | Model | Purpose | Key constraints |
 |---|---|---|
 | `User` | App profile tied to a Clerk account | `clerkId` unique, `username` unique |
-| `Collection` | Named, ordered list of links | `(userId, slug)` unique; `publicId` unique (6-char `[a-z0-9]`, C3.1); `visibility` default `PRIVATE`; `allowCopy` default `true` (C3.2); `sourceCollectionId` → `SetNull` |
+| `Collection` | Named, ordered list of links | `(userId, slug)` unique; `publicId` unique (6-char `[a-z0-9]`, C3.1); `visibility` default `PRIVATE`; `allowCopy` default `true` (C3.2; since plan 9 it means "allow new saves"); `sourceCollectionId` → `SetNull` |
 | `Link` | One saved URL + its metadata, shared by all collections that hold it | `(userId, normalizedUrl)` unique |
 | `CollectionItem` | Places a link in a collection at a position | `(collectionId, linkId)` unique |
 | `Category` | System (`userId = null`) or custom (`userId` set) label | `(userId, slug)` unique |
 | `CollectionCategory`, `LinkCategory` | Many-to-many category joins | composite primary key |
+| `SavedCollection` | A bookmark (plan 9): a user's reference to another user's collection; nothing is copied | `(userId, collectionId)` primary key; both relations `Cascade` |
 | `SocialLink` | One profile link (plan 7): a handle for YouTube/Instagram/X/GitHub/LinkedIn, a full URL for Website/Other | `platform` enum `SocialPlatform`; `position` = display order; limits are app rules (I12), no DB unique |
 
 ---
@@ -50,7 +53,7 @@ Enforced in controllers unless marked DB.
 
 | # | Rule | Enforced in |
 |---|---|---|
-| I1 | A user has at most one `Link` per `normalizedUrl` | DB unique + `createLink`, `copyCollection` |
+| I1 | A user has at most one `Link` per `normalizedUrl` | DB unique + `createLink` |
 | I2 | Every `Link` has ≥ 1 `CollectionItem` | `removeLinkFromCollection`, `deleteCollection` (same transaction) |
 | I3 | A link appears once per collection | DB unique + `createLink`, `moveLink` |
 | I4 | Items are read in `position` order; reorder rewrites `0..n-1`; gaps after removal are allowed | `reorderCollectionItems` |
@@ -59,9 +62,10 @@ Enforced in controllers unless marked DB.
 | I7 | Custom category name ≠ any system name or the user's other names (case-insensitive) | `createCategory` |
 | I8 | A `User` row exists only after onboarding; username lowercase, not reserved | `completeOnboarding`, `updateProfile` |
 | I9 | System categories are seeded, never edited or deleted by the app | `prisma/seed.ts`, `deleteCategory` (own only) |
-| I10 | Every `Collection` has a unique `publicId` (6-char `[a-z0-9]`), assigned at creation and never changed by rename or slug change | DB unique + `uniquePublicId` in `createCollection`, `copyCollection` |
-| I11 | `copyCollection` only copies a source with `visibility: PUBLIC` and `allowCopy: true` | `copyCollection` (query filter, not app-level check) |
+| I10 | Every `Collection` has a unique `publicId` (6-char `[a-z0-9]`), assigned at creation and never changed by rename or slug change | DB unique + `uniquePublicId` in `createCollection` |
+| I11 | Retired in plan 9: `copyCollection` is removed. Collections copied earlier keep `sourceCollectionId`/`copiedAt` and are ordinary collections of their owner | — |
 | I12 | A user has at most one `SocialLink` per handle platform and one Website; Website + Other ≤ 3; handles match the platform pattern, Website/Other are `https://` ≤ 200 chars; the set is replaced as a whole with `position` `0..n-1` | `socialLinksSchema` + `updateSocialLinks` (one transaction) |
+| I13 | A user saves a collection at most once, and only another user's `PUBLIC` collection with `allowCopy: true`; existing saves survive `PRIVATE` and `allowCopy: false`, and are listed only while `PUBLIC` | DB primary key + `saveCollection` (query filter); `listMySavedCollections` |
 
 ---
 
@@ -69,8 +73,8 @@ Enforced in controllers unless marked DB.
 
 | Deleted | DB cascade | App follow-up (same transaction) |
 |---|---|---|
-| `User` | collections, links, custom categories, social links, and their items/joins | — (Clerk deletion is not synced in MVP) |
-| `Collection` | items, collection-category joins; copies' `sourceCollectionId` → `null` | delete the user's links left with zero items (I2) |
+| `User` | collections, links, custom categories, social links, saved collections, and their items/joins | — (Clerk deletion is not synced in MVP) |
+| `Collection` | items, collection-category joins, `SavedCollection` rows (gone from every Saved list); copies' `sourceCollectionId` → `null` | delete the user's links left with zero items (I2) |
 | `Link` | items, link-category joins | — |
 | `CollectionItem` (remove) | — | delete the link if zero items remain (I2) |
 | Custom `Category` | both join tables | — |
@@ -86,6 +90,8 @@ Enforced in controllers unless marked DB.
 | Public profile by URL | `User.username` unique |
 | Profile social links in order (settings, public profile) | `SocialLink @@index([userId, position])` |
 | Public collection by URL | `Collection.publicId` unique (C3.1); stale `username`/`slug` in the URL redirect to the current one |
+| My saved collections (newest first) | `SavedCollection` primary key `(userId, collectionId)` |
+| Saved rows of a collection (cascade on delete) | `SavedCollection @@index([collectionId])` |
 | Duplicate URL check | `Link @@unique([userId, normalizedUrl])` |
 | Explore category filter | `CollectionCategory @@index([categoryId])`, `Collection @@index([visibility])` |
 | Search (`contains`, case-insensitive) | None: `ILIKE '%q%'` scans. Accepted for MVP; check with `EXPLAIN` in `4_polish-mvp.md` Q8. `%`, `_` and `\` in `q` are escaped (`escapeLike`) so they match literally |

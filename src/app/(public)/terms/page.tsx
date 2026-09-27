@@ -68,7 +68,7 @@ const SECTIONS: LegalSection[] = [
         <p>
           You give us a worldwide, non-exclusive, royalty-free permission to store, copy, process and display your
           content as needed to run ihateurl. For public collections this includes showing them to anyone, listing them
-          on your profile and in Explore, making them available to search engines, and letting other users save copies.
+          on your profile and in Explore, making them available to search engines, and letting other users save them to their Saved list.
           The permission ends when you delete the content, except for copies other users already saved and backups we
           keep for a short time.
         </p>
@@ -78,12 +78,13 @@ const SECTIONS: LegalSection[] = [
   },
   {
     id: "public-collections",
-    title: "Public collections and copies",
+    title: "Public collections and saves",
     body: (
       <p>
-        Collections are private until you make them public. When you make one public, other signed-in users can save a
-        copy to their own account. A copy belongs to the user who saved it and does not change when you edit, hide or
-        delete your original.
+        Collections are private until you make them public. When you make one public, other signed-in users can save it
+        to their Saved list. A save points to your collection; it is not a copy. It shows your current version, is
+        hidden while the collection is private and is removed if you delete it. Copies saved before September 27, 2026
+        belong to the users who saved them and do not change when you edit, hide or delete your original.
       </p>
     ),
   },
@@ -241,8 +242,8 @@ export default function TermsPage() {
   return (
     <LegalDocument
       title="Terms of Service"
-      updated="September 25, 2026"
-      updatedIso="2026-09-25"
+      updated="September 27, 2026"
+      updatedIso="2026-09-27"
       intro={
         <p>
           These terms cover your use of ihateurl (<span className="font-mono">ihateurl.com</span>), run by Vinay

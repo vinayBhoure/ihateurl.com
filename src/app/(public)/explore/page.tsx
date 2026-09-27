@@ -6,7 +6,7 @@ import { EmptyState } from "@/components/empty-state";
 import { ExploreSearchForm } from "@/components/explore-search-form";
 import { Button } from "@/components/ui/button";
 import { getViewer } from "@/server/auth/current-user";
-import { listSavedSourceIds } from "@/server/queries/collections";
+import { listSavedCollectionIds } from "@/server/queries/collections";
 import { listSystemCategories, searchPublic } from "@/server/queries/public";
 
 const DESCRIPTION = "Browse public link collections shared on ihateurl.";
@@ -48,7 +48,7 @@ export default async function ExplorePage({ searchParams }: Props) {
   // Plan 8: one lookup per page for the bookmarks' "already saved" state.
   const saved =
     viewer.status === "member"
-      ? await listSavedSourceIds(viewer.userId, results.map((c) => c.id))
+      ? await listSavedCollectionIds(viewer.userId, results.map((c) => c.id))
       : new Set<string>();
   const returnPath = exploreHref({ q, category, page });
 
