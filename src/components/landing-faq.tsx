@@ -11,9 +11,9 @@ const FAQ: { question: string; answer: string }[] = [
     answer: "Only you. Anyone else who opens the URL sees “Page not found”.",
   },
   {
-    question: "Can I copy someone else's collection?",
+    question: "Can I save someone else's collection?",
     answer:
-      "Yes. “Save to my collections” puts a private copy in your account. Later changes to the original don't carry over.",
+      "Yes. The bookmark adds a public collection to Saved collections in your account. It always shows the owner's latest version.",
   },
   {
     question: "Can a link be in more than one collection?",

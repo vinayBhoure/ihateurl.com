@@ -78,12 +78,13 @@ const SECTIONS: LegalSection[] = [
   },
   {
     id: "public-collections",
-    title: "Public collections and copies",
+    title: "Public collections and saves",
     body: (
       <p>
-        Collections are private until you make them public. When you make one public, other signed-in users can save a
-        copy to their own account. A copy belongs to the user who saved it and does not change when you edit, hide or
-        delete your original.
+        Collections are private until you make them public. When you make one public, other signed-in users can save it
+        to their Saved list. A save points to your collection; it is not a copy. It shows your current version, is
+        hidden while the collection is private and is removed if you delete it. Copies saved before September 27, 2026
+        belong to the users who saved them and do not change when you edit, hide or delete your original.
       </p>
     ),
   },

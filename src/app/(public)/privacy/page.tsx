@@ -83,8 +83,9 @@ const SECTIONS: LegalSection[] = [
           <li>anyone with the link can see its title, description, categories and links;</li>
           <li>it is listed on your profile and in Explore, and included in our sitemap for search engines;</li>
           <li>
-            other signed-in users can save a copy to their own account. The copy is theirs: it does not change or
-            disappear when you edit, hide or delete yours.
+            other signed-in users can save it to their Saved list. A save points to your collection, not a copy: it
+            shows your current version, is hidden while the collection is private and is removed if you delete the
+            collection.
           </li>
         </ul>
         <p>
@@ -146,8 +147,8 @@ const SECTIONS: LegalSection[] = [
         </p>
         <p>
           When you ask us to delete your account, we delete your profile, links, collections and categories and your
-          Clerk sign-in account within 30 days. Copies of your public collections that other users saved stay in their
-          accounts.
+          Clerk sign-in account within 30 days. Saves of your collections are removed. Copies that other users saved
+          before September 27, 2026 stay in their accounts.
         </p>
       </>
     ),
