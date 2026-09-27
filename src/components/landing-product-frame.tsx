@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { VariantProps } from "class-variance-authority";
-import { ArrowDown, ArrowUp, BookmarkPlus, Copy, MoreHorizontal, Pencil, Share2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Bookmark, Copy, MoreHorizontal, Pencil, Share2 } from "lucide-react";
 import { LetterTile } from "@/components/letter-tile";
 import { LinkRow, type LinkRowData } from "@/components/link-row";
 import { VisibilityBadge } from "@/components/visibility-badge";
@@ -192,8 +192,8 @@ function PublicCollection() {
       <CategoryBadges />
       <div className="flex flex-wrap items-center gap-2">
         <StaticButton>
-          <BookmarkPlus />
-          Save to my collections
+          <Bookmark />
+          Save
         </StaticButton>
         <StaticButton variant="outline" size="icon">
           <Copy />

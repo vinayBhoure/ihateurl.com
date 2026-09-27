@@ -5,7 +5,11 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
-  { href: "/app", label: "Collections", match: (p: string) => p === "/app" || p.startsWith("/app/collections") },
+  {
+    href: "/app",
+    label: "Collections",
+    match: (p: string) => p === "/app" || p.startsWith("/app/collections") || p.startsWith("/app/saved"),
+  },
   { href: "/app/search", label: "Search", match: (p: string) => p.startsWith("/app/search") },
   { href: "/app/settings", label: "Settings", match: (p: string) => p.startsWith("/app/settings") },
 ];

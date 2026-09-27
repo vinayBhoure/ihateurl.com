@@ -4,6 +4,7 @@ Upgrade Prisma ORM from 6.19.3 with no change in app behaviour. Staged: 6 → 7 
 
 Depends on: `4_polish-mvp.md` R1 (`v0.1.0` released). Runs after the first production release.
 Status: **Approved** (owner, 2026-09-25: "Yes", recommended answers to all §2 questions). Starts after plan 4 R1. Research: 2026-09-25 (session `implementation-4`).
+Order: starts after plan 9 (saved collections) is merged (owner, 2026-09-27); both add migrations.
 
 ## Table of Contents
 1. [Current Understanding](#1-current-understanding)

@@ -37,7 +37,8 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 | `/api/health` | ✓ | ✓ | ✓ | ✓ |
 | `checkUsername`, `completeOnboarding` | ✗ | ✓ | ✗ (already onboarded) | — |
 | All other actions | ✗ | ✗ | ✓ owner only | as member |
-| `copyCollection` | ✗ | ✗ | ✓ source is `PUBLIC` and not own | as member |
+| `saveCollection` | ✗ | ✗ | ✓ collection is `PUBLIC`, `allowCopy` on, not own | as member |
+| `unsaveCollection` | ✗ | ✗ | ✓ own saved row only (any visibility) | as member |
 
 ---
 
@@ -62,14 +63,15 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 
 ## 5. Visibility
 
-1. Public reads live only in `src/server/queries/public.ts` and always filter `visibility: PUBLIC`.
+1. Public reads live only in `src/server/queries/public.ts` and always filter `visibility: PUBLIC`. One exception (plan 9): `listMySavedCollections` (`src/server/queries/collections.ts`) reads the viewer's saved collections with the same `visibility: PUBLIC` filter and public.ts's exported `cardSelect` / `ownerSelect`.
 2. A private or missing collection returns `notFound()` (404, not 403), so its existence is not revealed.
 3. Public queries never select `clerkId`.
 4. `/app/*` is `noindex`; `robots.txt` disallows `/app`, `/login`, `/signup`, `/api`.
 5. Sitemap lists only profiles with public collections and public collections.
 6. The landing page (`/`) shows the newest public collections through `searchPublic`, rendered per request (`force-dynamic`), so a collection made private leaves it on the next request.
 7. Public collection URLs (`/u/{username}/{slug}/{publicId}`, C3.1) are looked up by `publicId` alone; a stale `username`/`slug` in the URL redirects to the current one rather than 404ing.
-8. Collection cards (plan 8) select the first 3 links' `faviconUrl`/`domain` and only the first **system** category name; custom categories and `Category.userId` are never selected. The viewer's "already saved" check (`listSavedSourceIds`) reads only the viewer's own collections (`where: { userId }`).
+8. Collection cards (plan 8) select the first 3 links' `faviconUrl`/`domain` and only the first **system** category name; custom categories and `Category.userId` are never selected. The viewer's "already saved" check (`listSavedCollectionIds`, plan 9) reads only the viewer's own `SavedCollection` rows (`where: { userId }`).
+9. Saved collections (plan 9): a `SavedCollection` row is a reference, never a copy. A saved collection made private stays saved but is hidden from `/app/saved` (read-time `visibility: PUBLIC` filter) and its page 404s; it shows again once public. Deleting the collection deletes every saved row (cascade).
 
 ---
 
@@ -86,7 +88,7 @@ Status: Clerk auth, the admin role, the identity helpers (§3.4), owner-scoped a
 | Tab-napping, link spam | Outbound links | `target="_blank" rel="noopener noreferrer"`; saved-URL links on public pages add `nofollow ugc` (plan 2 Q3) |
 | Viewer tracking by image hosts | Hotlinked favicons/OG images | `referrerPolicy="no-referrer"` |
 | Route squatting | `/u/{username}` | Reserved username list |
-| Abuse / cost | `createLink`, `copyCollection`; all server actions | In-memory per-user rate limit (P3); resets per server instance. Planned backstop: Vercel WAF per-IP limit on `POST` (plan 4 R1) |
+| Abuse / cost | `createLink`, `saveCollection`/`unsaveCollection`; all server actions | In-memory per-user rate limit (P3); resets per server instance. Planned backstop: Vercel WAF per-IP limit on `POST` (plan 4 R1) |
 | Abuse / cost, unauthenticated | `GET /api/explore/suggest` (C3.4) | In-memory per-IP rate limit (`x-forwarded-for`); same per-server-instance caveat as above |
 | Error detail leak | Actions | `AppError` → safe message; unknown errors logged, generic message returned |
 | Secret exposure | Env | Only `NEXT_PUBLIC_*` reach the client; never print `.env` values |

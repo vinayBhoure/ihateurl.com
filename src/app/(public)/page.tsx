@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { UserBadge } from "@/components/user-badge";
 import { cn } from "@/lib/utils";
 import { getViewer } from "@/server/auth/current-user";
-import { listSavedSourceIds } from "@/server/queries/collections";
+import { listSavedCollectionIds } from "@/server/queries/collections";
 import { listSystemCategories, searchPublic } from "@/server/queries/public";
 
 // Title and description come from the root layout.
@@ -175,7 +175,7 @@ async function loadExplore() {
     const collections = results.slice(0, EXPLORE_SHOW);
     const savedIds =
       viewer.status === "member"
-        ? await listSavedSourceIds(viewer.userId, collections.map((c) => c.id))
+        ? await listSavedCollectionIds(viewer.userId, collections.map((c) => c.id))
         : new Set<string>();
     return { categories, collections, viewer, savedIds };
   } catch (error) {

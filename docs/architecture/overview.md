@@ -77,7 +77,7 @@ Dependency direction: `app → actions → controllers → config/db` and `app �
 2. Query filters `visibility: PUBLIC` → `null` → `notFound()` (404, same as missing).
 3. Found, but the URL's `username` or `slug` no longer matches the collection's current ones (rename or slug change) → `permanentRedirect` to `/u/{currentUsername}/{currentSlug}/{publicId}` (C3.1, O4: old bare `/{username}` URLs from before C3.1 are not redirected, they 404).
 4. `/` (landing) → `listSystemCategories` + `searchPublic` page 1, per request (`force-dynamic`); the Explore strip shows the newest 6 only when there are ≥ 3 public collections, and a failed query hides it instead of failing the page.
-5. Collection cards (plan 8) on `/explore`, `/` and `/u/{username}`: the page calls `getViewer()` once and, for a member, `listSavedSourceIds(userId, shownIds)` once; each `CollectionCard` derives its bookmark state (`viewerStatusFor`) on the server and passes only the status string and `saved` flag to the client `SaveBookmarkButton`.
+5. Collection cards (plan 8) on `/explore`, `/` and `/u/{username}`: the page calls `getViewer()` once and, for a member, `listSavedCollectionIds(userId, shownIds)` once (plan 9; the collection page reads it for its own id); each `CollectionCard` derives its bookmark state (`viewerStatusFor`) on the server and passes only the status string and `saved` flag to the client `SaveBookmarkButton`.
 
 ### 4.5 Explore search suggestions (C3.4)
 1. Client (`ExploreSearchForm`, `/explore` only) debounces 200 ms, fires at ≥ 2 chars, aborts the previous in-flight request.
@@ -105,12 +105,12 @@ src/
     app/
       onboarding/               Built (F3.1): OnboardingForm, live username check
       admin/                    Built (kept)
-      (shell)/                  Built: layout (auth + onboarding redirect, AppHeader, noindex), loading, error, not-found, /app (collections list, F3.2), collections/[id] header + links (F3.3–F3.4), search (F3.5), settings (F3.6)
+      (shell)/                  Built: layout (auth + onboarding redirect, AppHeader, noindex), loading, error, not-found, /app (collections list, F3.2; My collections tab, plan 9), collections/[id] header + links (F3.3–F3.4), saved (Saved collections tab, plan 9), search (F3.5), settings (F3.6)
     api/health/                 Built
     api/explore/suggest/        Built (plan 6 C3.4)
   components/ui/                Built: shadcn primitives (plan 2 §4.5), retuned to tokens (F1.2)
-  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create + edit), category-picker, collection-menu, public-link-bar, local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → link-row, collection-row, public-collection-row, save-collection-button, add-link-form, confirm-dialog, profile-form, category-settings, appearance-select, collection-links, link-edit-dialog, move-link-dialog, form-field (F3.4) → letter-tile, landing-product-frame (frame + how-it-works crops), landing-explore, landing-faq (plan 3 L1.1–L1.4) → user-menu (plan 6 C2.4), explore-search-form (plan 6 C3.4) → social-icon, social-links, prefixed-input, social-links-form (plan 7) → collection-card, collection-tile, favicon-stack, relative-time, save-bookmark-button, user-badge (plan 8; public-collection-row and user-badge-script removed)
-  hooks/                        Built: use-action-form (F1.3)
+  components/                   Built: theme, wordmark, skip-link, public-header, site-footer, app-header, app-nav, app-mobile-menu, app-search-form, onboarding-form, collection-form-dialog (create + edit), category-picker, collection-menu, public-link-bar, local-date, page-header, empty/error state, submit/copy/share buttons, favicon, visibility-badge (F1.1–F1.3) → link-row, collection-row, public-collection-row, save-collection-button, add-link-form, confirm-dialog, profile-form, category-settings, appearance-select, collection-links, link-edit-dialog, move-link-dialog, form-field (F3.4) → letter-tile, landing-product-frame (frame + how-it-works crops), landing-explore, landing-faq (plan 3 L1.1–L1.4) → user-menu (plan 6 C2.4), explore-search-form (plan 6 C3.4) → social-icon, social-links, prefixed-input, social-links-form (plan 7) → collection-card, collection-tile, favicon-stack, relative-time, save-bookmark-button, user-badge (plan 8; public-collection-row and user-badge-script removed) → collection-tabs (plan 9)
+  hooks/                        Built: use-action-form (F1.3), use-save-toggle (plan 9)
   lib/
     utils.ts                    Built
     validations/                Built (username) → Planned: other MVP schemas
@@ -119,10 +119,10 @@ src/
     social-platforms.ts         Built (plan 7): platform config, handle normalizing, `buildUrl`
   server/
     auth/current-user.ts        Built (B3.1; requirePageUser + cached getCurrentUser, F3.2)
-    actions/                    Built: profile.ts (B4; updateSocialLinks plan 7), category.ts (B5), collection.ts (B6), link.ts (B8), copyCollection (B11)
+    actions/                    Built: profile.ts (B4; updateSocialLinks plan 7), category.ts (B5), collection.ts (B6), link.ts (B8), saved.ts (plan 9; `copyCollection` B11 removed)
     queries/                    Built: categories.ts (B5), collections.ts (B6), search.ts (B9), public.ts (B10), social.ts (plan 7)
     metadata/                   Built: fetch.ts, parse.ts (B7)
-    controllers/, routers/, middleware/    Built (health, profile, category, collection, link, copy, validate, explore-suggest C3.4, social plan 7)
+    controllers/, routers/, middleware/    Built (health, profile, category, collection, link, saved (plan 9; copy removed), validate, explore-suggest C3.4, social plan 7)
     result.ts                   Built: AppError, ActionResult, toActionResult (B3.1–B3.2)
     rate-limit.ts               Built (B3.2; exploreSuggest limit added C3.4)
     unique-slug.ts              Built (B3.3; queries DB, so not in lib/)

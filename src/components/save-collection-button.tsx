@@ -1,38 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { BookmarkPlus } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@/components/ui/button";
-import { useActionForm } from "@/hooks/use-action-form";
-import { copyCollectionSchema } from "@/lib/validations/collection";
-import { copyCollection } from "@/server/actions/collection";
+import { useSaveToggle } from "@/hooks/use-save-toggle";
 
 export type SaveViewer = "signed-out" | "not-onboarded" | "owner" | "member";
 
 /**
- * P4 "Save to my collections". Signed out → sign in and come back; not onboarded → onboarding;
- * owner → hidden; otherwise copies it as a private collection and opens the copy.
+ * Plan 9 §2.4: the collection page's "Save" / "Saved" toggle (a bookmark). Signed out → sign in
+ * and come back; not onboarded → onboarding; owner → hidden; members toggle and stay on the page.
+ * Hidden when saving is off (`canSave`) and it isn't already saved.
  */
 export function SaveCollectionButton({
   collectionId,
   viewer,
+  saved: initialSaved,
+  canSave,
   returnPath,
 }: {
   collectionId: string;
   viewer: SaveViewer;
+  saved: boolean;
+  canSave: boolean;
   returnPath: string;
 }) {
-  const router = useRouter();
-  const { pending, submit } = useActionForm({
-    schema: copyCollectionSchema,
-    action: copyCollection,
-    successMessage: "Saved to your collections",
-    onSuccess: ({ id }) => router.push(`/app/collections/${id}`),
-  });
+  const { saved, pending, toggle } = useSaveToggle(collectionId, initialSaved);
 
-  if (viewer === "owner") return null;
+  if (viewer === "owner" || (!saved && !canSave)) return null;
 
   if (viewer !== "member") {
     const href =
@@ -40,17 +36,23 @@ export function SaveCollectionButton({
     return (
       <Button asChild>
         <Link href={href}>
-          <BookmarkPlus />
-          Save to my collections
+          <Bookmark />
+          Save
         </Link>
       </Button>
     );
   }
 
   return (
-    <SubmitButton type="button" pending={pending} onClick={() => submit({ sourceCollectionId: collectionId })}>
-      {!pending && <BookmarkPlus />}
-      Save to my collections
+    <SubmitButton
+      type="button"
+      variant={saved ? "outline" : "default"}
+      pending={pending}
+      aria-pressed={saved}
+      onClick={toggle}
+    >
+      {!pending && <Bookmark className={saved ? "fill-current" : undefined} />}
+      {saved ? "Saved" : "Save"}
     </SubmitButton>
   );
 }
